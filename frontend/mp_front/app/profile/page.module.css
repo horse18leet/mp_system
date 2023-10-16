@@ -1,0 +1,14 @@
+.profileTitle {
+    font-size: 40px;
+}
+
+.profileDataList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.profileDataItem {
+    font-size: 24px;
+    line-height: normal;
+}
