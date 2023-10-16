@@ -1,1 +1,1 @@
-# mp_system
+# Frontend part of the project
