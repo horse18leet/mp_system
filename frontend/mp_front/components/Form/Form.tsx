@@ -2,101 +2,125 @@
 
 import styles from "./Form.module.css";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useState } from "react";
+import { joiResolver } from '@hookform/resolvers/joi';
 
-type Inputs = {
-    example: string
-    exampleRequired: string
-}
+import schema from "@/schemes/signupSchema";
+import { registration } from "@/app/api/signup/route";
 
-interface FormInput {
-    name: string
-    surname: string;
-    email: string;
-    phoneNumber: string;
-    password: string;
+type FormValues = {
+    firstName: string
+    lastName: string
+    email: string
+    phoneNumber: string
+    password: string
   }
 
-export default function Form() {
-    const { register, handleSubmit, formState: { errors }} = useForm<FormInput>()
-    const onSubmit: SubmitHandler<FormInput> = (data) => console.log(data)
+
+export default function SignupForm() {
+    const [loggedIn, setLoggedIn] = useState();
+    const DOMAIN_NAME = process.env.NEXT_PUBLIC_DOMAIN_NAME;
+
+    const { register, handleSubmit, formState: { errors , isValid}} = useForm<FormValues>({
+        // defaultValues: {
+        //     firstName: "",
+        //     lastName: "",
+        //     email: "",
+        //     phoneNumber: "",
+        //     password: "",
+        // },
+        resolver: joiResolver(schema),
+    });
+
+    async function onSubmit(data: Object) {
+        try {
+            const response = await fetch(`${DOMAIN_NAME}/auth/signup`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ data }),
+            });
+            const { message } = await response.json();
+            alert(message);
+          } catch (error) {
+            console.error(error);
+          }
+    }
 
 
     return (
-        <form name="form" onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+        <form onSubmit={handleSubmit(async (data) => await onSubmit(data))} className={styles.form} noValidate>
             <div className={styles.formInputContainer}>
                 <label htmlFor="name" className={styles.formLabel}>Имя</label>
-                <input type="text" autoComplete="on" {...register("name")} />
                 <input 
-                    {...register("name"), {required: true}}
+                    {...register("firstName")}
                     type="text" 
                     // value=""
                     autoComplete="on"
-                    pattern="^[A-Za-zА-Яа-яЁё\-\s]+$"
                     id="name"
                     className={styles.formInput}
                 >
                 </input>
-                <span className={`${styles.formInputError}`}>err</span>
+                <span className={`${styles.formInputError}`}>{errors.firstName?.message}</span>
             </div>
+
             <div className={styles.formInputContainer}>
                 <label htmlFor="surname" className={styles.formLabel}>Фамилия</label>
                 <input 
+                    {...register("lastName")}
                     type="text" 
-                    required
                     // value=""
                     autoComplete="on"
-                    pattern="^[A-Za-zА-Яа-яЁё\-\s]+$"
                     id="surname"
                     className={styles.formInput}
-                    {...register("surname")}
                 >
                 </input>
-                <span className={`${styles.formInputError}`}>err</span>
+                <span className={`${styles.formInputError}`}>{errors.lastName?.message}</span>
             </div>
+
             <div className={styles.formInputContainer}>
                 <label htmlFor="email" className={styles.formLabel}>E-mail</label>
                 <input 
+                    {...register("email")}
                     type="email" 
-                    required
                     // value=""
                     autoComplete="on"
-                    pattern="[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-z]{2,4}$"
                     id="email"
                     className={styles.formInput}
-                    {...register("email")}
                 >
                 </input>
-                <span className={`${styles.formInputError}`}></span>
+                <span className={`${styles.formInputError}`}>{errors.email?.message}</span>
             </div>
+
             <div className={styles.formInputContainer}>
                 <label htmlFor="phoneNumber" className={styles.formLabel}>Номер телефона</label>
                 <input 
+                    {...register("phoneNumber")}
                     type="tel" 
-                    required
                     // value=""
                     autoComplete="on"
-                    pattern="/^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/"
                     id="phoneNumber"
                     className={styles.formInput}
-                    {...register("phoneNumber")}
                 >
                 </input>
-                <span className={`${styles.formInputError}`}></span>
+                <span className={`${styles.formInputError}`}>{errors.phoneNumber?.message}</span>
             </div>
+
             <div className={styles.formInputContainer}>
                 <label htmlFor="password" className={styles.formLabel}>Пароль</label>
                 <input 
+                   {...register("password")}
                     type="password" 
-                    required
                     // value=""
                     id="password"
                     autoComplete="on"
                     className={styles.formInput}
-                    {...register("password")}
                 >
                 </input>
-                <span className={`${styles.formInputError}`}></span>
+                <span className={`${styles.formInputError}`}>{errors.password?.message}</span>
             </div>
+
             <button type="submit">Зарегистрироваться</button>
         </form>
     );

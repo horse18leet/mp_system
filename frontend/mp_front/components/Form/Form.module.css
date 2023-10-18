@@ -14,7 +14,8 @@
 }
 
 .formLabel {
-    margin: 0 0 5px 0;
+    display: inline-block;
+    margin: 0 0 5px 5px;
 }
 
 .formInput {
@@ -23,7 +24,7 @@
     border-radius: 8px;
     border: none;
     background-color: #616060;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 400;
     line-height: normal;
     color: #ffffff;
@@ -35,20 +36,20 @@
 }
 
 .formInput:focus {
-    box-shadow:5px 5px 5px #555;
+    box-shadow:3px 3px 3px #555;
+}
+
+.formInput::placeholder {
+    color: #404040;
 }
 
 .formInputError {
-    display: none;
-    font-size: 15px;
+    display: block;
+    font-size: 12px;
     font-weight: 400;
     line-height: normal;
     color: #b01313;
     position: absolute;
-    bottom: -15px;
+    bottom: -17px;
     left: 5px;
-}
-
-.formInputErrorActive {
-    display: block;
 }
