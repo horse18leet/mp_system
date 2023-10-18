@@ -1,6 +1,9 @@
+"use client";
+
 import styles from "./Header.module.css";
 
 import Navigation from "../Navigation/Navigation";
+import { useState } from "react";
 
 const authItems = [
     {label: "Войти", href: "/signin"},
@@ -8,20 +11,28 @@ const authItems = [
 ];
 
 const navItems = [
-    {label: "Профиль", href: "/profile"},
-    {label: "Домой", href: "/"},
+    {label: "Управление товарами", href: "/products-management"},
+    {label: "Финансы", href: "/finance"},
+    {label: "Планирование", href: "/planning"},
+    {label: "Прогнозирование", href: "/prediction"},
+    {label: "Настройки", href: "/settings"},
+
 ];
 
 export default function Header() {
+    const [loggedIn, setLoggedIn] = useState(true);
+    
+    function handleExit() {
+        setLoggedIn(false);
+    }
+    
     return (
         <header className={styles.header}>
-            <Navigation navLinks={navItems} authLinks={authItems}/>
-            {/* <div className={styles.linksContainer}>
-                <Link href="/signin" className={`${styles.link} ${styles.text}`}>Войти</Link>
-                <Link href="/signup" className={`${styles.link} ${styles.text}`}>Регистрация</Link>
-            </div>
-            <Link href="profile" className={`${styles.link} ${styles.text}`}>Профиль</Link>
-            <Link href="/" className={styles.link}>Домой</Link> */}
+            <img src="" alt="логотип" className={styles.logo} />
+            <Navigation navLinks={navItems} authLinks={authItems} loggedIn={loggedIn}/>
+            
+            {loggedIn === true && <button className="auth-links__button" onClick={handleExit}>Выйти</button>}
+
         </header>
     )
 }

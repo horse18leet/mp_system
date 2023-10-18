@@ -1,8 +1,9 @@
 "use client";
 
-import styles from "./Navigation.module.css";
+import "./Navigation.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 type NavLink = {
     label: string;
@@ -12,40 +13,42 @@ type NavLink = {
 type Props = {
     navLinks: NavLink[];
     authLinks: NavLink[];
+    loggedIn: boolean;
 };
 
-export default function Navigation({ navLinks, authLinks }: Props) {
+export default function Navigation({ navLinks, authLinks, loggedIn }: Props) {
     const pathname = usePathname();
 
     return (
-        <>
-            <div className={styles.authLinksContainer}>         
-                {authLinks.map((link) => {                          //здесь у нас линки на регистрацию и аутентификацию
+        <div className="auth-links">         
+            {loggedIn === false ? (
+                authLinks.map((link) => {                          //здесь у нас линки на регистрацию и аутентификацию
                     const isActive = pathname === link.href;
                     return (
                         <Link
                             key={link.label}
                             href={link.href}
-                            className={`${styles.link} ${styles.text} ${isActive ? styles.linkActive : ""}`}
+                            className={`auth-links__link auth-links__text ${isActive ? "auth-links__link_active" : ""}`}
                         >
                         {link.label}
                         </Link>
                     );
-                })}
-            </div>
-
-            {navLinks.map((link) => {                           //здесь линки на профиль и домашнюю страницу
-                const isActive = pathname === link.href;
-                return (
-                    <Link
-                        key={link.label}
-                        href={link.href}
-                        className={`${styles.link} ${styles.text} ${isActive ? styles.linkActive : ""}`}
-                    >
-                    {link.label}
-                    </Link>
-                );
-            })}
-        </>
+                })
+            ) : (
+                navLinks.map((link) => {                           //здесь линки на всё остальное
+                    const isActive = pathname === link.href;
+                    return (
+                        <Link
+                            key={link.label}
+                            href={link.href}
+                            className={`auth-links__link auth-links__text ${isActive ? "auth-links__link_active" : ""}`}
+                        >
+                        {link.label}
+                        </Link>
+                    );
+                })
+                
+            )}
+        </div>
     );
 }

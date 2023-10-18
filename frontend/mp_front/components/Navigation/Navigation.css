@@ -1,10 +1,10 @@
-.authLinksContainer {
+.auth-links {
     display: flex;
     flex-direction: row;
     column-gap: 15px;
 }
 
-.link {
+.auth-links__link {
     display: inline-block;
     text-align: center;
     padding: 0;
@@ -16,16 +16,16 @@
     box-sizing: border-box;
 }
 
-.link:hover{
+.auth-links__link:hover{
     opacity: .7;
     transform: scale(1.05);
 }
 
-.linkActive {
+.auth-links__link_active {
     border-bottom: 1px solid #ffffff;
 }
 
-.text {
+.auth-links__text {
     font-size: 15px;
     font-weight: 400;
     line-height: 20px;
