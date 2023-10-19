@@ -49,6 +49,7 @@ export default function Form() {
                 roleType: "USER",
             })
         })
+        .then((data)=> {console.log("data: ", data)})
         .catch(err => console.log(err));
     }
 
