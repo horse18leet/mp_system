@@ -2,6 +2,7 @@
 
 import "./Navigation.css";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
@@ -18,10 +19,12 @@ type Props = {
 
 export default function Navigation({ navLinks, authLinks, loggedIn }: Props) {
     const pathname = usePathname();
+    const session = useSession();
+    console.log(session);
 
     return (
         <div className="auth-links">         
-            {loggedIn === false ? (
+            {session?.status !== "authenticated" ? (
                 authLinks.map((link) => {                          //здесь у нас линки на регистрацию и аутентификацию
                     const isActive = pathname === link.href;
                     return (
@@ -47,7 +50,6 @@ export default function Navigation({ navLinks, authLinks, loggedIn }: Props) {
                         </Link>
                     );
                 })
-                
             )}
         </div>
     );

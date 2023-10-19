@@ -4,6 +4,7 @@ import styles from "./Header.module.css";
 
 import Navigation from "../Navigation/Navigation";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 const authItems = [
     {label: "Войти", href: "/signin"},
@@ -21,6 +22,8 @@ const navItems = [
 
 export default function Header() {
     const [loggedIn, setLoggedIn] = useState(true);
+    const session = useSession();
+
     
     function handleExit() {
         setLoggedIn(false);
@@ -31,7 +34,7 @@ export default function Header() {
             <img src="" alt="логотип" className={styles.logo} />
             <Navigation navLinks={navItems} authLinks={authItems} loggedIn={loggedIn}/>
             
-            {loggedIn === true && <button className="auth-links__button" onClick={handleExit}>Выйти</button>}
+            {session?.status === "authenticated" && <button className="auth-links__button" onClick={handleExit}>Выйти</button>}
 
         </header>
     )

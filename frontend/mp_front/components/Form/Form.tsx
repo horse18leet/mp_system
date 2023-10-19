@@ -14,7 +14,7 @@ type FormValues = {
     email: string
     phoneNumber: string
     password: string
-  }
+}
 
 
 export default function Form() {
