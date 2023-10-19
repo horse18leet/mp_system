@@ -6,7 +6,6 @@ import { ChangeEvent, useState } from "react";
 import { joiResolver } from '@hookform/resolvers/joi';
 
 import schema from "@/schemes/signupSchema";
-import { registration } from "@/app/api/signup/route";
 
 type FormValues = {
     firstName: string
