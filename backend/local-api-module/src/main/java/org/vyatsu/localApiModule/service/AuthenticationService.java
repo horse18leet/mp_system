@@ -1,10 +1,10 @@
 package org.vyatsu.localApiModule.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.vyatsu.localApiModule.dto.request.SignUpDto;
 import org.vyatsu.localApiModule.dto.request.SignInDto;
 import org.vyatsu.localApiModule.dto.response.AuthResponse;
+import org.vyatsu.localApiModule.dto.response.api.UserDto;
 import org.vyatsu.localApiModule.entity.enums.TokenType;
 import org.vyatsu.localApiModule.entity.user.Token;
 import org.vyatsu.localApiModule.entity.user.User;
@@ -17,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.vyatsu.localApiModule.mapper.UserMapper;
 import org.vyatsu.localApiModule.security.UserDetailsImpl;
 import org.vyatsu.localApiModule.security.JwtAuthenticationService;
 
@@ -36,12 +37,14 @@ public class AuthenticationService {
     private final RoleService roleService;
     private final UserService userService;
 
+    private final UserMapper userMapper;
+
     /**
      * Метод регистрации нового пользователя.
      *
      * @param request Запрос на регистрацию пользователя.
      */
-    public User signUp(SignUpDto request) throws RoleNotFoundException {
+    public UserDto signUp(SignUpDto request) throws RoleNotFoundException {
         User user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -51,7 +54,7 @@ public class AuthenticationService {
                 .firstName(request.getFirstName())
                 .build();
 
-        return userService.saveUser(user);
+        return userMapper.toDto(userService.saveUser(user));
     }
 
     /**

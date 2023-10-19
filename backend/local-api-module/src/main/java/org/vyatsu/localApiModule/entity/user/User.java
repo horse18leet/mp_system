@@ -1,5 +1,6 @@
 package org.vyatsu.localApiModule.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.vyatsu.localApiModule.entity.item.Item;
 import org.vyatsu.localApiModule.entity.msg.Message;
 import org.vyatsu.localApiModule.entity.purchase.Purchase;
@@ -80,7 +81,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Token> tokens = new LinkedHashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 }

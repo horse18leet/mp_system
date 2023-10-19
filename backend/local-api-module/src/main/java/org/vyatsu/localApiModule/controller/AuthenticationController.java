@@ -3,7 +3,7 @@ package org.vyatsu.localApiModule.controller;
 import org.vyatsu.localApiModule.dto.request.SignInDto;
 import org.vyatsu.localApiModule.dto.request.SignUpDto;
 import org.vyatsu.localApiModule.dto.response.AuthResponse;
-import org.vyatsu.localApiModule.entity.user.User;
+import org.vyatsu.localApiModule.dto.response.api.UserDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,6 @@ import org.vyatsu.localApiModule.service.AuthenticationService;
 
 import javax.management.relation.RoleNotFoundException;
 import java.io.IOException;
-import java.net.URI;
 
 @RestController
 @RequestMapping("/auth")
@@ -25,8 +24,8 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/signup")
-    public ResponseEntity<User> signUp(@RequestBody SignUpDto request) throws RoleNotFoundException {
-        User user = authenticationService.signUp(request);
+    public ResponseEntity<UserDto> signUp(@RequestBody SignUpDto request) throws RoleNotFoundException {
+        UserDto user = authenticationService.signUp(request);
 
         if (user == null) {
             return ResponseEntity.badRequest().build();
