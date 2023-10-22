@@ -3,10 +3,7 @@ package org.vyatsu.localApiModule.dto.response.api;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Value;
-import org.vyatsu.localApiModule.entity.item.Item;
 import org.vyatsu.localApiModule.entity.msg.Message;
-import org.vyatsu.localApiModule.entity.purchase.Purchase;
-import org.vyatsu.localApiModule.entity.role.Role;
 import org.vyatsu.localApiModule.entity.sub.UserSubscription;
 import org.vyatsu.localApiModule.entity.user.*;
 

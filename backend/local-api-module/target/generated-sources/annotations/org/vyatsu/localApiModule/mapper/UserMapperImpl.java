@@ -27,7 +27,7 @@ import org.vyatsu.localApiModule.entity.user.UserPreference;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-10-19T19:18:26+0300",
+    date = "2023-10-22T19:23:12+0300",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.8.1 (Amazon.com Inc.)"
 )
 @Component
@@ -308,18 +308,19 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        Item.ItemBuilder item = Item.builder();
+        Item item = new Item();
 
-        item.id( itemDto.getId() );
-        item.title( itemDto.getTitle() );
-        item.description( itemDto.getDescription() );
-        item.firstPrice( itemDto.getFirstPrice() );
-        item.category( itemDto.getCategory() );
-        item.mpLink( itemDto.getMpLink() );
-        item.isActive( itemDto.getIsActive() );
-        item.createdAt( itemDto.getCreatedAt() );
+        item.setId( itemDto.getId() );
+        item.setTitle( itemDto.getTitle() );
+        item.setDescription( itemDto.getDescription() );
+        item.setFirstPrice( itemDto.getFirstPrice() );
+        item.setUser( toEntity( itemDto.getUser() ) );
+        item.setCategory( itemDto.getCategory() );
+        item.setMpLink( itemDto.getMpLink() );
+        item.setIsActive( itemDto.getIsActive() );
+        item.setCreatedAt( itemDto.getCreatedAt() );
 
-        return item.build();
+        return item;
     }
 
     protected Set<Item> itemDtoSetToItemSet(Set<ItemDto> set) {
@@ -466,25 +467,17 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        Long id = null;
-        String title = null;
-        String description = null;
-        Double firstPrice = null;
-        String category = null;
-        String mpLink = null;
-        Boolean isActive = null;
-        LocalDate createdAt = null;
+        ItemDto itemDto = new ItemDto();
 
-        id = item.getId();
-        title = item.getTitle();
-        description = item.getDescription();
-        firstPrice = item.getFirstPrice();
-        category = item.getCategory();
-        mpLink = item.getMpLink();
-        isActive = item.getIsActive();
-        createdAt = item.getCreatedAt();
-
-        ItemDto itemDto = new ItemDto( id, title, description, firstPrice, category, mpLink, isActive, createdAt );
+        itemDto.setId( item.getId() );
+        itemDto.setTitle( item.getTitle() );
+        itemDto.setDescription( item.getDescription() );
+        itemDto.setFirstPrice( item.getFirstPrice() );
+        itemDto.setUser( toDto( item.getUser() ) );
+        itemDto.setCategory( item.getCategory() );
+        itemDto.setMpLink( item.getMpLink() );
+        itemDto.setIsActive( item.getIsActive() );
+        itemDto.setCreatedAt( item.getCreatedAt() );
 
         return itemDto;
     }

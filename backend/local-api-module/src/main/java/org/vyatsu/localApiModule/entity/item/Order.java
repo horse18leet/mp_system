@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Builder
 @Data
 @Entity
-@Table(name = "items")
+@Table(name = "orders")
 public class Order {
 
     @Id
@@ -30,6 +30,6 @@ public class Order {
     @Column(name = "taked_at", nullable = false)
     private LocalDate takedAt;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private LocalDate createdAt;
 }

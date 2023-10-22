@@ -25,7 +25,7 @@ public class Subscription {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
     @Column(name = "price", nullable = false)
@@ -34,7 +34,7 @@ public class Subscription {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
-    @Column(name = "created_at", nullable = true)
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private LocalDate createdAt;
 
     @OneToMany(mappedBy = "subscription")

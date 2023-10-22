@@ -21,13 +21,13 @@ public class Ad {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "estimation", nullable = false)
+    @Column(name = "estimation")
     private int estimation;
 
     @Column(name = "link", nullable = false)
     private String link;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private LocalDate createdAt;
 
     @ManyToOne
