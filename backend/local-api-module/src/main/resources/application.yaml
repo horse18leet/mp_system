@@ -32,6 +32,6 @@ cors:
   allowedOrigins: "http://localhost:4200, http://localhost:3000"
   allowedMethods: "GET, POST, PUT, DELETE"
   allowedHeaders: "*"
-  allowedCredentials: false
+  allowedCredentials: true
   corsConfiguration: "/**"
   maxAge: 3600

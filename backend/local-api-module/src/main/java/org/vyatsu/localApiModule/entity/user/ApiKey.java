@@ -23,7 +23,7 @@ public class ApiKey {
     @Column(name = "key", nullable = false)
     private String key;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private LocalDate createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)

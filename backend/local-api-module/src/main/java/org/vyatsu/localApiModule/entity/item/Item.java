@@ -1,5 +1,7 @@
 package org.vyatsu.localApiModule.entity.item;
 
+import org.vyatsu.localApiModule.entity.item.Order;
+import org.vyatsu.localApiModule.entity.item.PriceHistory;
 import org.vyatsu.localApiModule.entity.purchase.Ad;
 import org.vyatsu.localApiModule.entity.purchase.PurchaseItem;
 import org.vyatsu.localApiModule.entity.user.User;
@@ -14,8 +16,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@Builder
-@Data
 @Entity
 @Table(name = "items")
 public class Item {
@@ -28,26 +28,26 @@ public class Item {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "description", nullable = false, length = 500)
+    @Column(name = "description", length = 500)
     private String description;
 
-    @Column(name = "first_price", nullable = false)
+    @Column(name = "first_price")
     private Double firstPrice;
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
     private User user;
 
-    @Column(name = "category", nullable = false)
+    @Column(name = "category")
     private String category;
 
-    @Column(name = "mp_link", nullable = false)
+    @Column(name = "mp_link")
     private String mpLink;
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private LocalDate createdAt;
 
     @OneToMany(mappedBy = "item")

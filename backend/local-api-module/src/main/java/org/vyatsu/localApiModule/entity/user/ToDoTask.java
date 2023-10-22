@@ -26,13 +26,13 @@ public class ToDoTask {
     @Column(name = "description", nullable = false, length = 500)
     private String description;
 
-    @Column(name = "due_date", nullable = false)
+    @Column(name = "due_date")
     private LocalDate dueDate;
 
     @Column(name = "is_completed", nullable = false)
     private Boolean isCompleted;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private LocalDate createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)

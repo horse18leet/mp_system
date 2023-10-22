@@ -15,7 +15,7 @@ import java.util.Set;
 @Builder
 @Data
 @Entity
-@Table(name = "users")
+@Table(name = "purchases")
 public class Purchase {
 
     @Id
@@ -33,7 +33,7 @@ public class Purchase {
     @Column(name = "cost", nullable = false)
     private double cost;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private LocalDate createdAt;
 
     @OneToMany(mappedBy = "purchase")

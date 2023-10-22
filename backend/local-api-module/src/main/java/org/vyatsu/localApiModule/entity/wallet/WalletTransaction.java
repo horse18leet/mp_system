@@ -23,16 +23,16 @@ public class WalletTransaction {
     @Column(name = "amount", nullable = false)
     private double amount;
 
-    @Column(name = "type", nullable = false)
+    @Column(name = "type")
     private String type;
 
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "impl_date", nullable = false)
+    @Column(name = "impl_date")
     private LocalDate implDate;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private LocalDate createdAt;
 
     @ManyToOne
