@@ -19,7 +19,7 @@ export default function Create() {
     async function onSubmit(data: { productName?: string; productPrice?: string; productLink?: string; }, token?: any) {
         console.log("отправлено");
         try {
-            const data_1 = await fetch(`${DOMAIN_NAME}/item/category`, {
+            const data_1 = await fetch(`${DOMAIN_NAME}/item/create`, {
                 credentials: "include",
                 method: 'POST',
                 headers: {
