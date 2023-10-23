@@ -13,15 +13,15 @@ interface NavLink {
 type Props = {
     navLinks: NavLink[];
     authLinks: NavLink[];
+    loggedIn: boolean;
 };
 
-export default function Navigation({ navLinks, authLinks }: Props) {
+export default function Navigation({ navLinks, authLinks, loggedIn }: Props) {
     const pathname = usePathname();
-    const token = localStorage.getItem("token")
     return (
         <div className="auth-links">    
-            {token && <DropdownList/>}
-            {!token ? (
+            {loggedIn && <DropdownList/>}
+            {!loggedIn ? (
                 authLinks.map((link) => {                          //здесь у нас линки на регистрацию и аутентификацию
                     const isActive = pathname === link.href;
                     return (

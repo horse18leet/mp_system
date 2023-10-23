@@ -3,7 +3,7 @@
 import "./Header.css";
 
 import Navigation from "../Navigation/Navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DropdownMenu from "../DropdownMenu/DropdownList";
 
 const authItems = [
@@ -19,9 +19,19 @@ const navItems = [
 ];
 
 export default function Header() {
-    const token = localStorage.getItem("token");
-    const [loggedIn, setLoggedIn] = useState(true);
+    //const token = localStorage.getItem("token");
+    const [loggedIn, setLoggedIn] = useState(false);
     
+    useEffect(()=>{
+        const token = localStorage.getItem("token");
+        if (token) {
+            setLoggedIn(true);
+        }
+        else {
+            setLoggedIn(false);
+        }
+    }, []);
+
     function handleExit() {
         setLoggedIn(false);
     }
@@ -29,9 +39,9 @@ export default function Header() {
     return (
         <header className="header">
             <img src="" alt="логотип" className="header__logo" />
-            <Navigation navLinks={navItems} authLinks={authItems} />
+            <Navigation navLinks={navItems} authLinks={authItems} loggedIn={loggedIn}/>
             
-            {token && <button className="auth-links__button" onClick={handleExit}>Выйти</button>}
+            {loggedIn && <button className="auth-links__button" onClick={handleExit}>Выйти</button>}
 
         </header>
     )
