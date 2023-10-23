@@ -18,8 +18,8 @@ export default function Signin() {
         const token = localStorage.getItem("token")
         auth.authorize(data.signinEmail, data.signinPassword, token)
         .then((res) => {
-            if (res.token) {
-              localStorage.setItem("token", res.token);
+            if (res.access_token) {
+              localStorage.setItem("token", res.access_token);
               console.log("ВОШЁЁЁЁЛ");
             }
         }) 
