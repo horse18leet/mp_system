@@ -1,10 +1,11 @@
 "use client";
 
-import styles from "./Header.module.css";
+import "./Header.css";
 
 import Navigation from "../Navigation/Navigation";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import DropdownMenu from "../DropdownMenu/DropdownList";
 
 const authItems = [
     {label: "Войти", href: "/signin"},
@@ -12,12 +13,10 @@ const authItems = [
 ];
 
 const navItems = [
-    {label: "Управление товарами", href: "/products-management"},
     {label: "Финансы", href: "/finance"},
     {label: "Планирование", href: "/planning"},
     {label: "Прогнозирование", href: "/prediction"},
     {label: "Настройки", href: "/settings"},
-
 ];
 
 export default function Header() {
@@ -30,9 +29,9 @@ export default function Header() {
     }
     
     return (
-        <header className={styles.header}>
-            <img src="" alt="логотип" className={styles.logo} />
-            <Navigation navLinks={navItems} authLinks={authItems} loggedIn={loggedIn}/>
+        <header className="header">
+            <img src="" alt="логотип" className="header__logo" />
+            <Navigation navLinks={navItems} authLinks={authItems} />
             
             {session?.status === "authenticated" && <button className="auth-links__button" onClick={handleExit}>Выйти</button>}
 

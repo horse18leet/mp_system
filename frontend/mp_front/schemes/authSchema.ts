@@ -1,4 +1,3 @@
-import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from "joi";
 
 const schema = Joi.object({

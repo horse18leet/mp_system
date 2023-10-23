@@ -4,9 +4,9 @@ import "./Navigation.css";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import DropdownList from "../DropdownMenu/DropdownList";
 
-type NavLink = {
+interface NavLink {
     label: string;
     href: string;
 };
@@ -14,16 +14,16 @@ type NavLink = {
 type Props = {
     navLinks: NavLink[];
     authLinks: NavLink[];
-    loggedIn: boolean;
 };
 
-export default function Navigation({ navLinks, authLinks, loggedIn }: Props) {
+export default function Navigation({ navLinks, authLinks }: Props) {
     const pathname = usePathname();
     const session = useSession();
-    console.log(session);
+    //console.log(session);
 
     return (
-        <div className="auth-links">         
+        <div className="auth-links">    
+            {session?.status === "authenticated" && <DropdownList/>}
             {session?.status !== "authenticated" ? (
                 authLinks.map((link) => {                          //здесь у нас линки на регистрацию и аутентификацию
                     const isActive = pathname === link.href;
@@ -31,25 +31,26 @@ export default function Navigation({ navLinks, authLinks, loggedIn }: Props) {
                         <Link
                             key={link.label}
                             href={link.href}
-                            className={`auth-links__link auth-links__text ${isActive ? "auth-links__link_active" : ""}`}
+                            className={`auth-links__link link auth-links__text ${isActive ? "auth-links__link_active" : ""}`}
                         >
                         {link.label}
                         </Link>
                     );
                 })
             ) : (
-                navLinks.map((link) => {                           //здесь линки на всё остальное
+                (navLinks.map((link) => {                           //здесь линки на всё остальное
                     const isActive = pathname === link.href;
                     return (
                         <Link
                             key={link.label}
                             href={link.href}
-                            className={`auth-links__link auth-links__text ${isActive ? "auth-links__link_active" : ""}`}
+                            className={`auth-links__link link auth-links__text ${isActive ? "auth-links__link_active" : ""}`}
                         >
                         {link.label}
                         </Link>
                     );
                 })
+            )
             )}
         </div>
     );

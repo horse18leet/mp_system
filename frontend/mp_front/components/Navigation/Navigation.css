@@ -5,12 +5,7 @@
 }
 
 .auth-links__link {
-    display: inline-block;
-    text-align: center;
-    padding: 0;
-    margin: 0;
-    color: #ffffff;
-    text-decoration: none;
+    color: #000000;
     border: none;
     transition: all .5s;
     box-sizing: border-box;
@@ -22,7 +17,7 @@
 }
 
 .auth-links__link_active {
-    border-bottom: 1px solid #ffffff;
+    border-bottom: 1px solid #000000;
 }
 
 .auth-links__text {

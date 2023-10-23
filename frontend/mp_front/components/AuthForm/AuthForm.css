@@ -1,24 +1,24 @@
-.form {
+/* .auth-form {
     width: 400px;
     display: flex;
     flex-direction: column;
 }
 
-.form__input-container {
+.auth-form__input-container {
     position: relative;
     margin: 0 0 20px 0;
 }
 
-.form__input-container:last-of-type {
+.auth-form__input-container:last-of-type {
     margin-bottom: 40px;
 }
 
-.form__label {
+.auth-form__label {
     display: inline-block;
     margin: 0 0 5px 5px;
 }
 
-.form__input {
+.auth-form__input {
     width: 400px;
     height: 46px;
     border-radius: 8px;
@@ -35,15 +35,15 @@
     transition: box-shadow .2s;
 }
 
-.form__input:focus {
+.auth-form__input:focus {
     box-shadow:3px 3px 3px #555;
 }
 
-.form__input::placeholder {
+.auth-form__input::placeholder {
     color: #404040;
 }
 
-.form__input-error {
+.auth-form__input__error {
     display: block;
     font-size: 12px;
     font-weight: 400;
@@ -54,8 +54,12 @@
     left: 5px;
 }
 
-.form__button{
+.auth-form__button{
     width: 400px;
     height: 30px;
     border-radius: 10px;
 }
+
+.auth-form__button_submit {
+    
+} */
