@@ -25,8 +25,6 @@ export default function Create() {
         .catch((err) => console.error());
     }
 
-    console.log(`isValid: ${isValid}\nisDirty: ${isDirty}\n${errors.productLink?.message }`);
-
     return (
         <section className={styles.main}>
             <h2>Создать товар</h2>

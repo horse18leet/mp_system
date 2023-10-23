@@ -13,7 +13,7 @@ class MainApi {
     }
 
     createProduct(name?: string, price?: string, link?: string) {
-        return fetch(`${this._baseUrl}/item/category`, {
+        return fetch(`${this._baseUrl}/item/create`, {
             credentials: "include",
             method: 'POST',
             headers: {
