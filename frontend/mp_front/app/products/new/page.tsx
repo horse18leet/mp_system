@@ -4,6 +4,7 @@ import styles from '../../page.module.css'
 import schema from "@/schemes/createProductSchema";
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
+import { mainApi } from "@/utils/MainApi";
 
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -16,27 +17,12 @@ export default function Create() {
     const token = "test";
     const DOMAIN_NAME = process.env.NEXT_PUBLIC_DOMAIN_NAME;
 
-    async function onSubmit(data: { productName?: string; productPrice?: string; productLink?: string; }, token?: any) {
-        console.log("отправлено");
-        try {
-            const data_1 = await fetch(`${DOMAIN_NAME}/item/create`, {
-                credentials: "include",
-                method: 'POST',
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                    "Authorization": token,
-                },
-                body: JSON.stringify({
-                    name: data.productName,
-                    price: data.productPrice,
-                    link: data.productLink,
-                })
-            });
-            console.log("data: ", data_1);
-        } catch (err) {
-            return console.log("ошибка: ", err);
-        }
+    async function onSubmit(data: { productName?: string; productPrice?: string; productLink?: string; }) {
+        mainApi.createProduct(data.productName, data.productPrice, data.productLink)
+        .then((data) => {
+            console.log(`data: ${data}`)
+        })
+        .catch((err) => console.error());
     }
 
     console.log(`isValid: ${isValid}\nisDirty: ${isDirty}\n${errors.productLink?.message }`);
