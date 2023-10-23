@@ -32,7 +32,7 @@ export const authorize = (email?: string, password?: string, token?: any) => {
         headers: {
           "Accept": "application/json",
           "Content-Type": "application/json",
-          authorization: `Bearer ${token}`,
+          //authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
             email: email,
