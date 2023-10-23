@@ -16,7 +16,7 @@ export default function Create() {
     const token = "test";
     const DOMAIN_NAME = process.env.NEXT_PUBLIC_DOMAIN_NAME;
 
-    async function onSubmit(data: { name?: string; price?: string; link?: string; }, token?: any) {
+    async function onSubmit(data: { productName?: string; productPrice?: string; productLink?: string; }, token?: any) {
         console.log("отправлено");
         try {
             const data_1 = await fetch(`${DOMAIN_NAME}/item/category`, {
@@ -28,9 +28,9 @@ export default function Create() {
                     "Authorization": token,
                 },
                 body: JSON.stringify({
-                    name: data.name,
-                    price: data.price,
-                    link: data.link,
+                    name: data.productName,
+                    price: data.productPrice,
+                    link: data.productLink,
                 })
             });
             console.log("data: ", data_1);

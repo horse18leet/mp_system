@@ -14,9 +14,9 @@ export default function Signin() {
         mode: "onChange",
     });
 
-    function onSubmit(data: { email?: string, password?: string }) {
+    function onSubmit(data: { signinEmail?: string, signinPassword?: string }) {
         const token = localStorage.getItem("token")
-        auth.authorize(data.email, data.password, token)
+        auth.authorize(data.signinEmail, data.signinPassword, token)
         .then((res) => {
             if (res.token) {
               localStorage.setItem("token", res.token);
