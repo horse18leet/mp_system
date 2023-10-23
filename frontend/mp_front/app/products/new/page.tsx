@@ -17,6 +17,7 @@ export default function Create() {
     const DOMAIN_NAME = process.env.NEXT_PUBLIC_DOMAIN_NAME;
 
     async function onSubmit(data: { name?: string; price?: string; link?: string; }, token?: any) {
+        console.log("отправлено");
         try {
             const data_1 = await fetch(`${DOMAIN_NAME}/item/category`, {
                 credentials: "include",
@@ -38,6 +39,7 @@ export default function Create() {
         }
     }
 
+    console.log(`isValid: ${isValid}\nisDirty: ${isDirty}\n${errors.productLink?.message }`);
 
     return (
         <section className={styles.main}>
@@ -51,26 +53,26 @@ export default function Create() {
                 isDirty={isDirty}
             >
                 <Input
-                    name="name"
+                    name="productName"
                     type="text"
                     label="Название"
                     placeholder="Введите название"
-                    error={errors.name?.message as any}
+                    error={errors.productName?.message as any}
                 />
                 <Input
-                    name="price"
+                    name="productPrice"
                     type="text"
                     label="Первчиная стоимость"
                     placeholder="Введите первчиную стоимость"
-                    error={errors.price?.message as any}
+                    error={errors.productPrice?.message as any}
                 />
 
                 <Input
-                    name="link"
-                    type="url"
+                    name="productLink"
+                    type="text"
                     label="Ссылка (если есть)"
                     placeholder="Введите ссылку"
-                    error={errors.link?.message as any}
+                    error={errors.productLink?.message as any}
                 />
             </Form>
         </section>

@@ -1,7 +1,7 @@
 "use client";
 
 import styles from '../page.module.css'
-import schema from "@/schemes/authSchema";
+import schema from "@/schemes/signupSchema";
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
 import * as auth from "@/utils/auth";

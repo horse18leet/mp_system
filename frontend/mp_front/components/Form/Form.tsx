@@ -31,7 +31,7 @@ const Form: FC<IFormProps> = ({
     ...rest
 }) => {
     return (
-        <form className="form" onSubmit={handleSubmit(onSubmit)} {...rest}>
+        <form noValidate className="form" onSubmit={handleSubmit(onSubmit)} {...rest}>
             {Array.isArray(children) ? children.map((child) => {
                 return child.props.name
                     ? createElement(child.type, {...{
@@ -43,7 +43,7 @@ const Form: FC<IFormProps> = ({
                         inputClass: "form__input",
                         errorClass: "form__input-error",
                 }}): child;}): children}
-            <button disabled={!isValid || !isDirty} type="submit" className="form__button">{buttonLabel}</button>
+            <button disabled={!isValid || !isDirty} type="submit" className="form__button button">{buttonLabel}</button>
         </form>
   );
 };
