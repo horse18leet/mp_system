@@ -4,7 +4,6 @@ import "./Header.css";
 
 import Navigation from "../Navigation/Navigation";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
 import DropdownMenu from "../DropdownMenu/DropdownList";
 
 const authItems = [
@@ -20,9 +19,8 @@ const navItems = [
 ];
 
 export default function Header() {
+    const token = localStorage.getItem("token");
     const [loggedIn, setLoggedIn] = useState(true);
-    const session = useSession();
-
     
     function handleExit() {
         setLoggedIn(false);
@@ -33,7 +31,7 @@ export default function Header() {
             <img src="" alt="логотип" className="header__logo" />
             <Navigation navLinks={navItems} authLinks={authItems} />
             
-            {session?.status === "authenticated" && <button className="auth-links__button" onClick={handleExit}>Выйти</button>}
+            {token && <button className="auth-links__button" onClick={handleExit}>Выйти</button>}
 
         </header>
     )

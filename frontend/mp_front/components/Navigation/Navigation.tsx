@@ -2,7 +2,6 @@
 
 import "./Navigation.css";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import DropdownList from "../DropdownMenu/DropdownList";
 
@@ -18,13 +17,11 @@ type Props = {
 
 export default function Navigation({ navLinks, authLinks }: Props) {
     const pathname = usePathname();
-    const session = useSession();
-    //console.log(session);
-
+    const token = localStorage.getItem("token")
     return (
         <div className="auth-links">    
-            {session?.status === "authenticated" && <DropdownList/>}
-            {session?.status !== "authenticated" ? (
+            {token && <DropdownList/>}
+            {!token ? (
                 authLinks.map((link) => {                          //здесь у нас линки на регистрацию и аутентификацию
                     const isActive = pathname === link.href;
                     return (
