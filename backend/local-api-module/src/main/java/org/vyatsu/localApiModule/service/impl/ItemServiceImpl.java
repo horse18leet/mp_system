@@ -1,15 +1,11 @@
 package org.vyatsu.localApiModule.service.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.apache.catalina.UserDatabase;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.vyatsu.localApiModule.dto.response.api.ItemDto;
-import org.vyatsu.localApiModule.dto.response.api.UserDto;
+import org.vyatsu.localApiModule.dto.response.api.item.ItemDto;
 import org.vyatsu.localApiModule.entity.item.Item;
 import org.vyatsu.localApiModule.entity.user.User;
 import org.vyatsu.localApiModule.mapper.ItemMapper;
@@ -49,7 +45,7 @@ public class ItemServiceImpl implements ItemService {
     public ItemDto createItem(HttpServletRequest request, @RequestBody ItemDto itemDto){
         User user = getUserByReq(request);
 
-        itemDto.setUser(userMapper.toDto(user));
+        itemDto.setUser(userMapper.toSimpleUserDto(user));
         itemDto.setIsActive(true);
 
         Item createdItem = itemRepository.save(itemMapper.toEntity(itemDto));

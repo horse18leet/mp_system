@@ -1,6 +1,7 @@
-package org.vyatsu.localApiModule.dto.response.api;
+package org.vyatsu.localApiModule.dto.response.api.item;
 
 import lombok.*;
+import org.vyatsu.localApiModule.dto.response.api.UserDto;
 import org.vyatsu.localApiModule.entity.item.Item;
 
 import java.io.Serializable;
@@ -19,7 +20,7 @@ public class ItemDto implements Serializable {
     private String title;
     private String description;
     private Double firstPrice;
-    private UserDto user;
+    private SimpleUserDto user;
     private String category;
     private String mpLink;
     private Boolean isActive;

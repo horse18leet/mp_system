@@ -6,12 +6,13 @@ import java.util.Set;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 import org.vyatsu.localApiModule.dto.response.api.ApiKeyDto;
-import org.vyatsu.localApiModule.dto.response.api.ItemDto;
 import org.vyatsu.localApiModule.dto.response.api.PurchaseDto;
 import org.vyatsu.localApiModule.dto.response.api.RoleDto;
 import org.vyatsu.localApiModule.dto.response.api.ToDoTaskDto;
 import org.vyatsu.localApiModule.dto.response.api.TokenDto;
 import org.vyatsu.localApiModule.dto.response.api.UserDto;
+import org.vyatsu.localApiModule.dto.response.api.item.ItemDto;
+import org.vyatsu.localApiModule.dto.response.api.item.SimpleUserDto;
 import org.vyatsu.localApiModule.entity.enums.RoleType;
 import org.vyatsu.localApiModule.entity.enums.TokenType;
 import org.vyatsu.localApiModule.entity.item.Item;
@@ -27,7 +28,7 @@ import org.vyatsu.localApiModule.entity.user.UserPreference;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-10-22T19:23:12+0300",
+    date = "2023-10-24T20:22:00+0300",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.8.1 (Amazon.com Inc.)"
 )
 @Component
@@ -73,6 +74,19 @@ public class UserMapperImpl implements UserMapper {
         user.role( roleDtoToRole( userDto.getRole() ) );
 
         return user.build();
+    }
+
+    @Override
+    public SimpleUserDto toSimpleUserDto(User user) {
+        if ( user == null ) {
+            return null;
+        }
+
+        SimpleUserDto.SimpleUserDtoBuilder simpleUserDto = SimpleUserDto.builder();
+
+        simpleUserDto.id( user.getId() );
+
+        return simpleUserDto.build();
     }
 
     @Override
@@ -303,6 +317,18 @@ public class UserMapperImpl implements UserMapper {
         return user;
     }
 
+    protected User simpleUserDtoToUser(SimpleUserDto simpleUserDto) {
+        if ( simpleUserDto == null ) {
+            return null;
+        }
+
+        User.UserBuilder user = User.builder();
+
+        user.id( simpleUserDto.getId() );
+
+        return user.build();
+    }
+
     protected Item itemDtoToItem(ItemDto itemDto) {
         if ( itemDto == null ) {
             return null;
@@ -314,7 +340,7 @@ public class UserMapperImpl implements UserMapper {
         item.setTitle( itemDto.getTitle() );
         item.setDescription( itemDto.getDescription() );
         item.setFirstPrice( itemDto.getFirstPrice() );
-        item.setUser( toEntity( itemDto.getUser() ) );
+        item.setUser( simpleUserDtoToUser( itemDto.getUser() ) );
         item.setCategory( itemDto.getCategory() );
         item.setMpLink( itemDto.getMpLink() );
         item.setIsActive( itemDto.getIsActive() );
@@ -467,19 +493,19 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        ItemDto itemDto = new ItemDto();
+        ItemDto.ItemDtoBuilder itemDto = ItemDto.builder();
 
-        itemDto.setId( item.getId() );
-        itemDto.setTitle( item.getTitle() );
-        itemDto.setDescription( item.getDescription() );
-        itemDto.setFirstPrice( item.getFirstPrice() );
-        itemDto.setUser( toDto( item.getUser() ) );
-        itemDto.setCategory( item.getCategory() );
-        itemDto.setMpLink( item.getMpLink() );
-        itemDto.setIsActive( item.getIsActive() );
-        itemDto.setCreatedAt( item.getCreatedAt() );
+        itemDto.id( item.getId() );
+        itemDto.title( item.getTitle() );
+        itemDto.description( item.getDescription() );
+        itemDto.firstPrice( item.getFirstPrice() );
+        itemDto.user( toSimpleUserDto( item.getUser() ) );
+        itemDto.category( item.getCategory() );
+        itemDto.mpLink( item.getMpLink() );
+        itemDto.isActive( item.getIsActive() );
+        itemDto.createdAt( item.getCreatedAt() );
 
-        return itemDto;
+        return itemDto.build();
     }
 
     protected Set<ItemDto> itemSetToItemDtoSet(Set<Item> set) {

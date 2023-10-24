@@ -8,7 +8,7 @@ import org.vyatsu.localApiModule.entity.user.ToDoTask;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-10-22T19:23:12+0300",
+    date = "2023-10-24T20:22:00+0300",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.8.1 (Amazon.com Inc.)"
 )
 @Component

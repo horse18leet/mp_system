@@ -1,8 +1,8 @@
 package org.vyatsu.localApiModule.dto.response.api;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Value;
+import org.vyatsu.localApiModule.dto.response.api.item.ItemDto;
 import org.vyatsu.localApiModule.entity.msg.Message;
 import org.vyatsu.localApiModule.entity.sub.UserSubscription;
 import org.vyatsu.localApiModule.entity.user.*;
@@ -19,7 +19,6 @@ import java.util.Set;
 public class UserDto implements Serializable {
     Long id;
     String email;
-    @JsonIgnore
     String password;
     String firstName;
     String secondName;

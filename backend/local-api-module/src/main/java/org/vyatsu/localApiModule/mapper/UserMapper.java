@@ -2,11 +2,14 @@ package org.vyatsu.localApiModule.mapper;
 
 import org.mapstruct.*;
 import org.vyatsu.localApiModule.dto.response.api.UserDto;
+import org.vyatsu.localApiModule.dto.response.api.item.SimpleUserDto;
 import org.vyatsu.localApiModule.entity.user.User;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMapper {
     User toEntity(UserDto userDto);
+
+    SimpleUserDto toSimpleUserDto(User user);
 
     @AfterMapping
     default void linkUserPreferences(@MappingTarget User user) {
