@@ -50,6 +50,8 @@ public class ItemServiceImpl implements ItemService {
         User user = getUserByReq(request);
 
         itemDto.setUser(userMapper.toDto(user));
+        itemDto.setIsActive(true);
+
         Item createdItem = itemRepository.save(itemMapper.toEntity(itemDto));
         return itemMapper.toDto(createdItem);
     }

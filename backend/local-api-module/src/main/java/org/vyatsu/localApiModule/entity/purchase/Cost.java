@@ -38,7 +38,7 @@ public class Cost {
     @JoinColumn(name = "id_purchase", nullable = false)
     private Purchase purchase;
 
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDate createdAt;
 
     @OneToMany(mappedBy = "cost")

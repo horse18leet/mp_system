@@ -32,6 +32,6 @@ public class Message {
     @JoinColumn(name = "id_user_to", nullable = false)
     private User userTo;
 
-    @Column(name = "createdAt", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @Column(name = "createdAt", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDate createdAt;
 }

@@ -33,7 +33,7 @@ public class Purchase {
     @Column(name = "cost", nullable = false)
     private double cost;
 
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDate createdAt;
 
     @OneToMany(mappedBy = "purchase")

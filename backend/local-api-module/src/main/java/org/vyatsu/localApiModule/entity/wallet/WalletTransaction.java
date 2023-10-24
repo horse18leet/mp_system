@@ -32,7 +32,7 @@ public class WalletTransaction {
     @Column(name = "impl_date")
     private LocalDate implDate;
 
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDate createdAt;
 
     @ManyToOne
