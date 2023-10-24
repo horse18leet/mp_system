@@ -19,6 +19,7 @@ import org.vyatsu.localApiModule.security.JwtAuthenticationService;
 import org.vyatsu.localApiModule.service.ItemService;
 import org.vyatsu.localApiModule.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,16 +34,19 @@ public class ItemServiceImpl implements ItemService {
     private final ItemMapper itemMapper;
     private final UserMapper userMapper;
 
-    public List<ItemDto> getItemsByUser(HttpServletRequest request, HttpServletResponse response) {
+    @Override
+    public List<ItemDto> getItemsByUser(HttpServletRequest request) {
         User user = getUserByReq(request);
+        List<ItemDto> userItemsDto = new ArrayList<>();
         if (user != null) {
             List<Item> userItems = itemRepository.findByUserId(user.getId());
-            return itemMapper.toDtoList(userItems);
+            userItemsDto = itemMapper.toDtoList(userItems);
         }
-        return null;
+        return userItemsDto;
     }
 
-    public ItemDto createItem(HttpServletRequest request, HttpServletResponse response, @RequestBody ItemDto itemDto){
+    @Override
+    public ItemDto createItem(HttpServletRequest request, @RequestBody ItemDto itemDto){
         User user = getUserByReq(request);
 
         itemDto.setUser(userMapper.toDto(user));
@@ -50,7 +54,18 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.toDto(createdItem);
     }
 
+    @Override
+    public List<String> getCategoryByUser(HttpServletRequest req){
+        User user = getUserByReq(req);
+        List<String> categories = new ArrayList<>();
+        if(user != null) categories = itemRepository.findUniqueCategoryByUserId(user.getId());
+
+        return categories;
+    }
+
+
     private User getUserByReq(HttpServletRequest req){
+        User user = null;
         final String authHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
         final String jwt;
 
@@ -59,8 +74,8 @@ public class ItemServiceImpl implements ItemService {
         jwt = authHeader.substring(7);
         String email = jwtAuthenticationService.extractUsername(jwt);
         if(email != null){
-            return userService.getUserByEmail(email);
+            user = userService.getUserByEmail(email);
         }
-        return null;
+        return user;
     }
 }
