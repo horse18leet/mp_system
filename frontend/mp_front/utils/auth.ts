@@ -25,7 +25,7 @@ export const register = (firstName?: string, email?: string, password?: string) 
     .then(res => checkForError(res));
 };
 
-export const authorize = (email?: string, password?: string, token?: any) => {
+export const authorize = (email?: string, password?: string) => {
     return fetch(`${DOMAIN_NAME}/auth/signin`, {
         credentials: "include",
         method: "POST",

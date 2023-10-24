@@ -3,7 +3,7 @@ import "./page.css";
 import styles from '../page.module.css'
 
 import ProductsTable from "@/components/ProductsTable/ProductsTable";
-export default function Products() {
+export default function Items() {
     const isProducts = false;
     return (
         <section className={styles.main}>
@@ -14,7 +14,7 @@ export default function Products() {
             (
                 <>
                     <h2>У вас нет товаров</h2>
-                    <Link href="/products/new">Создать товар</Link>
+                    <Link href="/items/new">Создать товар</Link>
                 </>
             )}
             

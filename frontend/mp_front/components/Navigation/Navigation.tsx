@@ -14,12 +14,14 @@ type Props = {
     navLinks: NavLink[];
     authLinks: NavLink[];
     loggedIn: boolean;
+    handleClick: any;
 };
 
-export default function Navigation({ navLinks, authLinks, loggedIn }: Props) {
+export default function Navigation({ navLinks, authLinks, loggedIn, handleClick }: Props) {
     const pathname = usePathname();
+    
     return (
-        <div className="auth-links">    
+        <div className="links">    
             {loggedIn && <DropdownList/>}
             {!loggedIn ? (
                 authLinks.map((link) => {                          //здесь у нас линки на регистрацию и аутентификацию
@@ -28,26 +30,28 @@ export default function Navigation({ navLinks, authLinks, loggedIn }: Props) {
                         <Link
                             key={link.label}
                             href={link.href}
-                            className={`auth-links__link link auth-links__text ${isActive ? "auth-links__link_active" : ""}`}
+                            className={`links__link link links__text ${isActive ? "links__link_active" : ""}`}
                         >
                         {link.label}
                         </Link>
                     );
                 })
             ) : (
-                (navLinks.map((link) => {                           //здесь линки на всё остальное
+                <>
+                {navLinks.map((link) => {                           //здесь линки на всё остальное
                     const isActive = pathname === link.href;
                     return (
                         <Link
                             key={link.label}
                             href={link.href}
-                            className={`auth-links__link link auth-links__text ${isActive ? "auth-links__link_active" : ""}`}
+                            className={`links__link link links__text ${isActive ? "links__link_active" : ""}`}
                         >
                         {link.label}
                         </Link>
                     );
-                })
-            )
+                })}
+                <Link href="/signin" onClick={handleClick} className="link links__link links__text links__link_signout">Выйти</Link>
+                </>
             )}
         </div>
     );

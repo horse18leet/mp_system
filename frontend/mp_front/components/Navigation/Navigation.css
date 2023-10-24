@@ -1,26 +1,29 @@
-.auth-links {
+.links {
     display: flex;
     flex-direction: row;
     column-gap: 15px;
 }
 
-.auth-links__link {
+.links__link {
     color: #000000;
     border: none;
-    transition: all .5s;
     box-sizing: border-box;
 }
 
-.auth-links__link:hover{
-    opacity: .7;
+.links__link:hover{
     transform: scale(1.05);
 }
 
-.auth-links__link_active {
+.links__link_active {
     border-bottom: 1px solid #000000;
 }
 
-.auth-links__text {
+.links__link_signout {
+    display: inline-block;
+    
+}
+
+.links__text {
     font-size: 15px;
     font-weight: 400;
     line-height: 20px;

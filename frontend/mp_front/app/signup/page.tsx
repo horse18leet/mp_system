@@ -4,24 +4,25 @@ import styles from '../page.module.css'
 import schema from "@/schemes/signupSchema";
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
-import * as auth from "@/utils/auth";
-
-import { useForm } from 'react-hook-form';
+import { registration } from "@/utils/utils";
 import { joiResolver } from '@hookform/resolvers/joi';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
 export default function Signup() {
-    const { register, handleSubmit, formState: { errors, isValid, isDirty }} = useForm({ 
-        resolver: joiResolver(schema),
-        mode: "onChange",
+    const router = useRouter()
+    const { register, handleSubmit, formState: { errors, isValid, isDirty }} = useForm({      //определяем некоторые параметры формы
+        resolver: joiResolver(schema),                                                        //используем joiResolver для валидации полей
+        mode: "onChange",                                                                     //onChange для валидации в реальном времени
     });
-    const DOMAIN_NAME = process.env.NEXT_PUBLIC_DOMAIN_NAME;
 
-    async function onSubmit(data: { firstName: string; lastName?: string; email?: string; phoneNumber?: string; password?: string; }) {
-        auth.register(data.firstName, data.email, data.password)
-        .then((data) => {
-            console.log(`УСПЕХ.\ndata: ${data}`)
-        })
-        .catch((err)=> console.error());
+    function onSubmit(data: { firstName: string; lastName: string; email: string; phoneNumber: string; password: string; }) {  //функция сабмита
+        try {
+            registration(data.firstName, data.email, data.password);
+            router.push('/');
+        } catch(err) {
+            console.log("возникла ошибка при отправке формы: ", err);
+        }
     }
 
     return (

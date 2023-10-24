@@ -12,7 +12,7 @@ class MainApi {
         return Promise.reject(`Ошибка: ${res.status}`);
     }
 
-    createProduct(name?: string, price?: string, link?: string) {
+    createProduct(name: string, price: string, link?: string) {
         return fetch(`${this._baseUrl}/item/create`, {
             credentials: "include",
             method: 'POST',

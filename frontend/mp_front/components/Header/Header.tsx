@@ -4,7 +4,8 @@ import "./Header.css";
 
 import Navigation from "../Navigation/Navigation";
 import { useState, useEffect } from "react";
-import DropdownMenu from "../DropdownMenu/DropdownList";
+import Link from "next/link";
+import Image from "next/image";
 
 const authItems = [
     {label: "Войти", href: "/signin"},
@@ -20,15 +21,18 @@ const navItems = [
 
 export default function Header() {
     //const token = localStorage.getItem("token");
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(true);
     
     useEffect(()=>{
         const token = localStorage.getItem("token");
         if (token) {
             setLoggedIn(true);
+            console.log("true: ", token);
         }
         else {
             setLoggedIn(false);
+            console.log(false);
+
         }
     }, []);
 
@@ -37,12 +41,9 @@ export default function Header() {
     }
     
     return (
-        <header className="header">
-            <img src="" alt="логотип" className="header__logo" />
-            <Navigation navLinks={navItems} authLinks={authItems} loggedIn={loggedIn}/>
-            
-            {loggedIn && <button className="auth-links__button" onClick={handleExit}>Выйти</button>}
-
+        <header className={`header ${!loggedIn ? "header_not-logged-in" : ""}`}>
+            <Link className="link" href="/"><Image src=""  alt="логотип" className="header__logo" /></Link>
+            <Navigation navLinks={navItems} authLinks={authItems} loggedIn={loggedIn} handleClick={handleExit}/>
         </header>
     )
 }

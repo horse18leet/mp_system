@@ -8,6 +8,10 @@
     border-bottom: 2px solid #595959;
 }
 
+.header_not-logged-in {
+    justify-content: space-between;
+}
+
 .header__logo{
     margin: 0 20px 0 0;
 }

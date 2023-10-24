@@ -4,7 +4,7 @@ import styles from '../../page.module.css'
 import schema from "@/schemes/createProductSchema";
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
-import { mainApi } from "@/utils/MainApi";
+import { createItem } from '@/utils/utils';
 
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -14,15 +14,9 @@ export default function Create() {
         resolver: joiResolver(schema),
         mode: "onChange",
     });
-    const token = "test";
-    const DOMAIN_NAME = process.env.NEXT_PUBLIC_DOMAIN_NAME;
 
-    async function onSubmit(data: { productName?: string; productPrice?: string; productLink?: string; }) {
-        mainApi.createProduct(data.productName, data.productPrice, data.productLink)
-        .then((data) => {
-            console.log(`data: ${data}`)
-        })
-        .catch((err) => console.error());
+    function onSubmit(data: { productName: string; productPrice: string; productLink?: any; }) {
+        createItem(data.productName, data.productPrice, data.productLink);
     }
 
     return (
@@ -42,6 +36,7 @@ export default function Create() {
                     label="Название"
                     placeholder="Введите название"
                     error={errors.productName?.message as any}
+                    autoFocus
                 />
                 <Input
                     name="productPrice"

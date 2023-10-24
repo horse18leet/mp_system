@@ -20,8 +20,7 @@ const schema = Joi.object({
         "string.max": `Максимальная длина 30 символов`,
         "any.required": "Поле обязательно к заполнению",
     }),
-    productLink: Joi.string().optional().empty('').default(null).pattern(/^https?:\/\/(www\.)?[a-zA-Z\d]+\.[\w\-._~:/?#[\]@!$&'()*+,;=]{2,}#?$/).min(10).max(100).messages({
-        "string.pattern.base": "Ссылка должна соответствовать формату: https://example...",
+    productLink: Joi.string().optional().empty('').default(null).min(10).max(100).messages({
         "string.min": `Минимальная длина 9 символ`,
         "string.max": `Максимальная длина 100 символов`,
         "any.optional": "Поле необязательно к заполнению"

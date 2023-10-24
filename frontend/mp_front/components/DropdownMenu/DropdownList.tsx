@@ -31,7 +31,7 @@ export default function DropdownList() {
             <button onClick={toggleList} className="products-management__button button">Управление товарами</button>
             {isOpen && (
             <ul className="products-managements__list">
-                <li className="products-management__list-item"><Link href="/products" className="products-management__link link">Товары</Link></li>
+                <li className="products-management__list-item"><Link href="/items" className="products-management__link link">Товары</Link></li>
                 <li className="products-management__list-item"><Link href="/deliveries" className="products-management__link link">Поставки</Link></li>
             </ul>
             )}

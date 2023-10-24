@@ -4,28 +4,26 @@ import styles from '../page.module.css'
 import schema from "@/schemes/signinSchema";
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
-import * as auth from "@/utils/auth";
-import { useForm } from 'react-hook-form';
+import { login } from '@/utils/utils';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { redirect } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
 export default function Signin() {
+    const router = useRouter();
     const { register, handleSubmit, formState: { errors, isValid, isDirty }} = useForm({ 
         resolver: joiResolver(schema),
         mode: "onChange",
     });
 
-    function onSubmit(data: { signinEmail?: string, signinPassword?: string }) {
-        const token = localStorage.getItem("token")
-        auth.authorize(data.signinEmail, data.signinPassword, token)
-        .then((res) => {
-            if (res.access_token) {
-              localStorage.setItem("token", res.access_token);
-              console.log("ВОШЁЁЁЁЛ");
-            }
-        }) 
-        .catch((err) => {
-            console.log(err);
-        })
+    function onSubmit(data: { signinEmail: string, signinPassword: string }) {
+        try {
+            login(data.signinEmail, data.signinPassword);
+            router.push('/');
+        } catch(err) {
+            console.log("возникла ошибка при отправке формы: ", err);
+        }
     }
 
     return (
@@ -45,6 +43,7 @@ export default function Signin() {
                     label="E-mail"
                     placeholder="Введите электронную почту"
                     error={errors.signinEmail?.message as any}
+                    autoFocus
                 />
                 <Input
                     name="signinPassword"
