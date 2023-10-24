@@ -4,6 +4,7 @@ import "./Header.css";
 
 import Navigation from "../Navigation/Navigation";
 import { useState, useEffect } from "react";
+import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../images/logo.jpg";
@@ -25,11 +26,12 @@ const navItems = [
 
 const settingsItems = [
     {href: "/settings", img: gear, alt: "Настройки", imgClassName: "links__image_gear"},
-    {label: "Выйти", href: "/signin"},
+    {label: "Выйти", href: "/signin", handleClick: signOut()},
 ];
 
 export default function Header() {
     //const token = localStorage.getItem("token");
+    const session = useSession();
     const [loggedIn, setLoggedIn] = useState(true);
     
     useEffect(()=>{
@@ -46,14 +48,15 @@ export default function Header() {
     }, []);
 
     function handleExit() {
-        setLoggedIn(false);
-        localStorage.clear();
+        signOut();
+        // setLoggedIn(false);
+        // localStorage.clear();
     }
     
     return (
         <header className={`header ${!loggedIn ? "header_not-logged-in" : ""}`}>
             <Link className="link" href="/"><Image src={logo} width={50} height={50}  alt="логотип" className="header__logo" /></Link>
-            <Navigation navLinks={navItems} authLinks={authItems} settingsLinks={settingsItems} loggedIn={loggedIn} handleClick={handleExit}/>
+            <Navigation navLinks={navItems} authLinks={authItems} settingsLinks={settingsItems} loggedIn={loggedIn} />
         </header>
     )
 }
