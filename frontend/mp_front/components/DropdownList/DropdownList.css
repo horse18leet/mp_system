@@ -4,11 +4,12 @@
 }
 
 .products-management__button {
+    display: inline-block;   
     background-color: transparent;
     color: #000000;
     font-size: 15px;
     font-weight: 400;
-    line-height: 20px;;
+    line-height: 20px;
 }
   
 .products-managements__list {

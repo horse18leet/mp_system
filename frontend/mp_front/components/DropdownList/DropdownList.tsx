@@ -28,7 +28,7 @@ export default function DropdownList() {
 
     return (
         <div className="products-management" ref={dropdownRef}>
-            <button onClick={toggleList} className="products-management__button button">Управление товарами</button>
+            <button onClick={toggleList} className="button products-management__button">Управление товарами</button>
             {isOpen && (
             <ul className="products-managements__list">
                 <li className="products-management__list-item"><Link href="/items" className="products-management__link link">Товары</Link></li>

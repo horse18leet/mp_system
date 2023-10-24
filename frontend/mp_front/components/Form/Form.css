@@ -32,7 +32,7 @@
     margin:0;
     outline: transparent solid;
     box-sizing: border-box;
-    transition: box-shadow .2s;
+    transition: box-shadow .1s;
 }
 
 .form__input:focus {
