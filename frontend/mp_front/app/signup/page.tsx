@@ -4,10 +4,12 @@ import styles from '../page.module.css'
 import schema from "@/schemes/signupSchema";
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
-import { registration } from "@/utils/utils";
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import registration from '../api/auth/signup';
+import  login  from "@/app/api/auth/signin";
+
 
 export default function Signup() {
     const router = useRouter()
@@ -16,12 +18,12 @@ export default function Signup() {
         mode: "onChange",                                                                     //onChange для валидации в реальном времени
     });
 
-    function onSubmit(data: { firstName: string; lastName: string; email: string; phoneNumber: string; password: string; }) {  //функция сабмита
-        try {
-            registration(data.firstName, data.email, data.password);
-            router.push('/');
-        } catch(err) {
-            console.log("возникла ошибка при отправке формы: ", err);
+    async function onSubmit(data: { firstName: string; lastName: string; email: string; phoneNumber: string; password: string; }) {  //функция сабмита
+        const result = await registration(data.firstName, data.email, data.password);
+        if (result.success) {
+            login(data.email, data.password);
+        } else {
+            console.log("лажа");
         }
     }
 

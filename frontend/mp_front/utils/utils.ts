@@ -3,8 +3,10 @@ import { mainApi } from "./MainApi";
 
 export function registration(firstName: string, email: string, password: string) {
     auth.register(firstName, email, password)
-        .then(() => {
-            login(email, password);
+        .then((res) => {
+            if (res.ok) {
+                login(email, password);
+            }
         })
         .catch((err)=> console.error());
 }
@@ -27,3 +29,9 @@ export function createItem(name: string, price: string, link?: string) {
         .catch((err) => console.error());
 }
 
+export const checkForError = (res: any) => {
+    if (res.ok) {
+        return res.json()
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+}

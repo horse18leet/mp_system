@@ -4,11 +4,11 @@ import styles from '../page.module.css'
 import schema from "@/schemes/signinSchema";
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
-import { login } from '@/utils/utils';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { redirect } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import  login  from "@/app/api/auth/signin";
+
 
 export default function Signin() {
     const router = useRouter();
@@ -17,14 +17,14 @@ export default function Signin() {
         mode: "onChange",
     });
 
-    function onSubmit(data: { signinEmail: string, signinPassword: string }) {
-        try {
-            login(data.signinEmail, data.signinPassword);
-            router.push('/');
-        } catch(err) {
-            console.log("возникла ошибка при отправке формы: ", err);
+    async function onSubmit(data: { signinEmail: string, signinPassword: string }) {
+        const result = await login(data.signinEmail,data.signinPassword)
+        if (result.success) {
+            router.push("/");
+        } else {
+            console.log("Аутентификауция не удалась");
         }
-    }
+    };
 
     return (
         <section className={styles.main}>

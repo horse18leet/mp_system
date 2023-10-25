@@ -38,11 +38,11 @@ export default function Header() {
         const token = localStorage.getItem("token");
         if (token) {
             setLoggedIn(true);
-            console.log("true: ", token);
+         //   console.log("true: ", token);
         }
         else {
             setLoggedIn(false);
-            console.log(false);
+           // console.log(false);
 
         }
     }, []);
@@ -56,7 +56,7 @@ export default function Header() {
     return (
         <header className={`header ${!loggedIn ? "header_not-logged-in" : ""}`}>
             <Link className="link" href="/"><Image src={logo} width={50} height={50}  alt="логотип" className="header__logo" /></Link>
-            <Navigation navLinks={navItems} authLinks={authItems} settingsLinks={settingsItems} loggedIn={loggedIn} />
+            <Navigation navLinks={navItems} authLinks={authItems} settingsLinks={settingsItems} loggedIn={loggedIn} handleClick={handleExit}/>
         </header>
     )
 }
