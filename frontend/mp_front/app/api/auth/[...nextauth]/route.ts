@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { login } from "../signin";
+import login  from "../signin";
 import registration from "../signup";
 
 export default NextAuth({
