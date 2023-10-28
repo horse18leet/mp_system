@@ -1,24 +1,28 @@
 import * as auth from "@/utils/auth";
 import { mainApi } from "./MainApi";
 
-export function registration(firstName: string, email: string, password: string) {
-    auth.register(firstName, email, password)
-        .then((res) => {
-            if (res.ok) {
-                login(email, password);
-            }
-        })
-        .catch((err)=> console.error());
+export async function registration(firstName: string, email: string, password: string) {
+    const response = await auth.register(firstName, email, password)
+    if (response.message) {
+        return { success: false, error: response.message };
+
+    } else {
+        console.log("response_reg: ", response);
+        await login(email, password);
+        return { success: true, user: response };
+    }
 }
 
-export function login(email: string, password: string) {
-    auth.authorize(email, password)
-        .then((res) => {
-            if (res.access_token) {
-              localStorage.setItem("token", res.access_token);
-            }
-        }) 
-        .catch((err) => console.error())
+export default async function login(email: string, password: string) {
+    const response = await auth.authorize(email, password)
+    if (response.message) {
+        return { success: false, error: response.message };
+
+    } else {
+        console.log("response_login: ", response);
+        localStorage.setItem("token", response.access_token);       //добавляем токен в хранилище
+        return { success: true, token: response.access_token };
+    }
 }
 
 export function createItem(name: string, price: string, link?: string) {

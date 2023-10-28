@@ -7,8 +7,8 @@ import Form from '@/components/Form/Form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import  login  from "@/app/api/auth/signin";
-
+import login from "@/utils/utils";
+import Header from '@/components/Header/Header';
 
 export default function Signin() {
     const router = useRouter();
@@ -18,15 +18,18 @@ export default function Signin() {
     });
 
     async function onSubmit(data: { signinEmail: string, signinPassword: string }) {
-        const result = await login(data.signinEmail,data.signinPassword)
-        if (result.success) {
-            router.push("/");
+        const result = await login(data.signinEmail, data.signinPassword);
+
+        if (result.error) {
+            alert(result.error)
         } else {
-            console.log("Аутентификауция не удалась");
+            router.push("/");
         }
     };
 
     return (
+        <>
+        <Header/>
         <section className={styles.main}>
             <h1>Вход</h1>
             <Form
@@ -54,5 +57,6 @@ export default function Signin() {
                 />
             </Form>
         </section>
+        </>
     )
 }

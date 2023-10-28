@@ -4,7 +4,9 @@ const checkForError = (res: any) => {
     if (res.ok) {
         return res.json()
     }
-    return Promise.reject(`Ошибка: ${res.status}`);
+    else {
+        return res.json();
+     }
 }
 
 export const register = (firstName?: string, email?: string, password?: string) => {
@@ -22,7 +24,8 @@ export const register = (firstName?: string, email?: string, password?: string) 
             roleType: "USER",
         })
     })
-    .then(res => checkForError(res));
+    // .then((res) => {return res});
+    .then(res => res.json());
 };
 
 export const authorize = (email?: string, password?: string) => {
@@ -38,5 +41,5 @@ export const authorize = (email?: string, password?: string) => {
             password: password
         }),
     })
-    .then(res => checkForError(res));
+    .then(res => res.json());
 };

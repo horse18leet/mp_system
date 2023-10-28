@@ -1,22 +1,15 @@
-import { authConfig } from "@/configs/auth";
-import { getServerSession } from "next-auth";
-import { useSession } from "next-auth/react";
+
 import router from "next/router";
 import { useEffect } from "react";
+import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
 
 export default async function Settings() {
-    const session = useSession();
-
-    useEffect(() => {
-        if (!session) {
-          router.push('/signin');
-          console.log("wdwdwdwdwdwdwdassvd");
-        }
-      }, [session, router]);
       
-    return (
-        <section>
-            <h1>Настройки</h1>
-        </section>
-    );
+  return (
+    <ProtectedLayout>
+      <section>
+        <h1>Настройки</h1>
+      </section>
+    </ProtectedLayout>
+  );
 }

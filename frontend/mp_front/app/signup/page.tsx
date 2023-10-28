@@ -7,9 +7,8 @@ import Form from '@/components/Form/Form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import registration from '../api/auth/signup';
-import  login  from "@/app/api/auth/signin";
-
+import { registration } from '@/utils/utils';
+import Header from '@/components/Header/Header';
 
 export default function Signup() {
     const router = useRouter()
@@ -20,14 +19,17 @@ export default function Signup() {
 
     async function onSubmit(data: { firstName: string; lastName: string; email: string; phoneNumber: string; password: string; }) {  //функция сабмита
         const result = await registration(data.firstName, data.email, data.password);
-        if (result.success) {
-            login(data.email, data.password);
-        } else {
-            console.log("лажа");
+        if (result.error) {
+            alert(result.error);
+        }
+        else {
+            router.push("/");
         }
     }
 
     return (
+        <>
+        <Header/>
         <section className={styles.main}>
             <h1>Добро пожаловать</h1>
             <p>Заполните форму для регистрации</p>
@@ -77,5 +79,7 @@ export default function Signup() {
                 />
             </Form>
         </section>
+        </>
+
     )
 }

@@ -1,7 +1,14 @@
+"use client";
+
+import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
+
 export default function Deliveries() {
     return (
-        <section>
-            <div></div>
-        </section>
+        <ProtectedLayout>
+            <section>
+                <div></div>
+            </section>
+        </ProtectedLayout>
+        
     );
 }
