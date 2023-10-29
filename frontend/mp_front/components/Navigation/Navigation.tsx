@@ -40,8 +40,8 @@ export default function Navigation({ navLinks, authLinks, settingsLinks, loggedI
     }
     
     return (
-        <div className={`links ${!loggedIn ? "links_auth" : ""}`}>    
-            {!loggedIn ? (
+        <div className={`links ${(pathname === "/signin" || pathname === "/signup") ? "links_auth" : ""}`}>    
+            {(pathname === "/signin" || pathname === "/signup") ? (
                 <div className="links__items">
                     {authLinks.map((link) => {                          //здесь у нас линки на регистрацию и аутентификацию
                         const isActive = pathname === link.href;

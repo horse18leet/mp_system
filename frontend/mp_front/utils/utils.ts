@@ -1,7 +1,7 @@
 import * as auth from "@/utils/auth";
 import { mainApi } from "./MainApi";
 
-export async function registration(firstName: string, email: string, password: string) {
+export async function registration(firstName: string, email: string, password: string) {   //регистрация
     const response = await auth.register(firstName, email, password)
     if (response.message) {
         return { success: false, error: response.message };
@@ -13,7 +13,7 @@ export async function registration(firstName: string, email: string, password: s
     }
 }
 
-export default async function login(email: string, password: string) {
+export async function login(email: string, password: string) {              //вход
     const response = await auth.authorize(email, password)
     if (response.message) {
         return { success: false, error: response.message };
@@ -25,13 +25,30 @@ export default async function login(email: string, password: string) {
     }
 }
 
-export function createItem(name: string, price: string, link?: string) {
-    mainApi.createProduct(name,price,link)
-        .then((data) => {
-            console.log(`data: ${data}`)
-        })
-        .catch((err) => console.error());
+export async function createItem(name: string, price: string, link?: string) {   //создание товара
+    const response = await mainApi.createItem(name,price,link);
+    if (response.message) {
+        return { error: response.message };
+
+    } else {
+        return { item: response };
+    }
 }
+
+export async function getItems() {
+    const response = await mainApi.getItems();
+    if (response.message) {
+        return { error: response.message };
+
+    } else {
+        return { items: response };
+    }
+}
+
+// export function getItemCategories() {                //получение категорий
+//     mainApi.getCategories()
+//         .then((data))
+// }
 
 export const checkForError = (res: any) => {
     if (res.ok) {

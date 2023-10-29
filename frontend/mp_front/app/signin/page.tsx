@@ -7,7 +7,7 @@ import Form from '@/components/Form/Form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import login from "@/utils/utils";
+import { login } from "@/utils/utils";
 import Header from '@/components/Header/Header';
 
 export default function Signin() {

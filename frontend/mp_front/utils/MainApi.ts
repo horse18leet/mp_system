@@ -12,7 +12,7 @@ class MainApi {
         return Promise.reject(`Ошибка: ${res.status}`);
     }
 
-    createProduct(name: string, price: string, link?: string) {
+    createItem(name: string, price: string, link?: string) {
         return fetch(`${this._baseUrl}/item/create`, {
             credentials: "include",
             method: 'POST',
@@ -22,13 +22,40 @@ class MainApi {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
             },
             body: JSON.stringify({
-                name: name,
-                price: price,
-                link: link,
+                title: name,
+                firstPrice: price,
+                mpLink: link,
             })
         })
         .then((res)=> this._checkForError(res))
     }
+
+    getCategories() {
+        return fetch(`${this._baseUrl}/category`, {
+            credentials: "include",
+            method: 'GET',
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            },
+        })
+        .then((res)=> this._checkForError(res))
+    }
+
+    getItems() {
+        return fetch(`${this._baseUrl}/category`, {
+            credentials: "include",
+            method: 'GET',
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            },
+        })
+        .then((res)=> this._checkForError(res))
+    }
+
 }
 
 export const mainApi = new MainApi({

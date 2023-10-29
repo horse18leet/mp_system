@@ -5,8 +5,10 @@ import schema from "@/schemes/createProductSchema";
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
 import ProtectedLayout from '@/components/ProtectedLayout/ProtectedLayout';
-import { createItem } from '@/utils/utils';
+import  { createItem } from '@/utils/utils';
 
+
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 
@@ -15,9 +17,19 @@ export default function Create() {
         resolver: joiResolver(schema),
         mode: "onChange",
     });
+    const [categories, setCategories] = useState([]);
 
-    function onSubmit(data: { productName: string; productPrice: string; productLink?: any; }) {
-        createItem(data.productName, data.productPrice, data.productLink);
+    useEffect(()=> {
+
+    });
+
+    async function onSubmit(data: { productName: string; productPrice: string; productLink?: any; }) {
+        const result = await createItem(data.productName, data.productPrice, data.productLink);
+        if (result.error) {
+            alert(result.error)
+        } else {
+            
+        }
     }
 
     return (
