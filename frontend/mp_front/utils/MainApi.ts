@@ -31,7 +31,7 @@ class MainApi {
     }
 
     getCategories() {
-        return fetch(`${this._baseUrl}/category`, {
+        return fetch(`${this._baseUrl}/item/category`, {
             credentials: "include",
             method: 'GET',
             headers: {
@@ -44,7 +44,7 @@ class MainApi {
     }
 
     getItems() {
-        return fetch(`${this._baseUrl}/category`, {
+        return fetch(`${this._baseUrl}/item`, {
             credentials: "include",
             method: 'GET',
             headers: {

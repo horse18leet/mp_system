@@ -30,15 +30,10 @@ export default function Navigation({ navLinks, authLinks, settingsLinks, loggedI
     const pathname = usePathname();
     const [mode, setMode] = useState(lightMode);
     
-    // useEffect(()=>{
-    //     const token = localStorage.getItem("token");
-    //     // console.log("token: ", token);
-    // });
-
     function handleChangeMode() {                                       //типа смена темы
         mode === lightMode ? setMode(darkMode) : setMode(lightMode);
     }
-    
+
     return (
         <div className={`links ${(pathname === "/signin" || pathname === "/signup") ? "links_auth" : ""}`}>    
             {(pathname === "/signin" || pathname === "/signup") ? (
@@ -85,7 +80,7 @@ export default function Navigation({ navLinks, authLinks, settingsLinks, loggedI
                                 key={link.label || link.alt}
                                 href={link.href}
                                 className={`links__link link links__text links__link_nav ${isActive && !link.img ? "links__link_active" : ""} ${link.img ? "links__link_img" : ""}`}
-                                onClick={handleClick}
+                                onClick={link.label === "Выйти" ? handleClick : ""}
                             >
                             {link.label || <Image src={link.img || ""} alt={link.alt || ""} width={15} height={15} className={link.imgClassName} />}
                             </Link>

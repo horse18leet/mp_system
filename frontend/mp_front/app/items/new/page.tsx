@@ -5,7 +5,7 @@ import schema from "@/schemes/createProductSchema";
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
 import ProtectedLayout from '@/components/ProtectedLayout/ProtectedLayout';
-import  { createItem } from '@/utils/utils';
+import  { createItem, getItemCategories } from '@/utils/utils';
 
 
 import { useEffect, useState } from 'react';
@@ -20,7 +20,8 @@ export default function Create() {
     const [categories, setCategories] = useState([]);
 
     useEffect(()=> {
-
+        console.log(localStorage.getItem("token"));
+        getItemCategories();
     });
 
     async function onSubmit(data: { productName: string; productPrice: string; productLink?: any; }) {
@@ -55,7 +56,7 @@ export default function Create() {
                     <Input
                         name="productPrice"
                         type="text"
-                        label="Первчиная стоимость"
+                        label="Первичная стоимость"
                         placeholder="Введите первчиную стоимость"
                         error={errors.productPrice?.message as any}
                     />

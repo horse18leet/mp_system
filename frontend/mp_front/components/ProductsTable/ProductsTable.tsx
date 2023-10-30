@@ -12,11 +12,11 @@ export default function ProductsTable({productsArray}: Props) {
         
         <div>
             {productsArray.map((item: any) => {                          //здесь у нас линки на регистрацию и аутентификацию
-                        return (
-                            <p key = {item.id}>{item.title}</p>    
-                        );
-                        })
-                    }
+                return (
+                    <p key = {item.id}>{item.title}</p>    
+                );
+                })
+            }
         </div>
             
         // <table className="products-table">

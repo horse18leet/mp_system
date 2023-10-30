@@ -5,6 +5,7 @@ import "./Header.css";
 import Navigation from "../Navigation/Navigation";
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../images/logo.jpg";
@@ -32,32 +33,18 @@ type Props = {
 }
 
 export default function Header({loggedIn, setLoggedIn}: Props) {
-    // const token = localStorage.getItem("token");
     const router = useRouter();
-    const [isloggedIn, setIsLoggedIn] = useState(loggedIn);
-    
-    useEffect(()=>{
-        const token = localStorage.getItem("token");
-        if (token) {
-            setIsLoggedIn(true);
-         //   console.log("true: ", token);
-        }
-        else {
-            setIsLoggedIn(false);
-           // console.log(false);
+    const pathname = usePathname();
 
-        }
-    }, [loggedIn]);
-
-    async function handleExit() {
-        await setIsLoggedIn(false);
+    function handleExit() {
+        setLoggedIn(false);
         localStorage.removeItem("token");
         router.push("/signin");
     }
     
     return (
         <header className={`header ${!loggedIn ? "header_not-logged-in" : ""}`}>
-            <Link className="link" href="/"><Image src={logo} width={50} height={50}  alt="логотип" className="header__logo" /></Link>
+            <Link className="link" href={loggedIn ? "/" : pathname}><Image src={logo} width={50} height={50}  alt="логотип" className="header__logo" /></Link>
             <Navigation navLinks={navItems} authLinks={authItems} settingsLinks={settingsItems} loggedIn={loggedIn as boolean} handleClick={handleExit}/>
         </header>
     )

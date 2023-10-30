@@ -11,7 +11,11 @@
     font-weight: 400;
     line-height: 20px;
 }
-  
+
+.products-management__button:hover + .products-managements__list {
+    display: block;
+}
+
 .products-managements__list {
     width: 100%;
     position: absolute;
@@ -22,6 +26,11 @@
     margin: 0;
     background-color: #ffffff;
     border: 1px solid #dddddd;
+    display: none;
+}
+
+.products-managements__list:hover {
+    display: block;
 }
   
 .products-management__list-item {
@@ -36,8 +45,5 @@
 .products-management__link {
     width: 100%;
     color: #000000;
+    font-size: 14px;
 }
-
-/* .products-management__link_active {
-    border-bottom: 1px solid #000000;
-} */

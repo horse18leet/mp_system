@@ -26,10 +26,6 @@
     box-sizing: border-box;
 }
 
-.links__link:hover{
-    transform: scale(1.05);
-}
-
 .links__link_active {
     border-bottom: 1px solid #000000;
 }

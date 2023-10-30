@@ -15,6 +15,13 @@ export default function Signup() {
     const { register, handleSubmit, formState: { errors, isValid, isDirty }} = useForm({      //определяем некоторые параметры формы
         resolver: joiResolver(schema),                                                        //используем joiResolver для валидации полей
         mode: "onChange",                                                                     //onChange для валидации в реальном времени
+        defaultValues: {
+            firstName: "",
+            lastName: "",
+            email: "",
+            phoneNumber: "+7",
+            password: "",
+        }
     });
 
     async function onSubmit(data: { firstName: string; lastName: string; email: string; phoneNumber: string; password: string; }) {  //функция сабмита
@@ -80,6 +87,5 @@ export default function Signup() {
             </Form>
         </section>
         </>
-
     )
 }

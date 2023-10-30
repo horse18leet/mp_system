@@ -45,10 +45,16 @@ export async function getItems() {
     }
 }
 
-// export function getItemCategories() {                //получение категорий
-//     mainApi.getCategories()
-//         .then((data))
-// }
+export async function getItemCategories() {                //получение категорий
+    const response = await mainApi.getCategories();
+    console.log(response);
+    if (response.message) {
+        return { error: response.message };
+
+    } else {
+        return { items: response };
+    }
+}
 
 export const checkForError = (res: any) => {
     if (res.ok) {
