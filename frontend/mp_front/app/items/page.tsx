@@ -12,7 +12,7 @@ export default function Items() {
 
     useEffect(() => {
         getAllProducts();
-    }, [products]);
+    }, []);
 
     async function getAllProducts() {       //получение всех товаров
         const result = await getItems();

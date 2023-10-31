@@ -25,6 +25,12 @@ const schema = Joi.object({
         "string.max": `Максимальная длина 100 символов`,
         "any.optional": "Поле необязательно к заполнению"
     }),
+    productCategory: Joi.string().required().min(3).max(100).messages({
+        "string.empty": "Поле обязательно к заполнению",
+        "string.min": `Минимальная длина 3 символа`,
+        "string.max": `Максимальная длина 100 символов`,
+        "any.optional": "Поле необязательно к заполнению"
+    }),
 });
 // .pattern(/^https?:\/\/(www\.)?[a-zA-Z\d]+\.[\w\-._~:/?#[\]@!$&'()*+,;=]{2,}#?$/).min(10).max(100)
 

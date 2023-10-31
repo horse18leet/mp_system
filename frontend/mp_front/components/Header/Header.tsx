@@ -44,7 +44,7 @@ export default function Header({loggedIn, setLoggedIn}: Props) {
     
     return (
         <header className={`header ${!loggedIn ? "header_not-logged-in" : ""}`}>
-            <Link className="link" href={loggedIn ? "/" : pathname}><Image src={logo} width={50} height={50}  alt="логотип" className="header__logo" /></Link>
+            <Link className="link header__link" href={loggedIn ? "/" : pathname}><Image src={logo} width={50} height={50}  alt="логотип" className="header__logo" /></Link>
             <Navigation navLinks={navItems} authLinks={authItems} settingsLinks={settingsItems} loggedIn={loggedIn as boolean} handleClick={handleExit}/>
         </header>
     )

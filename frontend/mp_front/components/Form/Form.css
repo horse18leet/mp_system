@@ -2,6 +2,7 @@
     width: 400px;
     display: flex;
     flex-direction: column;
+    color: #595959;
 }
 
 .form__input-container {
@@ -23,11 +24,11 @@
     height: 46px;
     border-radius: 8px;
     border: none;
-    background-color: #bab8b8;
+    background-color: #f5f5f5;
     font-size: 15px;
     font-weight: 400;
     line-height: normal;
-    color: #ffffff;
+    color: #404040;
     padding: 0 15px;
     margin:0;
     outline: transparent solid;
@@ -35,12 +36,12 @@
     transition: box-shadow .1s;
 }
 
-.form__input:focus {
+/* .form__input:focus {
     box-shadow:3px 3px 3px #555;
-}
+} */
 
 .form__input::placeholder {
-    color: #404040;
+    color: #595959;
 }
 
 .form__input-error {

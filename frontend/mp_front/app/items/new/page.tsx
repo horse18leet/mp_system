@@ -20,8 +20,18 @@ export default function Create() {
     const [categories, setCategories] = useState([]);
 
     useEffect(()=> {
-        getItemCategories();
-    });
+        getCategories();
+    }, []);
+
+    async function getCategories() {
+        const result = await getItemCategories();
+        console.log(result);
+        if (result.error) {
+            alert(result.error)
+        } else {
+            setCategories(result.items);
+        }
+    }
 
     async function onSubmit(data: { productName: string; productPrice: string; productLink?: any; }) {
         const result = await createItem(data.productName, data.productPrice, data.productLink);
@@ -67,6 +77,22 @@ export default function Create() {
                         placeholder="Введите ссылку"
                         error={errors.productLink?.message as any}
                     />
+
+                    <Input
+                        name="productCategory"
+                        type="text"
+                        label="Категория"
+                        placeholder="Выберите категорию или введите свою"
+                        list = "categories"
+                        error={errors.productCategory?.message as any}
+                    />
+                    <datalist id="categories">
+                        {categories.map((item: any) => {
+                            return (
+                                <option key={item}>{item}</option>
+                            )
+                        })}
+                    </datalist>
                 </Form>
             </section>
         </ProtectedLayout>

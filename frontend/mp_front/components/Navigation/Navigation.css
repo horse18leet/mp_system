@@ -21,13 +21,13 @@
 }
 
 .links__link {
-    color: #000000;
+    color: #595959;
     border: none;
     box-sizing: border-box;
 }
 
 .links__link_active {
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid #595959;
 }
 
 .links__link_signout {

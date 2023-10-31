@@ -47,7 +47,6 @@ export async function getItems() {
 
 export async function getItemCategories() {                //получение категорий
     const response = await mainApi.getCategories();
-    console.log(response);
     if (response.message) {
         return { error: response.message };
 
