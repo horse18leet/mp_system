@@ -26,27 +26,18 @@ export default function Create() {
 
     async function getCategories() {
         const result = await getItemCategories();
-        console.log(result);
-        if (result.error) {
-            alert(result.error)
-        } else {
-            setCategories(result.items);
-        }
+        result.error ? alert(result.error) : setCategories(result.items);
     }
 
     async function onSubmit(data: { productName: string; productPrice: string; productLink?: any; }) {
         const result = await createItem(data.productName, data.productPrice, data.productLink);
-        if (result.error) {
-            alert(result.error)
-        } else {
-            alert("Товар добавлен");
-        }
+        result.error ? alert(result.error) : alert("Товар добавлен");
     }
 
     return (
         <ProtectedLayout>
             <section className={styles.main}>
-                <h2>Создать товар</h2>
+                <h2>Добавить товар</h2>
                 <Form
                     buttonLabel="Добавить товар"
                     register={register}

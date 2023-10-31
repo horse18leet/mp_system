@@ -19,12 +19,7 @@ export default function Signin() {
 
     async function onSubmit(data: { signinEmail: string, signinPassword: string }) {
         const result = await login(data.signinEmail, data.signinPassword);
-
-        if (result.error) {
-            alert(result.error)
-        } else {
-            router.push("/");
-        }
+        result.error ? alert(result.error) : router.push("/");
     };
 
     return (

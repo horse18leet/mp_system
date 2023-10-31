@@ -26,12 +26,7 @@ export default function Signup() {
 
     async function onSubmit(data: { firstName: string; lastName: string; email: string; phoneNumber: string; password: string; }) {  //функция сабмита
         const result = await registration(data.firstName, data.email, data.password);
-        if (result.error) {
-            alert(result.error);
-        }
-        else {
-            router.push("/");
-        }
+        result.error ? alert(result.error) : router.push("/");
     }
 
     return (

@@ -5,7 +5,7 @@ import styles from '../page.module.css'
 import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
 import ProductsTable from "@/components/ProductsTable/ProductsTable";
 import { getItems, deleteItem } from "@/utils/utils";
-import { MouseEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Items() {
     const [products, setProducts] = useState([]);
@@ -14,24 +14,14 @@ export default function Items() {
         getAllProducts();
     }, []);
 
-    async function getAllProducts() {       //получение всех товаров
+    async function getAllProducts() {                                                               //получение всех товаров
         const result = await getItems();
-        if (result.error) {
-            alert(result.error)
-        } else {
-            setProducts(result.items);
-        }
+        result.error ? alert(result.error) : setProducts(result.items);
     }
 
-    async function handleDeleteProduct(event: React.MouseEvent<HTMLElement>, itemId: string) {
-        const result = await deleteItem(itemId);
-        if (result.error) {
-            alert(result.error)
-        } else {
-            console.log("збсс");
-            const row = (event.target as HTMLElement)?.parentNode?.parentNode;
-            row?.parentNode?.removeChild(row);
-        }
+    async function handleDeleteProduct(event: React.MouseEvent<HTMLElement>, itemId: string) {      //удаление товара
+        const result = await deleteItem(itemId);                                                    //отправляем запрос на сервер
+        result.error ? alert(result.error) : (event.target as HTMLElement)?.closest("tr")?.remove();//удаляем товар из таблицы, если запрос прошёл
     }
 
     return (
@@ -44,7 +34,7 @@ export default function Items() {
                 (
                     <h2>У вас нет товаров</h2>
                 )}
-                <Link href="/items/new">Создать товар</Link>
+                <Link href="/items/new" className="products__link link">Добавить товар</Link>
             </section>
         </ProtectedLayout>
         
