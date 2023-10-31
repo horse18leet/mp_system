@@ -38,7 +38,7 @@ export default function Create() {
         if (result.error) {
             alert(result.error)
         } else {
-            
+            alert("Товар добавлен");
         }
     }
 

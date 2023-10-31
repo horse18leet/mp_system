@@ -3,11 +3,12 @@
 import "./ProductsTable.css"
 
 type Props = {
-    productsArray: any;
+    productsArray: Array<string>;
+    handleDeleteProduct: any;
 }
 
-export default function ProductsTable({productsArray}: Props) {
-    console.log("productsArray: ", productsArray);
+export default function ProductsTable({productsArray, handleDeleteProduct}: Props) {
+
     return (
         <table className="products__table">
             <thead className="products__table-headers">
@@ -20,14 +21,14 @@ export default function ProductsTable({productsArray}: Props) {
                 </tr>
             </thead>
             <tbody>
-                {productsArray.map((item: any) => {                          //здесь у нас линки на регистрацию и аутентификацию
+                {productsArray.map((item: any) => {                          //строки таблички
                     return (
                         <tr key = {item.id}>
                             <td>{item.title}</td>
                             <td>{item.category || "Нет категории"}</td>
                             <td>{`${item.firstPrice}р`}</td>
                             {/* <td>{item.title}</td> */}
-                            <td><button>&#10006;</button></td>
+                            <td><button className="button" onClick={(event) => handleDeleteProduct(event, item.id)}>&#10006;</button></td>
                         </tr>
                     );
                     })

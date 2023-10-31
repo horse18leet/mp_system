@@ -56,6 +56,22 @@ class MainApi {
         .then((res)=> this._checkForError(res))
     }
 
+    deleteItem(itemId: string) {
+        return fetch(`${this._baseUrl}/item/drop`, {
+            credentials: "include",
+            method: 'DELETE',
+            headers: {
+                //"Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            },
+            body: JSON.stringify({
+                id: itemId,
+            })
+        })
+        .then((res)=> this._checkForError(res))
+    }
+
 }
 
 export const mainApi = new MainApi({

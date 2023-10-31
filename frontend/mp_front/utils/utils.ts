@@ -55,6 +55,17 @@ export async function getItemCategories() {                //получение 
     }
 }
 
+export async function deleteItem(itemId: string) {
+    const response = await mainApi.deleteItem(itemId);
+    console.log("удаление: ", response);
+    if (response.message) {
+        return { error: response.message };
+
+    } else {
+        return { items: response };
+    }
+}
+
 export const checkForError = (res: any) => {
     if (res.ok) {
         return res.json()

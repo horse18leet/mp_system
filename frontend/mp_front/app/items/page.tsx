@@ -4,7 +4,7 @@ import "./page.css";
 import styles from '../page.module.css'
 import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
 import ProductsTable from "@/components/ProductsTable/ProductsTable";
-import { getItems } from "@/utils/utils";
+import { getItems, deleteItem } from "@/utils/utils";
 import { useEffect, useState } from "react";
 
 export default function Items() {
@@ -23,12 +23,21 @@ export default function Items() {
         }
     }
 
+    async function handleDeleteProduct(itemId: string) {
+        const result = await deleteItem(itemId);
+        if (result.error) {
+            alert(result.error)
+        } else {
+            console.log("збсс");
+        }
+    }
+
     return (
         <ProtectedLayout>
             <section className={styles.main}>
                 <h1>Мои товары</h1>
                 {products.length > 0 ? (
-                    <ProductsTable productsArray={products} />
+                    <ProductsTable productsArray={products} handleDeleteProduct={handleDeleteProduct} />
                 ) : 
                 (
                     <h2>У вас нет товаров</h2>
