@@ -1,0 +1,8 @@
+.products__link {
+    color: #595959;
+    transition: opacity .3s;
+}
+
+.products__link:hover {
+    opacity: .7;
+}

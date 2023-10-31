@@ -2,7 +2,8 @@
     width: 400px;
     display: flex;
     flex-direction: column;
-    color: #595959;
+    color: #474747;
+    margin: 10px;
 }
 
 .form__input-container {
@@ -59,4 +60,10 @@
     width: 400px;
     height: 30px;
     border-radius: 10px;
+    transition: opacity .3s;
+    color: #474747;
+}
+
+.form__button:hover {
+    opacity: .7;
 }

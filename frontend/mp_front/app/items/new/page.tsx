@@ -1,13 +1,14 @@
 "use client"
 
 import styles from '../../page.module.css'
+import "../page.css";
 import schema from "@/schemes/createProductSchema";
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
 import ProtectedLayout from '@/components/ProtectedLayout/ProtectedLayout';
 import  { createItem, getItemCategories } from '@/utils/utils';
 
-
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -94,6 +95,7 @@ export default function Create() {
                         })}
                     </datalist>
                 </Form>
+                <Link href="/items" className="products__link link">Назад к товарам</Link>
             </section>
         </ProtectedLayout>
     )
