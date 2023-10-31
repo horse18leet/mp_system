@@ -33,9 +33,9 @@ class MainApi {
     getCategories() {
         return fetch(`${this._baseUrl}/item/category`, {
             credentials: "include",
-            method: 'GET',
+            method: 'POST',
             headers: {
-                "Accept": "application/json",
+                // "Accept": "application/json",
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
             },
@@ -46,9 +46,9 @@ class MainApi {
     getItems() {
         return fetch(`${this._baseUrl}/item`, {
             credentials: "include",
-            method: 'GET',
+            method: 'POST',
             headers: {
-                "Accept": "application/json",
+                // "Accept": "application/json",
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
             },

@@ -28,14 +28,12 @@ export default function Items() {
             <section className={styles.main}>
                 <h1>Мои товары</h1>
                 {products.length > 0 ? (
-                    <ProductsTable />
+                    <ProductsTable productsArray={products} />
                 ) : 
                 (
-                    <>
-                        <h2>У вас нет товаров</h2>
-                        <Link href="/items/new">Создать товар</Link>
-                    </>
+                    <h2>У вас нет товаров</h2>
                 )}
+                <Link href="/items/new">Создать товар</Link>
             </section>
         </ProtectedLayout>
         

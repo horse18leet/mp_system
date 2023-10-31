@@ -20,7 +20,6 @@ export default function Create() {
     const [categories, setCategories] = useState([]);
 
     useEffect(()=> {
-        console.log(localStorage.getItem("token"));
         getItemCategories();
     });
 

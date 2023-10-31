@@ -7,29 +7,32 @@ type Props = {
 }
 
 export default function ProductsTable({productsArray}: Props) {
-    
+    console.log("productsArray: ", productsArray);
     return (
-        
-        <div>
-            {productsArray.map((item: any) => {                          //здесь у нас линки на регистрацию и аутентификацию
-                return (
-                    <p key = {item.id}>{item.title}</p>    
-                );
-                })
-            }
-        </div>
-            
-        // <table className="products-table">
-            
-        //     <thead>
-        //         <tr>
-        //             <th className="products-table__title">Артикул товара</th>
-        //             <th className="products-table__title">Наименование</th>
-        //             <th className="products-table__title">Стоимость</th>
-        //             <th className="products-table__title">Остаток</th>
-        //             <th className="products-table__title">Действие</th>
-        //         </tr>
-        //     </thead>
-        // </table>
+        <table className="products__table">
+            <thead className="products__table-headers">
+                <tr>
+                    <th className="products-table__title">Наименование</th>
+                    <th className="products-table__title">Категория</th>
+                    <th className="products-table__title">Первичная стоимость</th>
+                    {/* <th className="products-table__title">Остаток</th> */}
+                    <th className="products-table__title">Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                {productsArray.map((item: any) => {                          //здесь у нас линки на регистрацию и аутентификацию
+                    return (
+                        <tr key = {item.id}>
+                            <td>{item.title}</td>
+                            <td>{item.category || "Нет категории"}</td>
+                            <td>{`${item.firstPrice}р`}</td>
+                            {/* <td>{item.title}</td> */}
+                            <td><button>&#10006;</button></td>
+                        </tr>
+                    );
+                    })
+                }
+            </tbody>
+        </table>
     );
 }
