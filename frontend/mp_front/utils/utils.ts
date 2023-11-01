@@ -7,7 +7,6 @@ export async function registration(firstName: string, email: string, password: s
         return { success: false, error: response.message };
 
     } else {
-        console.log("response_reg: ", response);
         await login(email, password);
         return { success: true, user: response };
     }
@@ -19,7 +18,6 @@ export async function login(email: string, password: string) {              //в
         return { success: false, error: response.message };
 
     } else {
-        console.log("response_login: ", response);
         localStorage.setItem("token", response.access_token);       //добавляем токен в хранилище
         return { success: true, token: response.access_token };
     }
@@ -56,7 +54,8 @@ export async function getItemCategories() {                //получение 
 }
 
 export async function deleteItem(itemId: string) {
-    const response = await mainApi.deleteItem(itemId);
+    console.log("АЙДИ: ", itemId, typeof itemId);
+    const response = await mainApi.deleteItem(String(itemId));
     console.log("удаление: ", response);
     if (response.message) {
         return { error: response.message };

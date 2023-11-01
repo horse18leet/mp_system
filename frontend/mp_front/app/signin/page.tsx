@@ -26,7 +26,7 @@ export default function Signin() {
         <>
         <Header/>
         <section className={styles.main}>
-            <h1>Вход</h1>
+            <h1 className={styles.title}>Вход</h1>
             <Form
                 buttonLabel="Войти"
                 register={register}
