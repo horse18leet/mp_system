@@ -57,12 +57,12 @@ class MainApi {
     }
 
     deleteItem(itemId: string) {
-        return fetch(`${this._baseUrl}/item/drop`, {
+        return fetch(`${this._baseUrl}/drop`, {
             credentials: "include",
-            method: "DELETE",
+            method: "POST",
             headers: {
-                //"Accept": "application/json",
-                //"Content-Type": "application/json",
+                // "Accept": "application/json",
+                "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
             },
             body: JSON.stringify({
