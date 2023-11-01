@@ -1,5 +1,7 @@
 package org.vyatsu.localApiModule.entity.item;
 
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.ColumnDefault;
 import org.vyatsu.localApiModule.entity.item.Order;
 import org.vyatsu.localApiModule.entity.item.PriceHistory;
 import org.vyatsu.localApiModule.entity.purchase.Ad;
@@ -9,6 +11,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -47,8 +50,8 @@ public class Item {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDate createdAt;
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP NOT NULL")
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "item")
     private Set<Order> orders = new LinkedHashSet<>();

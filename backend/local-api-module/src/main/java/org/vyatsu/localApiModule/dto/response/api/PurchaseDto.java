@@ -3,7 +3,7 @@ package org.vyatsu.localApiModule.dto.response.api;
 import lombok.Value;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * DTO for {@link org.vyatsu.localApiModule.entity.purchase.Purchase}
@@ -12,5 +12,5 @@ import java.time.LocalDate;
 public class PurchaseDto implements Serializable {
     Long id;
     double cost;
-    LocalDate createdAt;
+    LocalDateTime createdAt;
 }

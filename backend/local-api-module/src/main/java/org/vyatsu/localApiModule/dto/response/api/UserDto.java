@@ -8,7 +8,7 @@ import org.vyatsu.localApiModule.entity.sub.UserSubscription;
 import org.vyatsu.localApiModule.entity.user.*;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -24,7 +24,7 @@ public class UserDto implements Serializable {
     String secondName;
     String phoneNum;
     Boolean isActive;
-    LocalDate createdAt;
+    LocalDateTime createdAt;
     Set<UserPreference> userPreferences;
     Set<UserSubscription> userSubscriptions;
     Set<Message> userFromMessages;

@@ -24,6 +24,7 @@ import org.vyatsu.localApiModule.security.JwtAuthenticationService;
 import javax.management.relation.RoleNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -49,7 +50,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(roleService.getRole(request.getRoleType()))
-                .createdAt(LocalDate.now())
+                .createdAt(LocalDateTime.now())
                 .isActive(true)
                 .firstName(request.getFirstName())
                 .build();

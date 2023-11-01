@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,9 +28,9 @@ public class Order {
     @Column(name = "price", nullable = false)
     private double price;
 
-    @Column(name = "taked_at", nullable = false)
-    private LocalDate takedAt;
+    @Column(name = "taked_at", columnDefinition = "TIMESTAMP NOT NULL", nullable = false)
+    private LocalDateTime takedAt;
 
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDate createdAt;
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP NOT NULL")
+    private LocalDateTime createdAt;
 }

@@ -1,10 +1,10 @@
 package org.vyatsu.localApiModule.entity.sub;
 
-import org.vyatsu.localApiModule.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.vyatsu.localApiModule.entity.user.User;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,8 +30,8 @@ public class UserSubscription {
     private Subscription subscription;
 
     @Column(name = "start_date", nullable = false)
-    private LocalDate startDate;
+    private LocalDateTime startDate;
 
     @Column(name = "end_date", nullable = false)
-    private LocalDate endDate;
+    private LocalDateTime endDate;
 }

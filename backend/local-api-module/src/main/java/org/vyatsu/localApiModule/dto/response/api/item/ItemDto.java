@@ -6,6 +6,7 @@ import org.vyatsu.localApiModule.entity.item.Item;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * DTO for {@link Item}
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ItemDto implements Serializable {
+public class ItemDto {
     private Long id;
     private String title;
     private String description;
@@ -24,5 +25,5 @@ public class ItemDto implements Serializable {
     private String category;
     private String mpLink;
     private Boolean isActive;
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 }
