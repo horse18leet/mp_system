@@ -12,8 +12,6 @@ export default async function Settings() {
       <section>
         <h1>Настройки</h1>
       </section>
-
-      <Button>КНОПКА С КИТА</Button>
     </ProtectedLayout>
   );
 }
