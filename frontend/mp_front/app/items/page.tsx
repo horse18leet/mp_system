@@ -38,7 +38,7 @@ export default function Items() {
     return (
         <ProtectedLayout>
             <section className={styles.main}>
-                <h1>Мои товары</h1>
+                <h1 className="items__header">Мои товары</h1>
                 {products.length > 0 ? (
                     <Table>
                         {/* <TableCaption>Мои товары</TableCaption> */}
@@ -52,10 +52,10 @@ export default function Items() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {products.map((item: any) => {                          //строки таблички
+                            {products.map((item: any, counter) => {                          //строки таблички
                                 return (
-                                    <TableRow key = {item.id}>
-                                        <TableCell className="font-medium">{item.id}</TableCell>
+                                    <TableRow key = {counter}>
+                                        <TableCell className="font-medium">{counter+1}</TableCell>
                                         <TableCell>{item.title}</TableCell>
                                         <TableCell>{item.category || "Нет категории"}</TableCell>
                                         <TableCell>{`${item.firstPrice}р`}</TableCell>

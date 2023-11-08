@@ -6,3 +6,8 @@
 .products__link:hover {
     opacity: .7;
 }
+
+.items__header {
+    font-size: 25px;
+    margin: 0 0 20px 0;
+}

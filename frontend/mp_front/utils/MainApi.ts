@@ -57,7 +57,7 @@ class MainApi {
     }
 
     deleteItem(itemId: string) {
-        return fetch(`${this._baseUrl}/drop`, {
+        return fetch(`${this._baseUrl}/item/drop`, {
             credentials: "include",
             method: "POST",
             headers: {
