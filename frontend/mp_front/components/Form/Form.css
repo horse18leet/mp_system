@@ -62,6 +62,8 @@
     border-radius: 10px;
     transition: opacity .3s;
     color: #474747;
+    border: 2px solid #404040;
+    cursor: pointer;
 }
 
 .form__button:hover {

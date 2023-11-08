@@ -53,7 +53,7 @@ class MainApi {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
             },
         })
-        .then((res)=> this._checkForError(res))
+        .then((res) => this._checkForError(res))
     }
 
     deleteItem(itemId: string) {

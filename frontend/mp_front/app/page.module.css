@@ -11,6 +11,12 @@
 .title {
   margin-bottom: 10px;
 }
+.table {
+  width: 80%;
+  border: none;
+  margin-bottom: 50px;
+  border-collapse: separate;  
+}
 /*
 .description {
   display: inherit;

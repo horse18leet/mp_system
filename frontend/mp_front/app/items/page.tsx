@@ -37,11 +37,11 @@ export default function Items() {
 
     return (
         <ProtectedLayout>
-
-            <section>
-                <div className="p-12">
+            <section className={styles.main}>
+                <h1>Мои товары</h1>
+                {products.length > 0 ? (
                     <Table>
-                        <TableCaption>Мои товары</TableCaption>
+                        {/* <TableCaption>Мои товары</TableCaption> */}
                         <TableHeader>
                             <TableRow>
                                 <TableHead className="w-[100px]">#</TableHead>
@@ -52,27 +52,19 @@ export default function Items() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {products.length > 0 ? (
-                            <TableRow>
-                                <TableCell className="font-medium">{}</TableCell>
-                                <TableCell>Paid</TableCell>
-                                <TableCell>Credit Card</TableCell>
-                                <TableCell>$250.00</TableCell>
-                                <TableCell className="text-right">Удалить</TableCell>
-                            </TableRow>
-                            ) : (<h2>У вас нет товаров</h2>)}
+                            {products.map((item: any) => {                          //строки таблички
+                                return (
+                                    <TableRow key = {item.id}>
+                                        <TableCell className="font-medium">{item.id}</TableCell>
+                                        <TableCell>{item.title}</TableCell>
+                                        <TableCell>{item.category || "Нет категории"}</TableCell>
+                                        <TableCell>{`${item.firstPrice}р`}</TableCell>
+                                        <TableCell className="text-right"><button className="button" onClick={(event) => handleDeleteProduct(event, item.id)}>&#10006;</button></TableCell>
+                                    </TableRow>
+                                );
+                            })}
                         </TableBody>
                     </Table>
-                </div>
-
-            </section>
-
-
-
-            <section className={styles.main}>
-                <h1>Мои товары</h1>
-                {products.length > 0 ? (
-                    <ProductsTable productsArray={products} handleDeleteProduct={handleDeleteProduct} />
                 ) :
                     (
                         <h2>У вас нет товаров</h2>
