@@ -1,15 +1,15 @@
 package org.vyatsu.localApiModule.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
 import org.vyatsu.localApiModule.entity.item.Item;
 import org.vyatsu.localApiModule.entity.msg.Message;
 import org.vyatsu.localApiModule.entity.purchase.Purchase;
 import org.vyatsu.localApiModule.entity.role.Role;
 import org.vyatsu.localApiModule.entity.sub.UserSubscription;
-import jakarta.persistence.*;
-import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -45,8 +45,8 @@ public class User {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
-    private LocalDate createdAt;
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP NOT NULL")
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "user")
     private Set<UserPreference> userPreferences = new LinkedHashSet<>();

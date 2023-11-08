@@ -1,6 +1,6 @@
 package org.vyatsu.localApiModule.mapper;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 import org.vyatsu.localApiModule.dto.response.api.PurchaseDto;
@@ -8,8 +8,8 @@ import org.vyatsu.localApiModule.entity.purchase.Purchase;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-10-22T19:23:12+0300",
-    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.8.1 (Amazon.com Inc.)"
+    date = "2023-11-01T22:45:46+0300",
+    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component
 public class PurchaseMapperImpl implements PurchaseMapper {
@@ -37,7 +37,7 @@ public class PurchaseMapperImpl implements PurchaseMapper {
 
         Long id = null;
         double cost = 0.0d;
-        LocalDate createdAt = null;
+        LocalDateTime createdAt = null;
 
         id = purchase.getId();
         cost = purchase.getCost();

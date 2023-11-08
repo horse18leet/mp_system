@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,8 +28,8 @@ public class Ad {
     @Column(name = "link", nullable = false)
     private String link;
 
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
-    private LocalDate createdAt;
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP NOT NULL")
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "id_cost", nullable = false)

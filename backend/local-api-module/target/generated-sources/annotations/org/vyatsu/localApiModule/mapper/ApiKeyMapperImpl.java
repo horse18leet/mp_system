@@ -1,6 +1,6 @@
 package org.vyatsu.localApiModule.mapper;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 import org.vyatsu.localApiModule.dto.response.api.ApiKeyDto;
@@ -8,8 +8,8 @@ import org.vyatsu.localApiModule.entity.user.ApiKey;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-10-22T19:23:12+0300",
-    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.8.1 (Amazon.com Inc.)"
+    date = "2023-11-01T22:45:46+0300",
+    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component
 public class ApiKeyMapperImpl implements ApiKeyMapper {
@@ -37,7 +37,7 @@ public class ApiKeyMapperImpl implements ApiKeyMapper {
 
         Long id = null;
         String key = null;
-        LocalDate createdAt = null;
+        LocalDateTime createdAt = null;
 
         id = apiKey.getId();
         key = apiKey.getKey();

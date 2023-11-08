@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -33,8 +34,8 @@ public class Purchase {
     @Column(name = "cost", nullable = false)
     private double cost;
 
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
-    private LocalDate createdAt;
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP NOT NULL")
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "purchase")
     private Set<PurchaseItem> purchaseItems = new LinkedHashSet<>();

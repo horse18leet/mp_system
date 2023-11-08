@@ -1,17 +1,25 @@
 package org.vyatsu.localApiModule.mapper;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.annotation.processing.Generated;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.springframework.stereotype.Component;
 import org.vyatsu.localApiModule.dto.response.api.ApiKeyDto;
-import org.vyatsu.localApiModule.dto.response.api.ItemDto;
 import org.vyatsu.localApiModule.dto.response.api.PurchaseDto;
 import org.vyatsu.localApiModule.dto.response.api.RoleDto;
 import org.vyatsu.localApiModule.dto.response.api.ToDoTaskDto;
 import org.vyatsu.localApiModule.dto.response.api.TokenDto;
 import org.vyatsu.localApiModule.dto.response.api.UserDto;
+import org.vyatsu.localApiModule.dto.response.api.item.ItemDto;
+import org.vyatsu.localApiModule.dto.response.api.item.SimpleUserDto;
 import org.vyatsu.localApiModule.entity.enums.RoleType;
 import org.vyatsu.localApiModule.entity.enums.TokenType;
 import org.vyatsu.localApiModule.entity.item.Item;
@@ -27,11 +35,22 @@ import org.vyatsu.localApiModule.entity.user.UserPreference;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-10-22T19:23:12+0300",
-    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.8.1 (Amazon.com Inc.)"
+    date = "2023-11-01T22:45:46+0300",
+    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component
 public class UserMapperImpl implements UserMapper {
+
+    private final DatatypeFactory datatypeFactory;
+
+    public UserMapperImpl() {
+        try {
+            datatypeFactory = DatatypeFactory.newInstance();
+        }
+        catch ( DatatypeConfigurationException ex ) {
+            throw new RuntimeException( ex );
+        }
+    }
 
     @Override
     public User toEntity(UserDto userDto) {
@@ -76,6 +95,19 @@ public class UserMapperImpl implements UserMapper {
     }
 
     @Override
+    public SimpleUserDto toSimpleUserDto(User user) {
+        if ( user == null ) {
+            return null;
+        }
+
+        SimpleUserDto.SimpleUserDtoBuilder simpleUserDto = SimpleUserDto.builder();
+
+        simpleUserDto.id( user.getId() );
+
+        return simpleUserDto.build();
+    }
+
+    @Override
     public UserDto toDto(User user) {
         if ( user == null ) {
             return null;
@@ -97,7 +129,7 @@ public class UserMapperImpl implements UserMapper {
         String secondName = null;
         String phoneNum = null;
         Boolean isActive = null;
-        LocalDate createdAt = null;
+        LocalDateTime createdAt = null;
         RoleDto role = null;
 
         Set<UserPreference> set = user.getUserPreferences();
@@ -303,6 +335,100 @@ public class UserMapperImpl implements UserMapper {
         return user;
     }
 
+    private XMLGregorianCalendar localDateToXmlGregorianCalendar( LocalDate localDate ) {
+        if ( localDate == null ) {
+            return null;
+        }
+
+        return datatypeFactory.newXMLGregorianCalendarDate(
+            localDate.getYear(),
+            localDate.getMonthValue(),
+            localDate.getDayOfMonth(),
+            DatatypeConstants.FIELD_UNDEFINED );
+    }
+
+    private XMLGregorianCalendar localDateTimeToXmlGregorianCalendar( LocalDateTime localDateTime ) {
+        if ( localDateTime == null ) {
+            return null;
+        }
+
+        return datatypeFactory.newXMLGregorianCalendar(
+            localDateTime.getYear(),
+            localDateTime.getMonthValue(),
+            localDateTime.getDayOfMonth(),
+            localDateTime.getHour(),
+            localDateTime.getMinute(),
+            localDateTime.getSecond(),
+            localDateTime.get( ChronoField.MILLI_OF_SECOND ),
+            DatatypeConstants.FIELD_UNDEFINED );
+    }
+
+    private static LocalDate xmlGregorianCalendarToLocalDate( XMLGregorianCalendar xcal ) {
+        if ( xcal == null ) {
+            return null;
+        }
+
+        return LocalDate.of( xcal.getYear(), xcal.getMonth(), xcal.getDay() );
+    }
+
+    private static LocalDateTime xmlGregorianCalendarToLocalDateTime( XMLGregorianCalendar xcal ) {
+        if ( xcal == null ) {
+            return null;
+        }
+
+        if ( xcal.getYear() != DatatypeConstants.FIELD_UNDEFINED
+            && xcal.getMonth() != DatatypeConstants.FIELD_UNDEFINED
+            && xcal.getDay() != DatatypeConstants.FIELD_UNDEFINED
+            && xcal.getHour() != DatatypeConstants.FIELD_UNDEFINED
+            && xcal.getMinute() != DatatypeConstants.FIELD_UNDEFINED
+        ) {
+            if ( xcal.getSecond() != DatatypeConstants.FIELD_UNDEFINED
+                && xcal.getMillisecond() != DatatypeConstants.FIELD_UNDEFINED ) {
+                return LocalDateTime.of(
+                    xcal.getYear(),
+                    xcal.getMonth(),
+                    xcal.getDay(),
+                    xcal.getHour(),
+                    xcal.getMinute(),
+                    xcal.getSecond(),
+                    Duration.ofMillis( xcal.getMillisecond() ).getNano()
+                );
+            }
+            else if ( xcal.getSecond() != DatatypeConstants.FIELD_UNDEFINED ) {
+                return LocalDateTime.of(
+                    xcal.getYear(),
+                    xcal.getMonth(),
+                    xcal.getDay(),
+                    xcal.getHour(),
+                    xcal.getMinute(),
+                    xcal.getSecond()
+                );
+            }
+            else {
+                return LocalDateTime.of(
+                    xcal.getYear(),
+                    xcal.getMonth(),
+                    xcal.getDay(),
+                    xcal.getHour(),
+                    xcal.getMinute()
+                );
+            }
+        }
+        return null;
+    }
+
+    protected User simpleUserDtoToUser(SimpleUserDto simpleUserDto) {
+        if ( simpleUserDto == null ) {
+            return null;
+        }
+
+        User.UserBuilder user = User.builder();
+
+        user.id( simpleUserDto.getId() );
+
+        return user.build();
+    }
+
     protected Item itemDtoToItem(ItemDto itemDto) {
         if ( itemDto == null ) {
             return null;
@@ -314,7 +440,7 @@ public class UserMapperImpl implements UserMapper {
         item.setTitle( itemDto.getTitle() );
         item.setDescription( itemDto.getDescription() );
         item.setFirstPrice( itemDto.getFirstPrice() );
-        item.setUser( toEntity( itemDto.getUser() ) );
+        item.setUser( simpleUserDtoToUser( itemDto.getUser() ) );
         item.setCategory( itemDto.getCategory() );
         item.setMpLink( itemDto.getMpLink() );
         item.setIsActive( itemDto.getIsActive() );
@@ -373,7 +499,7 @@ public class UserMapperImpl implements UserMapper {
         toDoTask.id( toDoTaskDto.getId() );
         toDoTask.title( toDoTaskDto.getTitle() );
         toDoTask.description( toDoTaskDto.getDescription() );
-        toDoTask.dueDate( toDoTaskDto.getDueDate() );
+        toDoTask.dueDate( xmlGregorianCalendarToLocalDate( localDateTimeToXmlGregorianCalendar( toDoTaskDto.getDueDate() ) ) );
         toDoTask.isCompleted( toDoTaskDto.getIsCompleted() );
         toDoTask.createdAt( toDoTaskDto.getCreatedAt() );
 
@@ -467,19 +593,19 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        ItemDto itemDto = new ItemDto();
+        ItemDto.ItemDtoBuilder itemDto = ItemDto.builder();
 
-        itemDto.setId( item.getId() );
-        itemDto.setTitle( item.getTitle() );
-        itemDto.setDescription( item.getDescription() );
-        itemDto.setFirstPrice( item.getFirstPrice() );
-        itemDto.setUser( toDto( item.getUser() ) );
-        itemDto.setCategory( item.getCategory() );
-        itemDto.setMpLink( item.getMpLink() );
-        itemDto.setIsActive( item.getIsActive() );
-        itemDto.setCreatedAt( item.getCreatedAt() );
+        itemDto.id( item.getId() );
+        itemDto.title( item.getTitle() );
+        itemDto.description( item.getDescription() );
+        itemDto.firstPrice( item.getFirstPrice() );
+        itemDto.user( toSimpleUserDto( item.getUser() ) );
+        itemDto.category( item.getCategory() );
+        itemDto.mpLink( item.getMpLink() );
+        itemDto.isActive( item.getIsActive() );
+        itemDto.createdAt( item.getCreatedAt() );
 
-        return itemDto;
+        return itemDto.build();
     }
 
     protected Set<ItemDto> itemSetToItemDtoSet(Set<Item> set) {
@@ -502,7 +628,7 @@ public class UserMapperImpl implements UserMapper {
 
         Long id = null;
         double cost = 0.0d;
-        LocalDate createdAt = null;
+        LocalDateTime createdAt = null;
 
         id = purchase.getId();
         cost = purchase.getCost();
@@ -534,14 +660,14 @@ public class UserMapperImpl implements UserMapper {
         Long id = null;
         String title = null;
         String description = null;
-        LocalDate dueDate = null;
+        LocalDateTime dueDate = null;
         Boolean isCompleted = null;
-        LocalDate createdAt = null;
+        LocalDateTime createdAt = null;
 
         id = toDoTask.getId();
         title = toDoTask.getTitle();
         description = toDoTask.getDescription();
-        dueDate = toDoTask.getDueDate();
+        dueDate = xmlGregorianCalendarToLocalDateTime( localDateToXmlGregorianCalendar( toDoTask.getDueDate() ) );
         isCompleted = toDoTask.getIsCompleted();
         createdAt = toDoTask.getCreatedAt();
 
@@ -570,7 +696,7 @@ public class UserMapperImpl implements UserMapper {
 
         Long id = null;
         String key = null;
-        LocalDate createdAt = null;
+        LocalDateTime createdAt = null;
 
         id = apiKey.getId();
         key = apiKey.getKey();

@@ -8,8 +8,8 @@ import org.vyatsu.localApiModule.entity.role.Role;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-10-22T19:23:12+0300",
-    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.8.1 (Amazon.com Inc.)"
+    date = "2023-11-01T22:45:46+0300",
+    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component
 public class RoleMapperImpl implements RoleMapper {

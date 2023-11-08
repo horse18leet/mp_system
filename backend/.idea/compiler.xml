@@ -7,15 +7,22 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="external-api-module" />
         <module name="local-api-module" />
+        <module name="backend" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="external-api-module (1)" target="17" />
+      <module name="external-api-module (2)" target="1.5" />
       <module name="remote-api-module" target="1.7" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="external-api-module" options="-parameters" />
+      <module name="external-api-module (1)" options="-parameters" />
+      <module name="external-api-module (2)" options="" />
       <module name="local-api-module" options="-parameters" />
     </option>
   </component>

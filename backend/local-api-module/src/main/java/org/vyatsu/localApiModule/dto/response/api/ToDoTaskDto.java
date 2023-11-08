@@ -3,7 +3,7 @@ package org.vyatsu.localApiModule.dto.response.api;
 import lombok.Value;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * DTO for {@link org.vyatsu.localApiModule.entity.user.ToDoTask}
@@ -13,7 +13,7 @@ public class ToDoTaskDto implements Serializable {
     Long id;
     String title;
     String description;
-    LocalDate dueDate;
+    LocalDateTime dueDate;
     Boolean isCompleted;
-    LocalDate createdAt;
+    LocalDateTime createdAt;
 }

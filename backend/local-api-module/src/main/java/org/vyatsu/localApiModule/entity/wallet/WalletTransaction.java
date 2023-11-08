@@ -3,7 +3,7 @@ package org.vyatsu.localApiModule.entity.wallet;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,10 +30,10 @@ public class WalletTransaction {
     private String description;
 
     @Column(name = "impl_date")
-    private LocalDate implDate;
+    private LocalDateTime implDate;
 
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
-    private LocalDate createdAt;
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP NOT NULL")
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "id_wallet", nullable = false)
