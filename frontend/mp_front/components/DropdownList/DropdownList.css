@@ -38,17 +38,11 @@
     background-color: #f0f0f0;
 }
 
-.products-management__list-item {
-    height: 30px;
-    border: 1px solid blue;
-
-}
-
 .products-management__link {
     display: inline-block;
     width: 100%;
-    border: 1px solid red;
     padding: 10px 0;
     color: #474747;
     font-size: 14px;
+    line-height: 100%;
 }
