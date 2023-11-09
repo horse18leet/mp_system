@@ -1,7 +1,6 @@
 "use client"
 
 import styles from '../../page.module.css'
-import "../page.css";
 import schema from "@/schemes/createProductSchema";
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
@@ -20,9 +19,9 @@ export default function Create() {
     });
     const [categories, setCategories] = useState([]);
 
-    useEffect(()=> {
-        getCategories();
-    }, []);
+    // useEffect(()=> {
+    //     getCategories();
+    // }, []);
 
     async function getCategories() {
         const result = await getItemCategories();
@@ -37,7 +36,7 @@ export default function Create() {
     return (
         <ProtectedLayout>
             <section className={styles.main}>
-                <h2>Добавить товар</h2>
+                <h2>Добавить поставку</h2>
                 <Form
                     buttonLabel="Добавить товар"
                     register={register}
@@ -78,7 +77,7 @@ export default function Create() {
                         list = "categories"
                         error={errors.productCategory?.message as any}
                     />
-                    <datalist className='w-[400px]' id="categories">
+                    <datalist id="categories">
                         {categories.map((item: any) => {
                             return (
                                 <option key={item}>{item}</option>

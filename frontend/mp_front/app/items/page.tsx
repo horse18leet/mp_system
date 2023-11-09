@@ -38,10 +38,10 @@ export default function Items() {
     return (
         <ProtectedLayout>
             <section className={styles.main}>
-                <h1 className="items__header">Мои товары</h1>
+                <h1 className="mr-auto ml-[0px] mb-[20px] text-2xl">Мои товары</h1>
                 {products.length > 0 ? (
                 <>
-                    <Link href="/items/new" className="ml-auto mr-[50px] mb-[20px] products__link link">Добавить товар</Link>
+                    <Link href="/items/new" className="mr-auto ml-[0px] mb-[20px] products__link link">Добавить товар</Link>
                     <Table className="mb-[50px]">
                         {/* <TableCaption>Мои товары</TableCaption> */}
                         <TableHeader>
