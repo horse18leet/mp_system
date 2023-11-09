@@ -31,8 +31,8 @@ export default function Items() {
     }
 
     async function handleDeleteProduct(event: React.MouseEvent<HTMLElement>, itemId: string) {      //удаление товара
-        const result = await deleteItem(itemId);                                                    //отправляем запрос на сервер
-        result.error ? alert(result.error) : (event.target as HTMLElement)?.closest("tr")?.remove();//удаляем товар из таблицы, если запрос прошёл
+        const result = await deleteItem(itemId);   
+        result.error ? alert(result.error) : getAllProducts();       //удаляем товар из таблицы, если запрос прошёл
     }
 
     return (
@@ -40,38 +40,42 @@ export default function Items() {
             <section className={styles.main}>
                 <h1 className="items__header">Мои товары</h1>
                 {products.length > 0 ? (
-                    <Table>
+                <>
+                    <Link href="/items/new" className="ml-auto mr-[50px] mb-[20px] products__link link">Добавить товар</Link>
+                    <Table className="mb-[50px]">
                         {/* <TableCaption>Мои товары</TableCaption> */}
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="w-[100px]">#</TableHead>
-                                <TableHead>Наименование</TableHead>
-                                <TableHead>Категория</TableHead>
-                                <TableHead>Первичная стоимость</TableHead>
-                                <TableHead className="text-right">Действие</TableHead>
+                                <TableHead className="text-center w-[100px]">#</TableHead>
+                                <TableHead className="text-center">Наименование</TableHead>
+                                <TableHead className="text-center">Категория</TableHead>
+                                <TableHead className="text-center w-[200px]">Первичная стоимость</TableHead>
+                                <TableHead className="text-center w-[200px]">Действие</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {products.map((item: any, counter) => {                          //строки таблички
                                 return (
                                     <TableRow key = {counter}>
-                                        <TableCell className="font-medium">{counter+1}</TableCell>
-                                        <TableCell>{item.title}</TableCell>
-                                        <TableCell>{item.category || "Нет категории"}</TableCell>
-                                        <TableCell>{`${item.firstPrice}р`}</TableCell>
-                                        <TableCell className="text-right"><button className="button" onClick={(event) => handleDeleteProduct(event, item.id)}>&#10006;</button></TableCell>
+                                        <TableCell className="text-center font-medium">{counter+1}</TableCell>
+                                        <TableCell className="text-center">{item.title}</TableCell>
+                                        <TableCell className="text-center">{item.category || "Нет категории"}</TableCell>
+                                        <TableCell className="text-center">{`${item.firstPrice}р`}</TableCell>
+                                        <TableCell className="text-center"><button className="button" onClick={(event) => handleDeleteProduct(event, item.id)}>&#10006;</button></TableCell>
                                     </TableRow>
                                 );
                             })}
                         </TableBody>
                     </Table>
+                </>
                 ) :
                     (
-                        <h2>У вас нет товаров</h2>
+                        <>
+                            <h2>У вас нет товаров</h2>
+                            <Link href="/items/new" className="products__link link">Добавить товар</Link>
+                        </>
                     )}
-                <Link href="/items/new" className="products__link link">Добавить товар</Link>
             </section>
         </ProtectedLayout>
-
     );
 }

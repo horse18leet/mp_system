@@ -4,15 +4,7 @@ class MainApi {
         this._baseUrl = options.baseUrl;
     }
 
-    /*проверка на ошибку*/
-    _checkForError(res: any) {
-        if (res.ok) {
-            return res.json()
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-    }
-
-    createItem(name: string, price: string, link?: string) {
+    createItem(name: string, price: string, category: string, link?: string) {
         return fetch(`${this._baseUrl}/item/create`, {
             credentials: "include",
             method: 'POST',
@@ -24,10 +16,11 @@ class MainApi {
             body: JSON.stringify({
                 title: name,
                 firstPrice: price,
+                category: category,
                 mpLink: link,
             })
         })
-        .then((res)=> this._checkForError(res))
+        .then((res)=> {return res.json()})
     }
 
     getCategories() {
@@ -40,7 +33,7 @@ class MainApi {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
             },
         })
-        .then((res)=> this._checkForError(res))
+        .then((res)=> {return res.json()})
     }
 
     getItems() {
@@ -53,7 +46,7 @@ class MainApi {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
             },
         })
-        .then((res) => this._checkForError(res))
+        .then((res) => {return res.json()})
     }
 
     deleteItem(itemId: string) {
@@ -69,7 +62,7 @@ class MainApi {
                 id: itemId,
             })
         })
-        .then((res)=> this._checkForError(res));
+        .then((res)=> {return res});
     }
 
 }

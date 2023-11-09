@@ -2,7 +2,7 @@ import * as auth from "@/utils/auth";
 import { mainApi } from "./MainApi";
 
 export async function registration(firstName: string, email: string, password: string) {   //регистрация
-    const response = await auth.register(firstName, email, password)
+    const response = await auth.register(firstName, email, password);
     if (response.message) {
         return { success: false, error: response.message };
 
@@ -13,7 +13,7 @@ export async function registration(firstName: string, email: string, password: s
 }
 
 export async function login(email: string, password: string) {              //вход
-    const response = await auth.authorize(email, password)
+    const response = await auth.authorize(email, password);
     if (response.message) {
         return { success: false, error: response.message };
 
@@ -23,8 +23,8 @@ export async function login(email: string, password: string) {              //в
     }
 }
 
-export async function createItem(name: string, price: string, link?: string) {   //создание товара
-    const response = await mainApi.createItem(name,price,link);
+export async function createItem(name: string, price: string, category: string, link?: string) {   //создание товара
+    const response = await mainApi.createItem(name, price, category, link);
     if (response.message) {
         return { error: response.message };
 
@@ -49,25 +49,17 @@ export async function getItemCategories() {                //получение 
         return { error: response.message };
 
     } else {
-        return { items: response };
+        return { categories: response };
     }
 }
 
 export async function deleteItem(itemId: string) {
-    console.log("АЙДИ: ", itemId, typeof itemId);
     const response = await mainApi.deleteItem(String(itemId));
-    console.log("удаление: ", response);
-    if (response.message) {
-        return { error: response.message };
+
+    if (response.status !== 200) {
+        return { error: `Ошибка ${response.status}` };
 
     } else {
-        return { items: response };
+        return { res: response };
     }
-}
-
-export const checkForError = (res: any) => {
-    if (res.ok) {
-        return res.json()
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
 }

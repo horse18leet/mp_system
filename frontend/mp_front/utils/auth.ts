@@ -1,14 +1,5 @@
 const DOMAIN_NAME = process.env.NEXT_PUBLIC_DOMAIN_NAME;
 
-const checkForError = (res: any) => {
-    if (res.ok) {
-        return res.json()
-    }
-    else {
-        return res.json();
-     }
-}
-
 export const register = (firstName?: string, email?: string, password?: string) => {
     return fetch(`${DOMAIN_NAME}/auth/signup`, {
         credentials: "include",
@@ -24,7 +15,6 @@ export const register = (firstName?: string, email?: string, password?: string) 
             roleType: "USER",
         })
     })
-    // .then((res) => {return res});
     .then(res => res.json());
 };
 

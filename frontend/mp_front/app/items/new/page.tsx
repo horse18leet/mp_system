@@ -26,11 +26,11 @@ export default function Create() {
 
     async function getCategories() {
         const result = await getItemCategories();
-        result.error ? alert(result.error) : setCategories(result.items);
+        result.error ? alert(result.error) : setCategories(result.categories);
     }
 
-    async function onSubmit(data: { productName: string; productPrice: string; productLink?: any; }) {
-        const result = await createItem(data.productName, data.productPrice, data.productLink);
+    async function onSubmit(data: { productName: string; productPrice: string; productCategory: string; productLink?: any; }) {
+        const result = await createItem(data.productName, data.productPrice, data.productCategory, data.productLink);
         result.error ? alert(result.error) : alert("Товар добавлен");
     }
 
