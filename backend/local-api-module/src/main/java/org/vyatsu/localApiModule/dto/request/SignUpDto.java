@@ -19,10 +19,13 @@ public class SignUpDto {
     private String firstName;
 
     @NotEmpty
+    private String secondName;
+
+    @NotEmpty
     private String email;
 
     @NotEmpty
-    private CharSequence password;
+    private String password;
 
     @NotEmpty
     @Enumerated(EnumType.STRING)
