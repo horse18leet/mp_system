@@ -8,7 +8,7 @@ import org.vyatsu.localApiModule.entity.user.ApiKey;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-11-01T22:45:46+0300",
+    date = "2023-11-15T12:06:56+0300",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component

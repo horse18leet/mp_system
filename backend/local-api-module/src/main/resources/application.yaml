@@ -29,9 +29,16 @@ application:
         expiration: 604800000
 
 cors:
-  allowedOrigins: "http://localhost:4200, http://localhost:3000"
+  allowedOrigins: "http://localhost:4200, http://localhost:3000,  http://localhost:8080"
   allowedMethods: "GET, POST, PUT, DELETE"
   allowedHeaders: "*"
   allowedCredentials: true
   corsConfiguration: "/**"
   maxAge: 3600
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
