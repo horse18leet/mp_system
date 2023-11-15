@@ -7,12 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="external-api-module" />
         <module name="local-api-module" />
-        <module name="backend" />
+        <module name="openapi-spring" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="backend" target="1.5" />
+      <module name="external-api-module" target="1.8" />
       <module name="external-api-module (1)" target="17" />
       <module name="external-api-module (2)" target="1.5" />
       <module name="remote-api-module" target="1.7" />
@@ -24,6 +25,7 @@
       <module name="external-api-module (1)" options="-parameters" />
       <module name="external-api-module (2)" options="" />
       <module name="local-api-module" options="-parameters" />
+      <module name="openapi-spring" options="-parameters" />
     </option>
   </component>
 </project>

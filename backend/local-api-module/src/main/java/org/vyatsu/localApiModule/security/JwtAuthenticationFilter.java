@@ -1,5 +1,6 @@
 package org.vyatsu.localApiModule.security;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.vyatsu.localApiModule.exception.AppException;
 import org.vyatsu.localApiModule.repository.TokenRepository;
 
 import java.io.IOException;
@@ -39,7 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String jwt;
-        final String userEmail;
+        String userEmail = null;
 
         // Проверка наличия и формата JWT токена в заголовке запроса
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -48,7 +50,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         jwt = authHeader.substring(7);
-        userEmail = jwtAuthenticationService.extractUsername(jwt);
+        try{
+            userEmail = jwtAuthenticationService.extractUsername(jwt);
+        }
+        catch (ExpiredJwtException e){
+            e.getMessage();
+        }
+
 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
