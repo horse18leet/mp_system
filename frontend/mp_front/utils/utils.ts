@@ -1,8 +1,8 @@
 import * as auth from "@/utils/auth";
 import { mainApi } from "./MainApi";
 
-export async function registration(firstName: string, email: string, password: string) {   //регистрация
-    const response = await auth.register(firstName, email, password);
+export async function registration(firstName: string, lastName: string, email: string, password: string) {   //регистрация
+    const response = await auth.register(firstName, lastName, email, password);
     if (response.message) {
         return { success: false, error: response.message };
 
