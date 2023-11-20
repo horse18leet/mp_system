@@ -6,10 +6,10 @@ import Header from "../Header/Header";
 
 export default function ProtectedLayout({ children }: {children: React.ReactNode}) {
     //const token = localStorage.getItem("token");
-    //const [loggedIn, setLoggedIn] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
     const router = useRouter();
-    const loggedIn = true;
-    /*useEffect(() => {
+    
+    useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
             setLoggedIn(true);
@@ -17,11 +17,11 @@ export default function ProtectedLayout({ children }: {children: React.ReactNode
         else {
             router.push("/signin");
         }
-    }, [loggedIn]);*/
+    }, [loggedIn]);
 
     return (
         <>
-            <Header loggedIn={loggedIn} setLoggedIn={true}/>
+            <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
             <div>
                 {loggedIn && children}
             </div>
