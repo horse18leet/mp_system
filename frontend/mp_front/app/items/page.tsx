@@ -1,81 +1,234 @@
 "use client";
 import Link from "next/link";
-import "./page.css";
-import styles from '../page.module.css'
 import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
-import ProductsTable from "@/components/ProductsTable/ProductsTable";
-import { getItems, deleteItem } from "@/utils/utils";
+// import { getItems, deleteItem } from "@/utils/utils";
 import { useEffect, useState } from "react";
 
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
+import { ColumnDef } from "@tanstack/react-table";
 
+import { Checkbox } from "@/components/ui/checkbox";
+
+import TItem from "@/utils/models/item";
+
+import { DataTableColumnHeader } from "../../components/Table/data-table-column-header";
+import { DataTableRowActions } from "../../components/Table/data-table-row-actions";
+import { DataTable } from "@/components/Table/data-table";
+import { deleteItem, getItems } from "@/utils/api/services/item.service";
+import { AxiosError } from "axios";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 export default function Items() {
-    const [products, setProducts] = useState([]);
+  const [items, setItems] = useState<TItem[]>([]);
 
-    useEffect(() => {
-        getAllProducts();
-    }, []);
+  useEffect(() => {
+    getAllItems();
+  }, []);
 
-    async function getAllProducts() {                                                               //получение всех товаров
-        const result = await getItems();
-        result.error ? alert(result.error) : setProducts(result.items);
+  async function getAllItems() {
+    const items = await getItems();
+
+    setItems(items);
+  }
+
+  async function removeItem(id: number) {
+    const response = await deleteItem(id);
+
+    if (response instanceof AxiosError) {
+      // Если получили ошибку, выходим из функции
+      console.log(response.message);
+      return;
+    } else {
+      getAllItems(); // В противном случае обновляем UI.
     }
+  }
 
-    async function handleDeleteProduct(event: React.MouseEvent<HTMLElement>, itemId: string) {      //удаление товара
-        const result = await deleteItem(itemId);   
-        result.error ? alert(result.error) : getAllProducts();       //удаляем товар из таблицы, если запрос прошёл
-    }
+  //   async function handleDeleteProduct(
+  //     event: React.MouseEvent<HTMLElement>,
+  //     itemId: string
+  //   ) {
+  //     //удаление товара
+  //     const result = await deleteItem(itemId);
+  //     result.error ? alert(result.error) : getAllItems(); //удаляем товар из таблицы, если запрос прошёл
+  //   }
 
-    return (
-        <ProtectedLayout>
-            <section className={styles.main}>
-                <h1 className="mr-auto ml-[0px] mb-[20px] text-2xl">Мои товары</h1>
-                {products.length > 0 ? (
-                <>
-                    <Link href="/items/new" className="mr-auto ml-[0px] mb-[20px] products__link link">Добавить товар</Link>
-                    <Table className="mb-[50px]">
-                        {/* <TableCaption>Мои товары</TableCaption> */}
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="text-center w-[100px]">#</TableHead>
-                                <TableHead className="text-center">Наименование</TableHead>
-                                <TableHead className="text-center">Категория</TableHead>
-                                <TableHead className="text-center w-[200px]">Первичная стоимость</TableHead>
-                                <TableHead className="text-center w-[200px]">Действие</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {products.map((item: any, counter) => {                          //строки таблички
-                                return (
-                                    <TableRow key = {counter}>
-                                        <TableCell className="text-center font-medium">{counter+1}</TableCell>
-                                        <TableCell className="text-center">{item.title}</TableCell>
-                                        <TableCell className="text-center">{item.category || "Нет категории"}</TableCell>
-                                        <TableCell className="text-center">{`${item.firstPrice}р`}</TableCell>
-                                        <TableCell className="text-center"><button className="button" onClick={(event) => handleDeleteProduct(event, item.id)}>&#10006;</button></TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                </>
-                ) :
-                    (
-                        <>
-                            <h2>У вас нет товаров</h2>
-                            <Link href="/items/new" className="products__link link">Добавить товар</Link>
-                        </>
-                    )}
-            </section>
-        </ProtectedLayout>
-    );
+  // Настройка колонок таблицы
+  const columns: ColumnDef<TItem>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+          className="translate-y-[2px]"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+          className="translate-y-[2px]"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "id",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Товар" />
+      ),
+      cell: ({ row }) => (
+        <div className="w-[80px]">{"ТОВАР-" + row.getValue("id")}</div>
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "title",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Название" />
+      ),
+      cell: ({ row }) => {
+        return (
+          <div className="flex space-x-2">
+            <span className="max-w-[100px] truncate font-medium">
+              {row.getValue("title")}
+            </span>
+          </div>
+        );
+      },
+      meta: {
+        filterDisplayName: "Название",
+      },
+    },
+    {
+      accessorKey: "description",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Описание" />
+      ),
+      cell: ({ row }) => {
+        return (
+          <div className="flex space-x-2">
+            <span className="max-w-[100px] truncate font-medium">
+              {row.getValue("description")}
+            </span>
+          </div>
+        );
+      },
+      meta: {
+        filterDisplayName: "Описание",
+      },
+    },
+    {
+      accessorKey: "firstPrice",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Цена без скидки" />
+      ),
+      cell: ({ row }) => {
+        return (
+          <div className="flex space-x-2">
+            <span className="max-w-[100px] truncate font-medium">
+              {row.getValue("firstPrice")}
+            </span>
+          </div>
+        );
+      },
+      meta: {
+        filterDisplayName: "Цена без скидки",
+      },
+    },
+    {
+      id: "actions",
+      cell: ({ row }) => (
+        <DataTableRowActions
+          row={row}
+          onDelete={() => removeItem(row.original.id)}
+        />
+      ),
+    },
+  ];
+
+  return (
+    <ProtectedLayout>
+      <div className="container pt-8 h-full">
+        <div className="flex-col space-y-8 md:flex hidden">
+          <Dialog>
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-2xl font-bold tracking-tight">
+                  Список товаров
+                </h2>
+                <p className="text-muted-foreground">
+                  Отслеживайте доступные товары или добавьте новый
+                </p>
+              </div>
+              <DialogTrigger asChild>
+                <Button variant="default" className="px-4 py-2 h-9">
+                  Добавить товар
+                </Button>
+              </DialogTrigger>
+            </div>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Добавить товар</DialogTitle>
+                <DialogDescription>
+                  Заполните все обязательные поля, чтобы добавить новый товар
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+          <DataTable data={items} columns={columns} />
+        </div>
+      </div>
+      {/* <section className={styles.main}>
+        <h1 className="mr-auto ml-[0px] mb-[20px] text-2xl">Мои товары</h1>
+        {items.length > 0 ? (
+          <>
+            <Link
+              href="/items/new"
+              className="mr-auto ml-[0px] mb-[20px] products__link link"
+            >
+              Добавить товар
+            </Link>
+            
+          </>
+        ) : (
+          <>
+            <h2>У вас нет товаров</h2>
+            <Link href="/items/new" className="products__link link">
+              Добавить товар
+            </Link>
+          </>
+        )}
+      </section> */}
+    </ProtectedLayout>
+  );
 }

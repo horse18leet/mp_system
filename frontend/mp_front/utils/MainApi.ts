@@ -1,3 +1,5 @@
+import TItem from "./models/item";
+
 class MainApi {
     private _baseUrl: any;
     constructor(options: any) {
@@ -36,7 +38,7 @@ class MainApi {
         .then((res)=> {return res.json()})
     }
 
-    getItems() {
+    getItems(): Promise<TItem[]> {
         return fetch(`${this._baseUrl}/item`, {
             credentials: "include",
             method: 'POST',
@@ -46,7 +48,15 @@ class MainApi {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
             },
         })
-        .then((res) => {return res.json()})
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error(res.statusText);
+            }
+            return res.json();
+        })
+        .catch((error) => {
+            return error;
+        });
     }
 
     deleteItem(itemId: string) {

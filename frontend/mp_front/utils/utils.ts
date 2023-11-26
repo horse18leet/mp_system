@@ -34,12 +34,17 @@ export async function createItem(name: string, price: string, category: string, 
 }
 
 export async function getItems() {
-    const response = await mainApi.getItems();
-    if (response.message) {
-        return { error: response.message };
+    try {
+        const response = await mainApi.getItems();
 
-    } else {
-        return { items: response };
+        if (response) {
+            return { items: response };
+        } else {
+            throw new Error('No response from server');
+        }
+
+    } catch (error: any) {
+        return {error: error.message}
     }
 }
 

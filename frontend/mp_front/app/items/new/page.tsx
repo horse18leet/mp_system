@@ -1,7 +1,6 @@
 "use client"
 
 import styles from '../../page.module.css'
-import "../page.css";
 import schema from "@/schemes/createProductSchema";
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
