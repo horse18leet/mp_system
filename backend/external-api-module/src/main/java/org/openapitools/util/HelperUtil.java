@@ -1,5 +1,6 @@
 package org.openapitools.util;
 
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,5 +14,11 @@ public class HelperUtil {
         if (authHeader == null) return null;
         jwt = authHeader;
         return jwt;
+    }
+
+    public static HttpEntity<String> GetHttpEntity(String authorization){
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", authorization);
+        return new HttpEntity<>(headers);
     }
 }

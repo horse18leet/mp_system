@@ -21,7 +21,7 @@ public class ApiKey {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "key", nullable = false)
+    @Column(name = "key", unique = true, nullable = false)
     private String key;
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP NOT NULL")

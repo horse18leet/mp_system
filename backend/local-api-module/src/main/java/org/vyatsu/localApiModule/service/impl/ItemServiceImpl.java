@@ -13,6 +13,7 @@ import org.vyatsu.localApiModule.mapper.ItemMapper;
 import org.vyatsu.localApiModule.mapper.UserMapper;
 import org.vyatsu.localApiModule.repository.ItemRepository;
 import org.vyatsu.localApiModule.security.JwtAuthenticationService;
+import org.vyatsu.localApiModule.security.utils.JwtUtils;
 import org.vyatsu.localApiModule.service.ItemService;
 import org.vyatsu.localApiModule.service.UserService;
 
@@ -28,15 +29,14 @@ public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
 
-    private final JwtAuthenticationService jwtAuthenticationService;
-    private final UserService userService;
-
     private final ItemMapper itemMapper;
     private final UserMapper userMapper;
 
+    private final JwtUtils jwtUtils;
+
     @Override
     public List<ItemDto> getItemsByUser(HttpServletRequest request) {
-        User user = getUserByReq(request);
+        User user = jwtUtils.getUserByReq(request);
         List<ItemDto> userItemsDto = new ArrayList<>();
         if (user != null) {
             List<Item> userItems = itemRepository.findByUserId(user.getId());
@@ -47,7 +47,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto createItem(HttpServletRequest request, @RequestBody ItemDto itemDto){
-        User user = getUserByReq(request);
+        User user = jwtUtils.getUserByReq(request);
 
         itemDto.setUser(userMapper.toSimpleUserDto(user));
         itemDto.setIsActive(true);
@@ -59,7 +59,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<String> getCategoryByUser(HttpServletRequest req){
-        User user = getUserByReq(req);
+        User user = jwtUtils.getUserByReq(req);
         List<String> categories = new ArrayList<>();
         if(user != null) categories = itemRepository.findUniqueCategoryByUserId(user.getId());
 
@@ -68,7 +68,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void deleteUserItemById(HttpServletRequest req, ItemReqDto itemReqDto) {
-        User user = getUserByReq(req);
+        User user = jwtUtils.getUserByReq(req);
         Optional<Item> item = itemRepository.findById(itemReqDto.getId());
         if(user != null && item.isPresent() && item.get().getUser() == user){
             itemRepository.delete(item.get());
@@ -77,7 +77,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto getUserItemById(HttpServletRequest req, Long id) {
-        User user = getUserByReq(req);
+        User user = jwtUtils.getUserByReq(req);
         Optional<Item> item = itemRepository.findById(id);
         ItemDto itemDto = null;
         if(item.isPresent()){
@@ -90,7 +90,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto editUserItem(HttpServletRequest request, ItemDto itemDto) {
-        User user = getUserByReq(request);
+        User user = jwtUtils.getUserByReq(request);
         Optional<Item> item = itemRepository.findById(itemDto.getId());
         Item editedItem = null;
         if(item.isPresent()){
@@ -99,19 +99,6 @@ public class ItemServiceImpl implements ItemService {
             }
         }
         return itemMapper.toDto(editedItem);
-    }
-
-    private User getUserByReq(HttpServletRequest req){
-        User user = null;
-        final String authHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
-        final String jwt;
-
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) return null;
-
-        jwt = authHeader.substring(7);
-        String email = jwtAuthenticationService.extractUsername(jwt);
-        if(email != null) user = userService.getUserByEmail(email);
-        return user;
     }
 
 }
