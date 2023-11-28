@@ -1,4 +1,4 @@
-type TItem = {
+interface IItemResponse {
   id: number;
   title: string;
   description: string;
@@ -10,4 +10,4 @@ type TItem = {
   createdAt: string;
 };
 
-export default TItem;
+export default IItemResponse;

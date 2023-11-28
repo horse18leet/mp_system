@@ -8,7 +8,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
 
-import TItem from "@/utils/models/item";
+import IItemResponse from "@/utils/models/item";
 
 import { DataTableColumnHeader } from "../../components/Table/data-table-column-header";
 import { DataTableRowActions } from "../../components/Table/data-table-row-actions";
@@ -36,7 +36,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 export default function Items() {
-  const [items, setItems] = useState<TItem[]>([]);
+  const [items, setItems] = useState<IItemResponse[]>([]);
 
   useEffect(() => {
     getAllItems();
@@ -70,7 +70,7 @@ export default function Items() {
   //   }
 
   // Настройка колонок таблицы
-  const columns: ColumnDef<TItem>[] = [
+  const columns: ColumnDef<IItemResponse>[] = [
     {
       id: "select",
       header: ({ table }) => (

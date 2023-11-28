@@ -1,7 +1,7 @@
 "use client";
 
 import router from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
 
 import { Button } from "@/components/ui/button";
@@ -46,6 +46,10 @@ import { SidebarNav } from "@/components/SidebarNav/sidebar-nav";
 import { accountSidebarNav } from "@/utils/other-data/account-settings.data";
 import { Separator } from "@/components/ui/separator";
 import SettingsLayout from "./settings-layout";
+import { getApiKeys } from "@/utils/api/services/api-keys.service";
+import { AxiosError } from "axios";
+import { IApiKeyResponse } from "@/utils/models/api-key/api-key";
+import ApiKeyType from "@/utils/models/api-key/api-key.enum";
 
 export default function Settings() {
   const { setTheme } = useTheme();
@@ -68,10 +72,7 @@ export default function Settings() {
     <ProtectedLayout>
       <SettingsLayout title="Аккаунт" description="">
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
               name="firstName"

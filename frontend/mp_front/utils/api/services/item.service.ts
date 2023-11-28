@@ -1,11 +1,11 @@
 import { AxiosError, AxiosResponse } from "axios";
 import api from "../api";
 
-import TItem from "../../models/item";
+import IItemResponse from "../../models/item";
 
-export async function getItems(): Promise<TItem[]> {
+export async function getItems(): Promise<IItemResponse[] | AxiosError> {
   try {
-    const response = await api.get<TItem[]>("/item");
+    const response = await api.get<IItemResponse[]>("/item");
     const data = response.data;
 
     return data;
@@ -16,9 +16,8 @@ export async function getItems(): Promise<TItem[]> {
     // }
   } catch (e) {
     const error = e as AxiosError; // Обработку ошибок добавлю позже
-    console.log(error.message);
 
-    return []; // Пустой массив, потому что функция однозначно должна возвращать результат
+    return error;
   }
 }
 

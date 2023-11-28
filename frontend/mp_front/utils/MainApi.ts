@@ -1,4 +1,4 @@
-import TItem from "./models/item";
+import IItemResponse from "./models/item";
 
 class MainApi {
     private _baseUrl: any;
@@ -38,7 +38,7 @@ class MainApi {
         .then((res)=> {return res.json()})
     }
 
-    getItems(): Promise<TItem[]> {
+    getItems(): Promise<IItemResponse[]> {
         return fetch(`${this._baseUrl}/item`, {
             credentials: "include",
             method: 'POST',
