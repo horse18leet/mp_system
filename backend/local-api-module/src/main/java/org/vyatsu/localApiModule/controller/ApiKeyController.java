@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.vyatsu.localApiModule.dto.response.api.ApiKeyDto;
+import org.vyatsu.localApiModule.entity.enums.ApiKeyType;
 import org.vyatsu.localApiModule.entity.user.ApiKey;
 import org.vyatsu.localApiModule.mapper.ApiKeyMapper;
 import org.vyatsu.localApiModule.service.ApiKeyService;
@@ -21,7 +22,7 @@ public class ApiKeyController {
 
     @GetMapping
     public ResponseEntity<?> GetAllApiKey(HttpServletRequest request,
-                                          @RequestParam(name = "type", required = false) String type) {
+                                          @RequestParam(name = "type", required = false) ApiKeyType type) {
         List<ApiKey> apiKeys = apiKeyService.getAllApiKey(request, type);
         return ResponseEntity.ok(apiKeyMapper.toDtoList(apiKeys));
     }

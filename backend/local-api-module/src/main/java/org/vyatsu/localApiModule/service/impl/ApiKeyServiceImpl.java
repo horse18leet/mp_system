@@ -14,6 +14,7 @@ import org.vyatsu.localApiModule.service.ApiKeyService;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -53,13 +54,14 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     }
 
     @Override
-    public List<ApiKey> getAllApiKey(HttpServletRequest request, String type) {
+    public List<ApiKey> getAllApiKey(HttpServletRequest request, ApiKeyType type) {
         User user = jwtUtils.getUserByReq(request);
         List<ApiKey> apiKeys = apiKeyRepository.findByUserId(user.getId());
-        return apiKeys.stream()
-                .filter(apiKey -> {
-                    String[] typeAndKey = apiKey.getKey().split(" ");
-                    return typeAndKey.length > 0 && typeAndKey[0].equals(type);
-                }).toList();
+        if (type != null) {
+            return apiKeys.stream()
+                    .filter(apiKey -> apiKey.getType() == type)
+                    .collect(Collectors.toList());
+        }
+        return apiKeys;
     }
 }
