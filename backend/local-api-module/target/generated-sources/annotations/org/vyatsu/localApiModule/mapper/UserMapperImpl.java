@@ -20,6 +20,7 @@ import org.vyatsu.localApiModule.dto.response.api.TokenDto;
 import org.vyatsu.localApiModule.dto.response.api.UserDto;
 import org.vyatsu.localApiModule.dto.response.api.item.ItemDto;
 import org.vyatsu.localApiModule.dto.response.api.item.SimpleUserDto;
+import org.vyatsu.localApiModule.entity.enums.ApiKeyType;
 import org.vyatsu.localApiModule.entity.enums.RoleType;
 import org.vyatsu.localApiModule.entity.enums.TokenType;
 import org.vyatsu.localApiModule.entity.item.Item;
@@ -35,7 +36,7 @@ import org.vyatsu.localApiModule.entity.user.UserPreference;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-11-27T23:38:46+0300",
+    date = "2023-11-28T17:12:18+0300",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component
@@ -528,6 +529,7 @@ public class UserMapperImpl implements UserMapper {
 
         apiKey.id( apiKeyDto.getId() );
         apiKey.key( apiKeyDto.getKey() );
+        apiKey.type( apiKeyDto.getType() );
         apiKey.createdAt( apiKeyDto.getCreatedAt() );
 
         return apiKey.build();
@@ -696,13 +698,15 @@ public class UserMapperImpl implements UserMapper {
 
         Long id = null;
         String key = null;
+        ApiKeyType type = null;
         LocalDateTime createdAt = null;
 
         id = apiKey.getId();
         key = apiKey.getKey();
+        type = apiKey.getType();
         createdAt = apiKey.getCreatedAt();
 
-        ApiKeyDto apiKeyDto = new ApiKeyDto( id, key, createdAt );
+        ApiKeyDto apiKeyDto = new ApiKeyDto( id, key, type, createdAt );
 
         return apiKeyDto;
     }
