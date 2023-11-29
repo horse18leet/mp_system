@@ -1,65 +1,160 @@
 package org.openapitools.controller;
 
+import org.openapitools.model.*;
 import org.openapitools.util.HelperUtil;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/content")
 public class ContentController {
 
-    @GetMapping("/items/all")
-    private ResponseEntity<List<Object>> getAllItems(HttpServletRequest req,
-                                                     @RequestParam(required = false) String typeApiKeyMP,
-                                                     @RequestParam(required = false) String apiKeyMP){
-        String getCardsUrl = HelperUtil.url + "content/v1/cards/cursor/list";
-        String localToken = HelperUtil.getJwtToken(req);
-
+    @GetMapping("/cards")
+    private ResponseEntity<List<Object>> getAllCardsByVendorCodes(HttpServletRequest req){
+        List<String> vendorCodes = getAllVendorCode(req).getBody();
+        return getAllCardsByVendorCodes(req, vendorCodes);
+    }
+    @PostMapping("/cards")
+    private ResponseEntity<List<Object>> getAllCardsByVendorCodes(HttpServletRequest req,
+                                                                  @RequestBody List<String> vendorCodes) {
+        String getCardsUrl = HelperUtil.urlWB + "content/v1/cards/filter";
+        ArrayList<LinkedHashMap<String, String>> userApiKeysMp = GetApiKeysUser(req);
         RestTemplate restTemplate = new RestTemplate();
+
+        Object cards = null;
+        try {
+            String tokenMp = userApiKeysMp.get(0).get("key");
+
+            ContentV1CardsFilterPostRequest requestBody = new ContentV1CardsFilterPostRequest();
+            requestBody.setVendorCodes(vendorCodes);
+            requestBody.setAllowedCategoriesOnly(true);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", tokenMp);
+
+            RequestEntity<ContentV1CardsFilterPostRequest> requestEntity1 = new RequestEntity<>(
+                    requestBody,
+                    headers,
+                    HttpMethod.POST,
+                    new URI(getCardsUrl)
+            );
+            ParameterizedTypeReference<ContentV1CardsFilterPost200Response> typeReference1 =
+                    new ParameterizedTypeReference<ContentV1CardsFilterPost200Response>() {
+                    };
+            ResponseEntity<ContentV1CardsFilterPost200Response> responseEntity1 =
+                    restTemplate.exchange(requestEntity1, typeReference1);
+
+            cards = responseEntity1.getBody();
+        } catch (HttpClientErrorException ex) {
+            if (ex.getStatusCode() == HttpStatus.BAD_REQUEST) {
+                System.out.println("Error response body: " + ex.getResponseBodyAsString());
+            } else {
+                System.out.println("Error status code: " + ex.getStatusCode());
+            }
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
+        return ResponseEntity.ok(Collections.singletonList(cards));
+
+    }
+
+    private ArrayList<LinkedHashMap<String, String>> GetApiKeysUser(HttpServletRequest req) {
+        String localToken = HelperUtil.getJwtToken(req);
+        RestTemplate restTemplate = new RestTemplate();
+
         HttpEntity<String> entity = HelperUtil.GetHttpEntity(localToken);
 
-        Object items = null;
-        if(apiKeyMP.isEmpty() && typeApiKeyMP.isEmpty()){
-            try{
-                String[] userApiKeysMp = restTemplate.exchange(getCardsUrl, HttpMethod.GET, entity, String[].class).getBody();
+        String getAllApiKeyUrl = HelperUtil.urlLocalModule + "/api-key?type=" + "WB";
+        ParameterizedTypeReference<ArrayList<LinkedHashMap<String, String>>> typeReference = new ParameterizedTypeReference<ArrayList<LinkedHashMap<String, String>>>() {};
+        ArrayList<LinkedHashMap<String, String>> userApiKeysMp = restTemplate.exchange(
+                getAllApiKeyUrl,
+                HttpMethod.GET,
+                entity,
+                typeReference
+        ).getBody();
 
-                assert userApiKeysMp != null;
-                if(userApiKeysMp.length > 0){
-                    for(String userApiKey : userApiKeysMp){{
-                        String[] typeAndApiKey = userApiKey.split(" ");
-                        if(Objects.equals(typeAndApiKey[0], "WB")){
-                            entity = HelperUtil.GetHttpEntity(typeAndApiKey[1]);
-                            items = restTemplate.exchange(getCardsUrl, HttpMethod.GET, entity, Object.class).getBody();
-                        }
-                    }}
+        return userApiKeysMp;
+    }
+
+    @GetMapping("/vendor-code")
+    private ResponseEntity<List<String>> getAllVendorCode(HttpServletRequest req) {
+
+        ArrayList<LinkedHashMap<String, String>> userApiKeysMp = GetApiKeysUser(req);
+
+        List<String> vendorCodes = null;
+        assert userApiKeysMp != null;
+        if ((long) userApiKeysMp.size() > 0) {
+            String tokenMp = userApiKeysMp.get(0).get("key");
+
+            String getCardsUrl = HelperUtil.urlWB + "content/v1/cards/cursor/list";
+            RestTemplate restTemplate1 = new RestTemplate();
+            try {
+
+                String requestBody = "   {\n" +
+                        "          \"sort\": {\n" +
+                        "              \"cursor\": {\n" +
+                        "                  \"limit\": 1000\n" +
+                        "              },\n" +
+                        "              \"filter\": {\n" +
+                        "                  \"withPhoto\": -1\n" +
+                        "              }\n" +
+                        "          }\n" +
+                        "        }";
+
+                HttpHeaders headers1 = new HttpHeaders();
+                headers1.setContentType(MediaType.APPLICATION_JSON);
+                headers1.set("Authorization", tokenMp);
+
+                RequestEntity<String> requestEntity1 = new RequestEntity<>(
+                        requestBody,
+                        headers1,
+                        HttpMethod.POST,
+                        new URI(getCardsUrl)
+                );
+                ParameterizedTypeReference<ContentV1CardsCursorListPost200Response> typeReference1 =
+                        new ParameterizedTypeReference<ContentV1CardsCursorListPost200Response>() {
+                        };
+                ResponseEntity<ContentV1CardsCursorListPost200Response> responseEntity1 =
+                        restTemplate1.exchange(requestEntity1, typeReference1);
+
+                vendorCodes = Objects.requireNonNull(responseEntity1.getBody())
+                        .getData()
+                        .getCards()
+                        .stream()
+                        .map(ContentV1CardsCursorListPost200ResponseDataCardsInner::getVendorCode)
+                        .collect(Collectors.toList());
+
+            } catch (HttpClientErrorException ex) {
+                if (ex.getStatusCode() == HttpStatus.BAD_REQUEST) {
+                    System.out.println("Error response body: " + ex.getResponseBodyAsString());
+                } else {
+                    System.out.println("Error status code: " + ex.getStatusCode());
                 }
-            }
-            catch (HttpClientErrorException e){
-                return ResponseEntity.status(e.getStatusCode()).body(Collections.singletonList("Не авторизован"));
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
             }
         }
-        return ResponseEntity.ok(Collections.singletonList(items));
+
+        return ResponseEntity.ok(vendorCodes);
     }
 
     @GetMapping("/categories/all")
     private ResponseEntity<List<Object>> getAllCategories(HttpServletRequest req,
                                                           @RequestParam(required = false) String name,
                                                           @RequestParam(required = false) Integer top){
-        String url = HelperUtil.url + "content/v1/object/all?name=" + name + "&top=" + top;
+        String url = HelperUtil.urlWB + "content/v1/object/all?name=" + name + "&top=" + top;
         String localToken = HelperUtil.getJwtToken(req);
 
         HttpEntity<String> entity = HelperUtil.GetHttpEntity(localToken);

@@ -50,6 +50,9 @@ public class Item {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
+    @Column(name = "is_draft", nullable = false)
+    private Boolean isDraft;
+
     @Column(name = "created_at", columnDefinition = "TIMESTAMP NOT NULL")
     private LocalDateTime createdAt;
 

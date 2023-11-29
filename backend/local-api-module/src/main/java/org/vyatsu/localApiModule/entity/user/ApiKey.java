@@ -26,6 +26,9 @@ public class ApiKey {
     @Column(name = "key", unique = true, nullable = false, length = 1000)
     private String key;
 
+    @Column(name = "client_id", unique = true)
+    private String clientId;
+
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private ApiKeyType type = ApiKeyType.WB;

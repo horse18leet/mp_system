@@ -2,11 +2,13 @@ package org.openapitools.util;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class HelperUtil {
-    public static String url = "https://suppliers-api.wildberries.ru/";
+    public static String urlWB = "https://suppliers-api.wildberries.ru/";
+    public static String urlLocalModule = "http://localhost:8080";
     public static String getJwtToken(HttpServletRequest req){
         final String authHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
         final String jwt;
