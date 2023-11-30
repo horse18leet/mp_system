@@ -44,8 +44,8 @@ public class Item {
     @Column(name = "category")
     private String category;
 
-    @Column(name = "mp_link")
-    private String mpLink;
+    @Column(name = "vendor_code")
+    private String vendorCode;
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;

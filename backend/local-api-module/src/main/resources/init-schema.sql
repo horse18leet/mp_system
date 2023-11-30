@@ -302,3 +302,6 @@ ALTER TABLE role_permission
 
 insert into roles(name) values ('USER');
 select * from roles;
+
+insert into items(title, id_user, is_active, created_at, is_draft) VALUES ('Товар с черновика', 1, true, NOW(), true);
+insert into items(title, id_user, is_active, created_at, is_draft) VALUES ('Товар не из черновика', 1, true, NOW(), false);

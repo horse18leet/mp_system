@@ -2,7 +2,6 @@ package org.vyatsu.localApiModule.service.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.vyatsu.localApiModule.dto.request.api.ItemReqDto;
@@ -12,10 +11,8 @@ import org.vyatsu.localApiModule.entity.user.User;
 import org.vyatsu.localApiModule.mapper.ItemMapper;
 import org.vyatsu.localApiModule.mapper.UserMapper;
 import org.vyatsu.localApiModule.repository.ItemRepository;
-import org.vyatsu.localApiModule.security.JwtAuthenticationService;
 import org.vyatsu.localApiModule.security.utils.JwtUtils;
 import org.vyatsu.localApiModule.service.ItemService;
-import org.vyatsu.localApiModule.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,11 +32,11 @@ public class ItemServiceImpl implements ItemService {
     private final JwtUtils jwtUtils;
 
     @Override
-    public List<ItemDto> getItemsByUser(HttpServletRequest request) {
+    public List<ItemDto> getItemsByUser(HttpServletRequest request, boolean isDraft) {
         User user = jwtUtils.getUserByReq(request);
         List<ItemDto> userItemsDto = new ArrayList<>();
         if (user != null) {
-            List<Item> userItems = itemRepository.findByUserId(user.getId());
+            List<Item> userItems = itemRepository.findItemByUserAndIsDraft(user, isDraft);
             userItemsDto = itemMapper.toDtoList(userItems);
         }
         return userItemsDto;
@@ -99,6 +96,12 @@ public class ItemServiceImpl implements ItemService {
             }
         }
         return itemMapper.toDto(editedItem);
+    }
+
+    @Override
+    public ItemDto getItemByVendorCode(String vendorCode) {
+        Item item = itemRepository.findByVendorCode(vendorCode);
+        return itemMapper.toDto(item);
     }
 
 }

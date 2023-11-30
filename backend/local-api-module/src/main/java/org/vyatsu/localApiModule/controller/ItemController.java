@@ -17,9 +17,9 @@ public class ItemController {
 
     private final ItemServiceImpl itemService;
 
-    @PostMapping
-    private ResponseEntity<List<ItemDto>> getUserItems(HttpServletRequest request){
-        List<ItemDto> userItems = itemService.getItemsByUser(request);
+    @GetMapping
+    private ResponseEntity<List<ItemDto>> getUserItems(HttpServletRequest request, @RequestParam("isDraft") boolean isDraft){
+        List<ItemDto> userItems = itemService.getItemsByUser(request, isDraft);
         return ResponseEntity.ok(userItems);
     }
 

@@ -54,7 +54,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     }
 
     @Override
-    public List<ApiKey> getAllApiKey(HttpServletRequest request, ApiKeyType type) {
+    public List<ApiKey> getAllApiKeyUser(HttpServletRequest request, ApiKeyType type) {
         User user = jwtUtils.getUserByReq(request);
         List<ApiKey> apiKeys = apiKeyRepository.findByUserId(user.getId());
         if (type != null) {
@@ -63,5 +63,10 @@ public class ApiKeyServiceImpl implements ApiKeyService {
                     .collect(Collectors.toList());
         }
         return apiKeys;
+    }
+
+    @Override
+    public List<ApiKey> getAllApiKey(ApiKeyType type) {
+        return apiKeyRepository.findAll();
     }
 }

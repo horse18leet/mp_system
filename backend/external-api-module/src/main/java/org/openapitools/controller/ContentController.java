@@ -28,7 +28,7 @@ public class ContentController {
     private ResponseEntity<List<Object>> getAllCardsByVendorCodes(HttpServletRequest req,
                                                                   @RequestBody List<String> vendorCodes) {
         String getCardsUrl = HelperUtil.urlWB + "content/v1/cards/filter";
-        ArrayList<LinkedHashMap<String, String>> userApiKeysMp = GetApiKeysUser(req);
+        ArrayList<LinkedHashMap<String, String>> userApiKeysMp = HelperUtil.GetApiKeysUser(req);
         RestTemplate restTemplate = new RestTemplate();
 
         Object cards = null;
@@ -70,28 +70,10 @@ public class ContentController {
 
     }
 
-    private ArrayList<LinkedHashMap<String, String>> GetApiKeysUser(HttpServletRequest req) {
-        String localToken = HelperUtil.getJwtToken(req);
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpEntity<String> entity = HelperUtil.GetHttpEntity(localToken);
-
-        String getAllApiKeyUrl = HelperUtil.urlLocalModule + "/api-key?type=" + "WB";
-        ParameterizedTypeReference<ArrayList<LinkedHashMap<String, String>>> typeReference = new ParameterizedTypeReference<ArrayList<LinkedHashMap<String, String>>>() {};
-        ArrayList<LinkedHashMap<String, String>> userApiKeysMp = restTemplate.exchange(
-                getAllApiKeyUrl,
-                HttpMethod.GET,
-                entity,
-                typeReference
-        ).getBody();
-
-        return userApiKeysMp;
-    }
-
     @GetMapping("/vendor-code")
     private ResponseEntity<List<String>> getAllVendorCode(HttpServletRequest req) {
 
-        ArrayList<LinkedHashMap<String, String>> userApiKeysMp = GetApiKeysUser(req);
+        ArrayList<LinkedHashMap<String, String>> userApiKeysMp = HelperUtil.GetApiKeysUser(req);
 
         List<String> vendorCodes = null;
         assert userApiKeysMp != null;
@@ -100,23 +82,22 @@ public class ContentController {
 
             String getCardsUrl = HelperUtil.urlWB + "content/v1/cards/cursor/list";
             RestTemplate restTemplate1 = new RestTemplate();
+
+            String requestBody = "   {\n" +
+                    "          \"sort\": {\n" +
+                    "              \"cursor\": {\n" +
+                    "                  \"limit\": 1000\n" +
+                    "              },\n" +
+                    "              \"filter\": {\n" +
+                    "                  \"withPhoto\": -1\n" +
+                    "              }\n" +
+                    "          }\n" +
+                    "        }";
+
+            HttpHeaders headers1 = new HttpHeaders();
+            headers1.setContentType(MediaType.APPLICATION_JSON);
+            headers1.set("Authorization", tokenMp);
             try {
-
-                String requestBody = "   {\n" +
-                        "          \"sort\": {\n" +
-                        "              \"cursor\": {\n" +
-                        "                  \"limit\": 1000\n" +
-                        "              },\n" +
-                        "              \"filter\": {\n" +
-                        "                  \"withPhoto\": -1\n" +
-                        "              }\n" +
-                        "          }\n" +
-                        "        }";
-
-                HttpHeaders headers1 = new HttpHeaders();
-                headers1.setContentType(MediaType.APPLICATION_JSON);
-                headers1.set("Authorization", tokenMp);
-
                 RequestEntity<String> requestEntity1 = new RequestEntity<>(
                         requestBody,
                         headers1,
@@ -126,6 +107,7 @@ public class ContentController {
                 ParameterizedTypeReference<ContentV1CardsCursorListPost200Response> typeReference1 =
                         new ParameterizedTypeReference<ContentV1CardsCursorListPost200Response>() {
                         };
+
                 ResponseEntity<ContentV1CardsCursorListPost200Response> responseEntity1 =
                         restTemplate1.exchange(requestEntity1, typeReference1);
 
@@ -155,7 +137,7 @@ public class ContentController {
                                                           @RequestParam(required = false) String name,
                                                           @RequestParam(required = false) Integer top){
         String url = HelperUtil.urlWB + "content/v1/object/all?name=" + name + "&top=" + top;
-        String localToken = HelperUtil.getJwtToken(req);
+        String localToken = HelperUtil.GetJwtToken(req);
 
         HttpEntity<String> entity = HelperUtil.GetHttpEntity(localToken);
 

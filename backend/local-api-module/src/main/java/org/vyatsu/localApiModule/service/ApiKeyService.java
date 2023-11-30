@@ -9,5 +9,7 @@ import java.util.List;
 public interface ApiKeyService {
     ApiKey CreateApiKey(HttpServletRequest request, ApiKey apiKey);
 
-    List<ApiKey> getAllApiKey(HttpServletRequest request, ApiKeyType type);
+    List<ApiKey> getAllApiKeyUser(HttpServletRequest request, ApiKeyType type);
+
+    List<ApiKey> getAllApiKey(ApiKeyType type);
 }
