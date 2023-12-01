@@ -1,19 +1,20 @@
 import Joi from "joi";
 
-export type TAccountApiKey = {
-    wbKey: string;
-    ozonKey: string;
-    ymKey: string;
+export interface IApiKey {
+  key: string;
+  clientId?: string;
 }
 
-export const schema = Joi.object({
-    wbKey: Joi.string().optional().empty("").messages({
-        "any.optional": "Поле необязательно к заполнению"
-    }),
-    ozonKey: Joi.string().optional().empty("").messages({
-        "any.optional": "Поле необязательно к заполнению"
-    }),
-    ymKey: Joi.string().optional().empty("").messages({
-        "any.optional": "Поле необязательно к заполнению"
-    })
-})
+export const WBApiKeySchema = Joi.object({
+  key: Joi.string().required(),
+});
+
+export const OzonApiKeySchema = Joi.object({
+  clientId: Joi.number().required(),
+  key: Joi.string().required(),
+});
+
+export const YandexMarketApiKeySchema = Joi.object({
+  clientId: Joi.number().required(),
+  key: Joi.string().required(),
+});
