@@ -107,7 +107,7 @@ export default function Keys() {
     }
 
     getAllApiKeys();
-  }, []);
+  }, [WBApiKeyForm, OzonApiKeyForm, YandexMarketApiKeyForm]);
 
   return (
     <ProtectedLayout>
