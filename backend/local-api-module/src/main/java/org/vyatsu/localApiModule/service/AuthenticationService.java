@@ -53,6 +53,7 @@ public class AuthenticationService {
                 .createdAt(LocalDateTime.now())
                 .isActive(true)
                 .firstName(request.getFirstName())
+                .secondName(request.getSecondName())
                 .build();
 
         return userMapper.toDto(userService.saveUser(user));

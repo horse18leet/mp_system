@@ -2,6 +2,8 @@ package org.vyatsu.localApiModule.entity.user;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.vyatsu.localApiModule.entity.enums.ApiKeyType;
+import org.vyatsu.localApiModule.entity.enums.TokenType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,8 +23,15 @@ public class ApiKey {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "key", nullable = false)
+    @Column(name = "key", unique = true, nullable = false, length = 1000)
     private String key;
+
+    @Column(name = "client_id", unique = true)
+    private String clientId;
+
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ApiKeyType type = ApiKeyType.WB;
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP NOT NULL")
     private LocalDateTime createdAt;

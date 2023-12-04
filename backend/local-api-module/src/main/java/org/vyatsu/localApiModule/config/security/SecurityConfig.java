@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -66,8 +67,11 @@ public class SecurityConfig {
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers(POST, "/auth/**")
-                                .permitAll()
+                        req
+                                .requestMatchers(POST, "/auth/**").permitAll()
+                                .requestMatchers(GET, "/swagger-ui/**").permitAll()
+                                .requestMatchers(GET, "/api-docs/**").permitAll()
+
                                 .anyRequest()
                                 .authenticated()
                 )

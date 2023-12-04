@@ -40,5 +40,4 @@ public class Purchase {
     @OneToMany(mappedBy = "purchase")
     private Set<PurchaseItem> purchaseItems = new LinkedHashSet<>();
 
-
 }
