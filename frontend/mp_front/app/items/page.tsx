@@ -38,14 +38,30 @@ import { Input } from "@/components/ui/input";
 export default function Items() {
   const [items, setItems] = useState<IItemResponse[]>([]);
 
-  useEffect(() => {
+  useEffect(() => { 
     getAllItems();
   }, []);
 
-  async function getAllItems() {
-    const items = await getItems();
+  // async function getAllItems() {
+  //   const items = await getItems();
 
-    setItems(items);
+  //   setItems(items);
+  // }
+
+  async function getAllItems() {
+    try {
+      const response = await getItems();
+      
+      if ('data' in response && Array.isArray(response.data)) {
+        // The response is successful, and it contains an array of items
+        setItems(response.data);
+      } else {
+        console.error('Unexpected response format:', response);
+      }
+    } catch (error) {
+      // Handle the error, for example, log it or show a user-friendly message
+      console.error('Error fetching items:', error);
+    }
   }
 
   async function removeItem(id: number) {
