@@ -90,7 +90,7 @@ export default function Create() {
                             <ComboBox list={warehouses} notFoundMessage="" title="Склад"/>
                         </li>
                     </ul>
-                    <p className="mt-[20px] text-white text-s">Посмотреть адреса складов можно в Разделе «Карта складов»</p>
+                    {/* <p className="mt-[20px] text-white text-s">Посмотреть адреса складов можно в Разделе «Карта складов»</p> */}
                 </div>
                 <div className="w-[100%]">
                     <h2 className="text-xl text-white mt-[20px] mb-[20px]">Выберите тип поставки</h2>
