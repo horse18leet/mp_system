@@ -12,7 +12,7 @@ const BarChart: React.FC<BarChartProps> = ({ data, labels, title}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const barColor = "#adfa1d"
-  const totalColors = Array(data.length).fill(barColor);  //тут мы делаем массив, в ктором элементы - это цвет столбца
+  const totalColors = Array(data.length).fill(barColor);  //тут мы делаем массив, в котором элементы - это цвет столбца
 
 
   useEffect(() => {
@@ -23,18 +23,21 @@ const BarChart: React.FC<BarChartProps> = ({ data, labels, title}) => {
           type: 'bar',
           
           data: {
-            labels,
+            labels,                                 //заголовки столбцов
             datasets: [
               {
-                label: title,
-                data,
-                backgroundColor: totalColors,       //сюда пихаем наш массив из цветов столбца
-                
+                label: title,                       //заголовок графика
+                data,                               //данные по оси y
+                backgroundColor: totalColors,       //массив из цветов столбца
               },
             ],
           },
           options: {
             legend: {
+              labels: {
+                boxWidth: 0,
+                fontSize: 18
+              },
               display: true,
             },
             scales: {
@@ -46,8 +49,19 @@ const BarChart: React.FC<BarChartProps> = ({ data, labels, title}) => {
                 },
               ],
               xAxes: [
-                
-              ]
+                {
+                  ticks: {
+                    fontSize: 10,
+                    callback: function(value, index, ticks) {  //если длина лейбла больше 5, то обрезаем его и добавляем точки
+                      if (String(value).length > 5) {
+                        return (String(value).substring(6) + "...");
+                      }
+                      return value;
+                    }
+                    
+                  }
+                }
+              ],
             },
           },
         });
