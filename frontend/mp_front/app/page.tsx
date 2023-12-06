@@ -5,8 +5,8 @@ import BarChart from '@/components/BarChart/BarChart';
 
 export default function Home() {
 
-  const chartData = [5, 5, 6, 3, 7, 8, 2, 2, 2, 3, 4];       //это размер стобцов в графике
-  const chartLabels = ["Labeldwdwdw", "LDLDKFDKDK", "Label", "Label", "Label", "Label", "Label", "Label", "Label","Label"]; //это заголовки столбцов
+  const chartData = [5, 5, 6, 3, 7, 8, 2, 2, 2, 3, 4];       //это значения по оси y
+  const chartLabels = ["Labeldwdwdw", "LDLDKFDKDK", "Label", "Label", "Label", "Label", "Label", "Label", "Label","Label"]; //это по оси x
 
   return (
     <ProtectedLayout>
