@@ -4,11 +4,19 @@ import styles from '../page.module.css'
 import schema from "@/schemes/signupSchema";
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
+import { CustomError } from '@/components/CustomError/CustomError';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { registration } from '@/utils/utils';
 import Header from '@/components/Header/Header';
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons"
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+import { useState } from 'react';
 
 export default function Signup() {
     const router = useRouter()
@@ -23,10 +31,20 @@ export default function Signup() {
             password: "",
         }
     });
+    const [isError, setIsError] = useState(false);
+    const [errorData, setErrorData] = useState({errName: "test"});
 
     async function onSubmit(data: { firstName: string; lastName: string; email: string; phoneNumber: string; password: string; }) {  //функция сабмита
         const result = await registration(data.firstName, data.lastName, data.email, data.password);
-        result.error ? alert(result.error) : router.push("/");
+        if (result.error) {
+            setIsError(true);
+            setErrorData({...errorData,
+                errName: result.error});
+        }
+        else {
+            router.push("/");
+        }
+        //result.error ? setIsError(true) : router.push("/");
     }
 
     return (
@@ -79,6 +97,9 @@ export default function Signup() {
                     error={errors.password?.message as any}
                 />
             </Form>
+            {/* <CustomError errName={errorData["errName"]}/> */}
+
+            {isError ? <CustomError errName={errorData["errName"]}/> : <></>}
         </section>
         </>
     )

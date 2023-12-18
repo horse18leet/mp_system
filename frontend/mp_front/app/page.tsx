@@ -2,8 +2,14 @@
 import styles from './page.module.css';
 import ProtectedLayout from '@/components/ProtectedLayout/ProtectedLayout';
 import BarChart from '@/components/BarChart/BarChart';
+import { useState } from 'react';
 
 export default function Home() {
+  
+  //нужно сделать запрос к серверу за товарами
+  
+  const [orderTime, setOrderTime] = useState([]);
+  const [orderQuantity, setOrderQuantity] = useState([]);
 
   const chartData = [5, 5, 6, 3, 7, 8, 2, 2, 2, 3, 4];       //это значения по оси y
   const chartLabels = ["Labeldwdwdw", "LDLDKFDKDK", "Label", "Label", "Label", "Label", "Label", "Label", "Label","Label"]; //это по оси x
