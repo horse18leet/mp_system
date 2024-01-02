@@ -29,7 +29,7 @@ application:
         expiration: 604800000
 
 cors:
-  allowedOrigins: "http://localhost:4200, http://localhost:3000,  http://localhost:8080"
+  allowedOrigins: "51.250.114.199:8080"
   allowedMethods: "GET, POST, PUT, DELETE"
   allowedHeaders: "*"
   allowedCredentials: true
