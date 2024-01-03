@@ -30,7 +30,7 @@ application:
 
 cors:
   allowedOrigins: "api.ucheter.ru, ucheter.ru"
-  allowedMethods: "GET, POST, PUT, DELETE"
+  allowedMethods: "GET, POST, PUT, DELETE, OPTIONS"
   allowedHeaders: "*"
   allowedCredentials: true
   corsConfiguration: "/**"
