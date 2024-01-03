@@ -29,7 +29,7 @@ application:
         expiration: 604800000
 
 cors:
-  allowedOrigins: "ucheter.ru"
+  allowedOrigins: "http://ucheter.ru"
   allowedMethods: "GET, POST, PUT, DELETE, OPTIONS"
   allowedHeaders: "*"
   allowedCredentials: true
