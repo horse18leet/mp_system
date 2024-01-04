@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="JpaBuddyIdeaProjectConfig" ddlActionDbType="postgres" isInitGenerateDdl="true">
-    <option name="defaultUnitInitialized" value="true" />
-    <option name="renamerInitialized" value="true" />
-    <option name="sourceModelValue" value="Default" />
-    <option name="targetDbValue" value="0fbc02d3-3c5f-4b07-9ea5-7956da20e130" />
-  </component>
-</project>
