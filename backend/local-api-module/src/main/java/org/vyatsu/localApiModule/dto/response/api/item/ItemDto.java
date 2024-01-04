@@ -24,6 +24,7 @@ public class ItemDto {
     private SimpleUserDto user;
     private String category;
     private String mpLink;
+    private Boolean isDraft;
     private Boolean isActive;
     private LocalDateTime createdAt;
 }
