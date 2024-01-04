@@ -3,6 +3,7 @@ package org.vyatsu.localApiModule;
 import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.vyatsu.localApiModule.dto.response.api.ApiKeyDto;
@@ -23,3 +24,5 @@ public class LocalApiModuleApplication {
     }
 
 }
+
+

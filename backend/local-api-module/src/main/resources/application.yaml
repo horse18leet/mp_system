@@ -1,19 +1,19 @@
-spring:
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/mp_system_user_module_db
-    username: postgres
-    password: 1
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: false
-    hibernate:
-      ddl-auto: none
-  sql:
-    init:
-      platform: postgres
-      mode: never
-      data-locations: classpath:init-schema.sql
+#spring:
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:5432/mp_system_user_module_db
+#    username: postgres
+#    password: 1
+#  jpa:
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    show-sql: false
+#    hibernate:
+#      ddl-auto: none
+#  sql:
+#    init:
+#      platform: postgres
+#      mode: never
+#      data-locations: classpath:init-schema.sql
 
 server:
   port: 8080
@@ -29,8 +29,8 @@ application:
         expiration: 604800000
 
 cors:
-  allowedOrigins: "http://localhost:4200, http://localhost:3000,  http://localhost:8080"
-  allowedMethods: "GET, POST, PUT, DELETE"
+  allowedOrigins: "https://ucheter.ru"
+  allowedMethods: "GET, POST, PUT, DELETE, OPTIONS"
   allowedHeaders: "*"
   allowedCredentials: true
   corsConfiguration: "/**"
