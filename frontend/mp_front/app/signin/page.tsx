@@ -9,6 +9,8 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { login } from "@/utils/utils";
 import Header from '@/components/Header/Header';
+import { useEffect, useState } from 'react';
+import { CustomError } from '@/components/CustomError/CustomError';
 
 export default function Signin() {
     const router = useRouter();
@@ -17,9 +19,28 @@ export default function Signin() {
         mode: "onChange",
     });
 
+    const [isError, setIsError] = useState(false);
+    const [errorData, setErrorData] = useState({errName: ""});
+
+    useEffect(() => {
+        if (isError) {
+            setTimeout(() => {
+                setIsError(false);
+            }, 3000);
+        }
+    }, [isError]);
+
     async function onSubmit(data: { signinEmail: string, signinPassword: string }) {
         const result = await login(data.signinEmail, data.signinPassword);
-        result.error ? alert(result.error) : router.push("/");
+        if (result.error) {
+            setIsError(true);
+            setErrorData({...errorData,
+                errName: result.error
+            });
+        }
+        else {
+            router.push("/");
+        }
     };
 
     return (
@@ -51,6 +72,9 @@ export default function Signin() {
                     error={errors.signinPassword?.message as any}
                 />
             </Form>
+            
+            {isError ? <CustomError errName={errorData["errName"]}/> : <></>}
+
         </section>
         </>
     )

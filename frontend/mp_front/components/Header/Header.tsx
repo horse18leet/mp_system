@@ -47,6 +47,8 @@ const navItems = [
   { label: "Финансы", href: "/finance" },
   { label: "Планирование", href: "/planning" },
   { label: "Прогнозирование", href: "/prediction" },
+  { label: "Swagger", href: "https://api.ucheter.ru/swagger-ui/index.html" },
+
 ];
 
 type Props = {

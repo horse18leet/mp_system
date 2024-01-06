@@ -16,7 +16,7 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@/components/ui/alert"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Signup() {
     const router = useRouter()
@@ -32,14 +32,23 @@ export default function Signup() {
         }
     });
     const [isError, setIsError] = useState(false);
-    const [errorData, setErrorData] = useState({errName: "test"});
+    const [errorData, setErrorData] = useState({errName: ""});
+
+    useEffect(() => {
+        if (isError) {
+            setTimeout(() => {
+                setIsError(false);
+            }, 3000);
+        }
+    }, [isError]);
 
     async function onSubmit(data: { firstName: string; lastName: string; email: string; phoneNumber: string; password: string; }) {  //функция сабмита
         const result = await registration(data.firstName, data.lastName, data.email, data.password);
         if (result.error) {
             setIsError(true);
             setErrorData({...errorData,
-                errName: result.error});
+                errName: result.error
+            });
         }
         else {
             router.push("/");
@@ -97,7 +106,6 @@ export default function Signup() {
                     error={errors.password?.message as any}
                 />
             </Form>
-            {/* <CustomError errName={errorData["errName"]}/> */}
 
             {isError ? <CustomError errName={errorData["errName"]}/> : <></>}
         </section>
