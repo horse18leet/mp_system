@@ -1,2 +1,4 @@
 /backend/local-api-module/target/
 .idea
+/backend/local-api-module/.idea
+/backend/local-api-module/.jpb
