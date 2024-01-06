@@ -5,7 +5,7 @@ import "./Header.css";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Barcode, LogOut, Settings, Truck, User2 } from "lucide-react";
+import { Barcode, LogOut, Settings, Truck, User2, BarChart3 } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -40,6 +40,20 @@ const productsManagementItems: {
     icon: <Truck className="mr-2 h-4 w-4" />,
     href: "/deliveries",
     desc: "Обеспечивайте бесперебойное снабжение вашего ассортимента, гарантируя, что товары всегда доступны для ваших клиентов.",
+  },
+];
+
+const analyticsItems: {
+  label: string;
+  icon: React.ReactNode;
+  href: string;
+  desc: string;
+}[] = [
+  {
+    label: "Трекер позиций",
+    icon: <BarChart3 className="mr-2 h-4 w-4" />,
+    href: "/items",
+    desc: "some text, text again and more text",
   },
 ];
 
@@ -78,7 +92,7 @@ export default function Header({ loggedIn, setLoggedIn }: Props) {
           </Link>
           {loggedIn ? (
             <NavigationMenu>
-              <NavigationMenuList>
+              <NavigationMenuList className="flex-row">
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="bg-transparent transition-colors text-muted-foreground hover:text-foreground">
                     Товары и поставки
@@ -86,6 +100,25 @@ export default function Header({ loggedIn, setLoggedIn }: Props) {
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-2 p-3 md:w-[500px] md:grid-cols-1 lg:w-[520px] ">
                       {productsManagementItems.map((pm) => (
+                        <ListItem
+                          key={pm.label}
+                          title={pm.label}
+                          icon={pm.icon}
+                          link={pm.href}
+                        >
+                          {pm.desc}
+                        </ListItem>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="bg-transparent transition-colors text-muted-foreground hover:text-foreground">
+                    Аналитика
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[400px] gap-2 p-3 md:w-[500px] md:grid-cols-1 lg:w-[520px] ">
+                      {analyticsItems.map((pm) => (
                         <ListItem
                           key={pm.label}
                           title={pm.label}
