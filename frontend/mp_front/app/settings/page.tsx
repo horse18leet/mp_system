@@ -11,7 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu";
-import { Moon, Palette, Sun, SunMoon } from "lucide-react";
+import { FunctionSquareIcon, Moon, Palette, Sun, SunMoon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -50,9 +50,24 @@ import { getApiKeys } from "@/utils/api/services/api-keys.service";
 import { AxiosError } from "axios";
 import { IApiKeyResponse } from "@/utils/models/api-key/api-key";
 import ApiKeyType from "@/utils/models/api-key/api-key.enum";
+import { getUserInfo } from "@/utils/utils";
 
 export default function Settings() {
   const { setTheme } = useTheme();
+  const [userInfo, setUserInfo] = useState({
+    firstName: "", 
+    lastName: "",
+    email: "",
+  });
+
+  useEffect(() => {
+    const result = getUserInfo();
+    console.log(result);
+    // setUserInfo({...userInfo, 
+    // firstName: result.firstName,})
+  }, [userInfo]);
+
+  
 
   const form = useForm<TAccountChangeSchema>({
     resolver: joiResolver(schema),
