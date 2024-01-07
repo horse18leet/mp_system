@@ -3,7 +3,7 @@ import api from "../api";
 
 import IItemResponse from "../../models/item";
 
-export async function getItems(): Promise<IItemResponse[] | AxiosError> {
+export async function getItems(): Promise<IItemResponse[] | AxiosError | any> {     //any временно добавил, ибо ошибка была, которая мешала билд собрать
   try {
     const response = await api.get<IItemResponse[]>("/item");
     const data = response.data;

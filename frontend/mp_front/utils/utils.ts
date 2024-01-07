@@ -69,3 +69,22 @@ export async function deleteItem(itemId: string) {
         return { res: response };
     }
 }
+
+export async function editUserInfo(firstName: string, lastName: string, email: string, password: string) {   //измененние информации пользователя
+    const response = await mainApi.editUserInfo(firstName, lastName, email, password);
+    if (response.message) {
+        return { success: false, error: response.message };
+    } else {
+        return { success: true, user: response };
+    }
+}
+
+export async function getUserInfo() {                //получение инфы о пользователе
+    const response = await mainApi.getUserInfo();
+    if (!response.ok) {
+        return { error: response };
+
+    } else {
+        return { categories: response };
+    }
+}

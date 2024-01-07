@@ -36,8 +36,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 export default function Items() {
-  const [items, setItems] = useState<IItemResponse[]>([]);
-
+  const [items, setItems] = useState<IItemResponse[]>([]);      //староста, тут ошибка, я пока по-другому сделаю 
   useEffect(() => {
     getAllItems();
   }, []);

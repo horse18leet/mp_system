@@ -6,7 +6,7 @@ class MainApi {
         this._baseUrl = options.baseUrl;
     }
 
-    createItem(name: string, price: string, category: string, link?: string) {
+    createItem(name: string, price: string, category: string, link?: string) {  //создание товара
         return fetch(`${this._baseUrl}/item/create`, {
             credentials: "include",
             method: 'POST',
@@ -25,12 +25,11 @@ class MainApi {
         .then((res)=> {return res.json()})
     }
 
-    getCategories() {
+    getCategories() {                                   //получаем массив категорий товаров
         return fetch(`${this._baseUrl}/item/category`, {
             credentials: "include",
             method: 'POST',
             headers: {
-                // "Accept": "application/json",
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
             },
@@ -38,12 +37,11 @@ class MainApi {
         .then((res)=> {return res.json()})
     }
 
-    getItems(): Promise<IItemResponse[]> {
+    getItems(): Promise<IItemResponse[]> {              //получаем массив товаров
         return fetch(`${this._baseUrl}/item`, {
             credentials: "include",
             method: 'POST',
             headers: {
-                // "Accept": "application/json",
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
             },
@@ -59,12 +57,11 @@ class MainApi {
         });
     }
 
-    deleteItem(itemId: string) {
+    deleteItem(itemId: string) {                            //удаление товара
         return fetch(`${this._baseUrl}/item/drop`, {
             credentials: "include",
             method: "POST",
             headers: {
-                // "Accept": "application/json",
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
             },
@@ -73,6 +70,36 @@ class MainApi {
             })
         })
         .then((res)=> {return res});
+    }
+
+    getUserInfo() {                                 //получение инфы о пользователе
+        return fetch(`${this._baseUrl}/user`, {
+            credentials: "include",
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            },
+        })
+        .then((res)=> {return res});
+    }
+
+    editUserInfo(firstName: string, lastName: string, email: string, password: string) {    //изменение данных пользователя 
+        return fetch(`${this._baseUrl}/user/edit`, {
+            credentials: "include",
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            },
+            body: JSON.stringify({
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: password,
+            })
+        })
+        .then((res)=> {return res.json()})
     }
 
 }
