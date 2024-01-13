@@ -2,7 +2,10 @@
 import styles from './page.module.css';
 import ProtectedLayout from '@/components/ProtectedLayout/ProtectedLayout';
 import BarChart from '@/components/BarChart/BarChart';
-import { useState } from 'react';
+import BarChart2 from '@/components/BarChart2/BarChart2';
+import LinearChart from '@/components/LinearChart/LinearChart';
+import { useEffect, useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function Home() {
   
@@ -10,22 +13,49 @@ export default function Home() {
   
   const [orderTime, setOrderTime] = useState([]);
   const [orderQuantity, setOrderQuantity] = useState([]);
-
-  const chartData = [5, 5, 6, 3, 7, 8, 2, 2, 2, 3, 4];       //это значения по оси y
-  const chartLabels = ["Labeldwdwdw", "LDLDKFDKDK", "Label", "Label", "Label", "Label", "Label", "Label", "Label","Label"]; //это по оси x
+  const barChartData = [5, 5, 6, 3, 7, 8];  
+  const linearChartData1 = [1,2,3,4,5,4,1];
+  const linearChartData2 = [7,2,2,1,0,8,2];
 
   return (
     <ProtectedLayout>
       <section className={styles.main}>
         <h1 className="mt-[20px] mb-[30px] text-xl">Домашняя страница</h1>
-        <div className="w-full">
-          <div className="w-[500px] border-gray-800 border-2 rounded-lg">
+        <div className="w-full grid grid-cols-2 grid-rows-2 grid-flow-row gap-[16px]">
+          {/* <div className="w-[500px] border-gray-800 border-2 rounded-lg">
             <BarChart 
               data={chartData} 
               labels={chartLabels} 
               title="Мои товары" 
             />
+          </div> */}
+          <div className="">
+            <BarChart2 title="test" greenData={barChartData} redData={barChartData} />
           </div>
+          <div className="">
+            <LinearChart title="test" chartData1={linearChartData1} chartData2={linearChartData2} />
+          </div>
+          <div className="">
+            <Card className='w-[300px]'>
+              <CardHeader>
+                <CardTitle>Самая эффективная реклама</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>В vk.com/top_wb в 2023 году помогла вам заработать больше 20000 руб.</p>
+              </CardContent>
+            </Card>
+          </div>
+          <div className="">
+            <Card className='w-[300px]'>
+              <CardHeader>
+                <CardTitle>Самая эффективная реклама</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>В vk.com/top_wb в 2023 году помогла вам заработать больше 20000 руб.</p>
+              </CardContent>
+            </Card>
+          </div>
+          
         </div>
       </section>
     </ProtectedLayout>

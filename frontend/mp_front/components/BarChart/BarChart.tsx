@@ -1,3 +1,5 @@
+//это первая версия графика, никитос попросил новый сделать, пока не буду удалять
+
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js';
 import { BorderWidthIcon } from '@radix-ui/react-icons';
