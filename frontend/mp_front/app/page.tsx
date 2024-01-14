@@ -20,9 +20,9 @@ export default function Home() {
 
   return (
     <ProtectedLayout>
-      <section className={styles.main}>
+      <section className={`border-2 border-white ${styles.main}`}>
         <h1 className="mt-[20px] mb-[30px] text-xl">Домашняя страница</h1>
-        <div className="w-full grid grid-cols-2 grid-flow-row gap-[16px] justify-items-center mb-[50px]">
+        <div className="w-full border-2 border-white grid grid-cols-2 grid-flow-row gap-[16px] justify-items-center mb-[50px]">
           {/* <div className="w-[500px] border-gray-800 border-2 rounded-lg">
             <BarChart 
               data={chartData} 
@@ -30,7 +30,7 @@ export default function Home() {
               title="Мои товары" 
             />
           </div> */}
-          <div className="">
+          <div className="border-2 border-red-700">
             <BarChart2 title="test" greenData={barChartData} redData={barChartData} />
           </div>
           <div className="">

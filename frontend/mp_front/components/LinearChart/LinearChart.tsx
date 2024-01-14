@@ -106,8 +106,6 @@ const LinearChart: React.FC<LinearChartProps> = ({ title, chartData1, chartData2
         }
     }, []);
 
-    
-
     return (
         <div className="w-max bg-white rounded-lg shadow dark:bg-gray-800">
             <div className="flex justify-between p-4 md:p-6 pb-0 md:pb-0">
