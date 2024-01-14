@@ -5,7 +5,8 @@ import BarChart from '@/components/BarChart/BarChart';
 import BarChart2 from '@/components/BarChart2/BarChart2';
 import LinearChart from '@/components/LinearChart/LinearChart';
 import { useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 export default function Home() {
   
@@ -21,7 +22,7 @@ export default function Home() {
     <ProtectedLayout>
       <section className={styles.main}>
         <h1 className="mt-[20px] mb-[30px] text-xl">Домашняя страница</h1>
-        <div className="w-full grid grid-cols-2 grid-rows-2 grid-flow-row gap-[16px]">
+        <div className="w-full grid grid-cols-2 grid-flow-row gap-[16px] justify-items-center mb-[50px]">
           {/* <div className="w-[500px] border-gray-800 border-2 rounded-lg">
             <BarChart 
               data={chartData} 
@@ -41,8 +42,11 @@ export default function Home() {
                 <CardTitle>Самая эффективная реклама</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>В vk.com/top_wb в 2023 году помогла вам заработать больше 20000 руб.</p>
+                <p className="">В vk.com/top_wb в 2023 году помогла вам заработать больше 20000 руб.</p>
               </CardContent>
+              <CardFooter>
+                <Button className="h-min">К учету&#8594;</Button>
+              </CardFooter>
             </Card>
           </div>
           <div className="">
@@ -53,9 +57,11 @@ export default function Home() {
               <CardContent>
                 <p>В vk.com/top_wb в 2023 году помогла вам заработать больше 20000 руб.</p>
               </CardContent>
+              <CardFooter>
+                <Button className="h-min">К учету&#8594;</Button>
+              </CardFooter>
             </Card>
           </div>
-          
         </div>
       </section>
     </ProtectedLayout>

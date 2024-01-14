@@ -1,6 +1,7 @@
 //вторая версия BarChart
 import React, {useEffect, useRef} from 'react';
 import ApexCharts from 'apexcharts';
+import "./LinearChart.css";
 
 interface LinearChartProps {
   title: string;
@@ -31,7 +32,7 @@ const LinearChart: React.FC<LinearChartProps> = ({ title, chartData1, chartData2
                       enabled: false
                     },
                     height: 250,
-                    width: "100%",
+                    width: 500,
                     type: "area",
                     fontFamily: "Inter, sans-serif",
                     dropShadow: {
@@ -108,7 +109,7 @@ const LinearChart: React.FC<LinearChartProps> = ({ title, chartData1, chartData2
     
 
     return (
-        <div className="max-w-sm w-full bg-white rounded-lg shadow dark:bg-gray-800">
+        <div className="w-max bg-white rounded-lg shadow dark:bg-gray-800">
             <div className="flex justify-between p-4 md:p-6 pb-0 md:pb-0">
                 <div>
                     <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">$12,423</h5>
