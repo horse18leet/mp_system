@@ -33,23 +33,23 @@ public class ApiKeyServiceImpl implements ApiKeyService {
                 if (countApiKeys < 10) {
                     ApiKey tempApiKey = apiKeyRepository.findByKey(apiKey.getKey());
                     if (tempApiKey == null) {
-                        apiKey.setUser(user);
+                         apiKey.setUser(user);
                         apiKey.setType(apiKey.getType());
                         apiKey.setCreatedAt(LocalDateTime.now());
                         return apiKeyRepository.save(apiKey);
                     } else {
-                        throw new AppException("API key already exists", HttpStatus.BAD_REQUEST);
+                        throw new AppException("API-ключ уже используется", HttpStatus.BAD_REQUEST);
                     }
                 } else {
-                    throw new AppException("API keys is limit 10", HttpStatus.BAD_REQUEST);
+                    throw new AppException("Превышено кол-во API-ключей", HttpStatus.BAD_REQUEST);
                 }
             }
             else {
-                throw new AppException("The API key type is not supported in this service", HttpStatus.BAD_REQUEST);
+                throw new AppException("Данный API ключ не поддерживается", HttpStatus.BAD_REQUEST);
             }
         }
         else{
-            throw new AppException("API key is required", HttpStatus.BAD_REQUEST);
+            throw new AppException("Введите API-ключ", HttpStatus.BAD_REQUEST);
         }
     }
 

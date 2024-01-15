@@ -19,9 +19,7 @@ public class ScheduleGetOrders {
 
     @Scheduled(fixedRate = 5000)
     public void getOrdersByDay() {
-
         log.info("Время проверки заказов: {}", dateFormat.format(new Date()));
-
-
     }
+
 }

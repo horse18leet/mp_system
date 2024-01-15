@@ -14,7 +14,7 @@ services:
   local-api-module:
     image: 'local-api-module-spring-boot:latest'
     build:
-      context: backend/local-api-module/src/main/docker
+      context: backend/local-api-module
     container_name: localApiModule
     depends_on:
       - local-api-module-db
@@ -38,3 +38,11 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+
+  frontend:
+    image: 'nextjs-frontend:latest'
+    build:
+      context: frontend/mp_front
+    container_name: nextjs-frontend
+    ports:
+      - "3000:3000"

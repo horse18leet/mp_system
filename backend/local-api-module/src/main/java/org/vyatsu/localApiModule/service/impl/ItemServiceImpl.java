@@ -8,6 +8,7 @@ import org.vyatsu.localApiModule.dto.request.api.ItemReqDto;
 import org.vyatsu.localApiModule.dto.response.api.item.ItemDto;
 import org.vyatsu.localApiModule.entity.item.Item;
 import org.vyatsu.localApiModule.entity.user.User;
+import org.vyatsu.localApiModule.exception.AppException;
 import org.vyatsu.localApiModule.mapper.ItemMapper;
 import org.vyatsu.localApiModule.mapper.UserMapper;
 import org.vyatsu.localApiModule.repository.ItemRepository;
@@ -39,6 +40,7 @@ public class ItemServiceImpl implements ItemService {
             List<Item> userItems = itemRepository.findItemByUserAndIsDraft(user, isDraft);
             userItemsDto = itemMapper.toDtoList(userItems);
         }
+
         return userItemsDto;
     }
 

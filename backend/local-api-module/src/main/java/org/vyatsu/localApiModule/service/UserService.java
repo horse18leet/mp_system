@@ -22,7 +22,7 @@ public class UserService {
      */
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
     }
 
     /**
@@ -33,7 +33,7 @@ public class UserService {
      */
     public User saveUser(User user) {
         if(userRepository.findByEmail(user.getEmail()).isPresent()){
-            throw new AppException("Login already exists", HttpStatus.BAD_REQUEST);
+            throw new AppException("Логин уже существует", HttpStatus.BAD_REQUEST);
         }
         return userRepository.save(user);
     }
