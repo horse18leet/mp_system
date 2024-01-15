@@ -13,11 +13,21 @@
 .title {
   margin-bottom: 10px;
 }
+
 .table {
   width: 80%;
   border: none;
   margin-bottom: 50px;
   border-collapse: separate;  
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+  grid-gap: 16px;
+  /* grid-template-rows: repeat(2, minmax(400px, 1fr)); */
+  grid-auto-flow: row;
+  justify-items: center;
 }
 /*
 .description {
