@@ -1,5 +1,7 @@
+import Cookies from 'js-cookie';
 import * as auth from "@/utils/auth";
 import { mainApi } from "./MainApi";
+
 
 export async function registration(firstName: string, lastName: string, email: string, password: string) {   //регистрация
     const response = await auth.register(firstName, lastName, email, password);
@@ -19,7 +21,8 @@ export async function login(email: string, password: string) {              //в
         return { success: false, error: response.message };
 
     } else {
-        localStorage.setItem("token", response.access_token);       //добавляем токен в хранилище
+        //localStorage.setItem("token", response.access_token);       //добавляем токен в хранилище
+        Cookies.set("token", response.access_token);
         return { success: true, token: response.access_token };
     }
 }
