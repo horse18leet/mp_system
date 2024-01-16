@@ -1,7 +1,7 @@
-//вторая версия BarChart
+"use client";
+
 import React, {useEffect, useRef} from 'react';
 import ApexCharts from 'apexcharts';
-import "./LinearChart.css";
 
 interface LinearChartProps {
   title: string;

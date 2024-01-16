@@ -2,7 +2,6 @@
 import styles from './page.module.css';
 import ProtectedLayout from '@/components/ProtectedLayout/ProtectedLayout';
 import BarChart from '@/components/BarChart/BarChart';
-import BarChart2 from '@/components/BarChart2/BarChart2';
 import LinearChart from '@/components/LinearChart/LinearChart';
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -32,7 +31,7 @@ export default function Home() {
           </div> */}
           <div className=' flex gap-x-[40px] justify-center w-[100%] px-[40px] mb-[40px]'>
             <div className="">
-              <BarChart2 title="test" greenData={barChartData} redData={barChartData} />
+              <BarChart title="test" greenData={barChartData} redData={barChartData} />
             </div>
             <div className="w-[70%] max-w-[700px]">
               <LinearChart title="test" chartData1={linearChartData1} chartData2={linearChartData2} />
