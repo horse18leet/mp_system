@@ -22,8 +22,7 @@ export default function Home() {
   return (
     <ProtectedLayout>
       <section className={`${styles.main}`}>
-        <h1 className={`mt-[20px] mb-[30px] text-xl`}>Домашняя страница</h1>
-        <div className={`w-full mb-[50px] grid grid-cols-1 justify-items-center`}>
+        <div className={`w-full mb-[50px] grid grid-cols-1 justify-items-center mt-[40px]`}>
           {/* <div className="w-[500px] border-gray-800 border-2 rounded-lg">
             <BarChart 
               data={chartData} 
@@ -35,13 +34,13 @@ export default function Home() {
             <div className="">
               <BarChart2 title="test" greenData={barChartData} redData={barChartData} />
             </div>
-            <div className="w-[70%]">
+            <div className="w-[70%] max-w-[700px]">
               <LinearChart title="test" chartData1={linearChartData1} chartData2={linearChartData2} />
             </div>
           </div>
           <div className='flex gap-x-[40px] justify-center w-[100%] px-[40px]'>
             <div className="">
-              <Card className='w-[350px]'>
+              <Card className='max-w-[350px]'>
                 <CardHeader>
                   <CardTitle>Самая эффективная реклама</CardTitle>
                 </CardHeader>
@@ -54,7 +53,7 @@ export default function Home() {
               </Card>
             </div>
             <div className="">
-              <Card className='w-[350px]'>
+              <Card className='max-w-[350px]'>
                 <CardHeader>
                   <CardTitle>Самая эффективная реклама</CardTitle>
                 </CardHeader>
@@ -67,7 +66,7 @@ export default function Home() {
               </Card>
             </div>
             <div className="">
-              <Card className='w-[350px]'>
+              <Card className='max-w-[350px]'>
                 <CardHeader>
                   <CardTitle>Самая эффективная реклама</CardTitle>
                 </CardHeader>
