@@ -19,7 +19,6 @@ import java.util.Set;
 public class UserDto implements Serializable {
     Long id;
     String email;
-    String password;
     String firstName;
     String secondName;
     String phoneNum;
@@ -27,12 +26,5 @@ public class UserDto implements Serializable {
     LocalDateTime createdAt;
     Set<UserPreference> userPreferences;
     Set<UserSubscription> userSubscriptions;
-    Set<Message> userFromMessages;
-    Set<Message> userToMessages;
-    Set<ItemDto> items;
-    Set<PurchaseDto> purchases;
-    Set<ToDoTaskDto> toDoTasks;
-    Set<ApiKeyDto> apiKeys;
-    Set<TokenDto> tokens;
     RoleDto role;
 }
