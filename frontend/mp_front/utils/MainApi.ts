@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import IItemResponse from "./models/item";
 
 class MainApi {
@@ -13,7 +14,7 @@ class MainApi {
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                "Authorization": `Bearer ${Cookies.get("token")}`,
             },
             body: JSON.stringify({
                 title: name,
@@ -31,7 +32,7 @@ class MainApi {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                "Authorization": `Bearer ${Cookies.get("token")}`,
             },
         })
         .then((res)=> {return res.json()})
@@ -43,7 +44,7 @@ class MainApi {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                "Authorization": `Bearer ${Cookies.get("token")}`,
             },
         })
         .then((res) => {
@@ -63,7 +64,7 @@ class MainApi {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                "Authorization": `Bearer ${Cookies.get("token")}`,
             },
             body: JSON.stringify({
                 id: itemId,
@@ -78,10 +79,10 @@ class MainApi {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                "Authorization": `Bearer ${Cookies.get("token")}`,
             },
         })
-        .then((res)=> {return res});
+        .then((res)=> {return res.json()});
     }
 
     editUserInfo(firstName: string, lastName: string, email: string, password: string) {    //изменение данных пользователя 
@@ -90,7 +91,7 @@ class MainApi {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                "Authorization": `Bearer ${Cookies.get("token")}`,
             },
             body: JSON.stringify({
                 firstName: firstName,

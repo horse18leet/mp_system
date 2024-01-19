@@ -61,8 +61,8 @@ export default function Settings() {
   });
 
   useEffect(() => {
-    const result = getUserInfo();
-    console.log(result);
+    const result =  getUserInfo();
+    //console.log("result: ", result.res);
     // setUserInfo({...userInfo, 
     // firstName: result.firstName,})
   }, [userInfo]);

@@ -64,11 +64,21 @@ export async function getItemCategories() {                //получение 
 
 export async function deleteItem(itemId: string) {
     const response = await mainApi.deleteItem(String(itemId));
-
     if (response.status !== 200) {
         return { error: `Ошибка ${response.status}` };
 
     } else {
+        return { res: response };
+    }
+}
+
+export async function getUserInfo() {                //получение инфы о пользователе
+    const response = await mainApi.getUserInfo();
+    if (response.status !== 200) {
+        return { error: `Ошибка ${response.status}` };
+
+    } else {
+        console.log(response);
         return { res: response };
     }
 }
@@ -79,15 +89,5 @@ export async function editUserInfo(firstName: string, lastName: string, email: s
         return { success: false, error: response.message };
     } else {
         return { success: true, user: response };
-    }
-}
-
-export async function getUserInfo() {                //получение инфы о пользователе
-    const response = await mainApi.getUserInfo();
-    if (!response.ok) {
-        return { error: response };
-
-    } else {
-        return { categories: response };
     }
 }
