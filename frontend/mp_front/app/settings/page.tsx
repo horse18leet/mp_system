@@ -1,8 +1,10 @@
 "use client";
 
 import router from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
+import UserProvider from "@/components/UserProvider/UserProvider";
+import CurrentUserContext from "@/contexts/CurrentUserContext";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -52,6 +54,15 @@ import { IApiKeyResponse } from "@/utils/models/api-key/api-key";
 import ApiKeyType from "@/utils/models/api-key/api-key.enum";
 import { getUserInfo } from "@/utils/utils";
 
+type UserContextValue = {
+  user: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  } | null;
+  setUser: (user: { name: string; email: string } | null) => void;
+};
+
 export default function Settings() {
   const { setTheme } = useTheme();
   const [userInfo, setUserInfo] = useState({
@@ -60,22 +71,35 @@ export default function Settings() {
     email: "",
   });
 
+  /**
   useEffect(() => {
-    const result =  getUserInfo();
-    //console.log("result: ", result.res);
-    // setUserInfo({...userInfo, 
-    // firstName: result.firstName,})
-  }, [userInfo]);
+    async function getUserData() {
+      const result = await getUserInfo();
+      if (result.error) {
+        console.log(result.error);
+      } else {
+        setUserInfo({
+          ...userInfo,
+          firstName: result.firstName,
+          lastName: " ",
+          email: result.email
+        });
+      }
+    }
+    getUserData();
+  }, []);
 
-  
+  useEffect(() => {
+    console.log("userInfo1: ", userInfo);
+  }) */
 
   const form = useForm<TAccountChangeSchema>({
     resolver: joiResolver(schema),
     defaultValues: {
       // Когда Никита добавит, сюда будут выгружаться уже существующие значения
-      firstName: "",
-      lastName: "",
-      email: "",
+      firstName: userInfo.firstName,
+      lastName: " ",
+      email: userInfo.email,
     },
   });
 
@@ -84,6 +108,7 @@ export default function Settings() {
   }
 
   return (
+    <UserProvider>
     <ProtectedLayout>
       <SettingsLayout title="Аккаунт" description="">
         <Form {...form}>
@@ -168,5 +193,6 @@ export default function Settings() {
         </DropdownMenuContent>
       </DropdownMenu>
     </ProtectedLayout>
+    </UserProvider>
   );
 }

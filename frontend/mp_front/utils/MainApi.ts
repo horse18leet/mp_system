@@ -82,7 +82,8 @@ class MainApi {
                 "Authorization": `Bearer ${Cookies.get("token")}`,
             },
         })
-        .then((res)=> {return res.json()});
+        .then((res)=> {return res.json()})
+        .catch((err) => err);
     }
 
     editUserInfo(firstName: string, lastName: string, email: string, password: string) {    //изменение данных пользователя 

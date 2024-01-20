@@ -7,7 +7,6 @@ export async function registration(firstName: string, lastName: string, email: s
     const response = await auth.register(firstName, lastName, email, password);
     if (response.message) {
         return { success: false, error: response.message };
-
     } else {
         await login(email, password);
         return { success: true, user: response };
@@ -21,7 +20,6 @@ export async function login(email: string, password: string) {              //в
         return { success: false, error: response.message };
 
     } else {
-        //localStorage.setItem("token", response.access_token);       //добавляем токен в хранилище
         Cookies.set("token", response.access_token);
         return { success: true, token: response.access_token };
     }
@@ -74,12 +72,11 @@ export async function deleteItem(itemId: string) {
 
 export async function getUserInfo() {                //получение инфы о пользователе
     const response = await mainApi.getUserInfo();
-    if (response.status !== 200) {
-        return { error: `Ошибка ${response.status}` };
+    if (!response.email) {
+        return { error: response.message };
 
     } else {
-        console.log(response);
-        return { res: response };
+        return response;
     }
 }
 
