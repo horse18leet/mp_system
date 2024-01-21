@@ -4,32 +4,39 @@ class IndexedDB {
         private version: number,
         private db: any,     
     ) {}
+
+    private getStore(storeName: string, transactionType: string): IDBObjectStore {
+        const transaction = this.db.transaction(storeName, transactionType);
+        const store = transaction.objectStore(storeName);
+        return store;
+    }
   
     async init(): Promise<void> {
-        if (!('indexedDB' in window)) {
-            console.error('Браузер не поддерживает IndexedDB');
+        if (!("indexedDB" in window)) {
+            console.error("Браузер не поддерживает IndexedDB");
             return;
         }
   
         const request = window.indexedDB.open(this.name, this.version);
   
         request.onerror = () => {
-            console.error('Ошибка IndexedDB:', request.error);
+            console.error("Ошибка IndexedDB:", request.error);
         };
   
         request.onsuccess = () => {
             this.db = request.result;
-            console.log('IndexedDB запущена');
+            console.log("IndexedDB запущена");
         };
   
         request.onupgradeneeded = (event) => {
             const db = (event.target as IDBRequest).result;
         };
     }
+
+    
   
     async createRecord(storeName: string, record: any): Promise<void> {
-        const transaction = this.db.transaction(storeName, 'readwrite');
-        const store = transaction.objectStore(storeName);
+        const store = this.getStore(storeName, "readwrite");
         const addRequest = store.add(record);
   
         addRequest.onsuccess = () => {
@@ -38,44 +45,40 @@ class IndexedDB {
     }
   
     async readRecords(storeName: string, key: any): Promise<any> {
-        const transaction = this.db.transaction(storeName, 'readonly');
-        const store = transaction.objectStore(storeName);
+        const store = this.getStore(storeName, "readonly");
         const getRequest = store.get(key);
   
         getRequest.onsuccess = () => {
-            console.log('Запись:', getRequest.result);
+            console.log("Запись:", getRequest.result);
         };
     }
 
     asyncupdateRecord(storeName: string, key: any, newRecord: any): void {
-        const transaction = this.db.transaction(storeName, 'readwrite');
-        const store = transaction.objectStore(storeName);
+        const store = this.getStore(storeName, "readwrite");
         const updateRequest = store.put(newRecord, key);
       
         updateRequest.onsuccess = () => {
-            console.log('Запись успешно обновлена');
+            console.log("Запись успешно обновлена");
         };
     }
 
     deleteRecord(storeName: string, key: any): void {
-        const transaction = this.db.transaction(storeName, 'readwrite');
-        const store = transaction.objectStore(storeName);
+        const store = this.getStore(storeName, "readwrite");
         const deleteRequest = store.delete(key);
       
         deleteRequest.onsuccess = () => {
-            console.log('Запись успешно удалена');
+            console.log("Запись успешно удалена");
         };
     }
 
     createIndex(storeName: string, indexName: string, field: string): void {
-        const transaction = this.db.transaction(storeName, 'readwrite');
-        const store = transaction.objectStore(storeName);
+        const store = this.getStore(storeName, "readwrite");
         store.createIndex(indexName, field, { unique: false });
-      
-        transaction.oncomplete = () => {
-            console.log('Индекс успешно создан');
-        };
-      }
+        
+        // transaction.oncomplete = () => {
+        //     console.log("Индекс успешно создан");
+        // };
+    }
 }
 
 export default IndexedDB;
