@@ -3,8 +3,6 @@
 import router from "next/router";
 import { useContext, useEffect, useState } from "react";
 import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
-import UserProvider from "@/components/UserProvider/UserProvider";
-import CurrentUserContext from "@/contexts/CurrentUserContext";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -54,15 +52,6 @@ import { IApiKeyResponse } from "@/utils/models/api-key/api-key";
 import ApiKeyType from "@/utils/models/api-key/api-key.enum";
 import { getUserInfo } from "@/utils/utils";
 
-type UserContextValue = {
-  user: {
-    firstName: string;
-    lastName: string;
-    email: string;
-  } | null;
-  setUser: (user: { name: string; email: string } | null) => void;
-};
-
 export default function Settings() {
   const { setTheme } = useTheme();
   const [userInfo, setUserInfo] = useState({
@@ -108,7 +97,6 @@ export default function Settings() {
   }
 
   return (
-    <UserProvider>
     <ProtectedLayout>
       <SettingsLayout title="Аккаунт" description="">
         <Form {...form}>
@@ -193,6 +181,5 @@ export default function Settings() {
         </DropdownMenuContent>
       </DropdownMenu>
     </ProtectedLayout>
-    </UserProvider>
   );
 }

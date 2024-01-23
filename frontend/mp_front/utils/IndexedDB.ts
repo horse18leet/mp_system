@@ -2,7 +2,7 @@ class IndexedDB {
     constructor(
         private name: string, 
         private version: number,
-        private db: any,     
+        private db?: any,     
     ) {}
 
     private getStore(storeName: string, transactionType: string): IDBObjectStore {
@@ -24,16 +24,15 @@ class IndexedDB {
         };
   
         request.onsuccess = () => {
-            this.db = request.result;
+            const db = request.result;
             console.log("IndexedDB запущена");
         };
   
         request.onupgradeneeded = (event) => {
             const db = (event.target as IDBRequest).result;
+            console.log("IndexedDB обновлена");
         };
     }
-
-    
   
     async createRecord(storeName: string, record: any): Promise<void> {
         const store = this.getStore(storeName, "readwrite");
@@ -69,16 +68,22 @@ class IndexedDB {
         deleteRequest.onsuccess = () => {
             console.log("Запись успешно удалена");
         };
+
+        deleteRequest.onerror = () => {
+            console.error("Ошибка при удалении записи:", deleteRequest.error);
+        };
     }
 
     createIndex(storeName: string, indexName: string, field: string): void {
         const store = this.getStore(storeName, "readwrite");
         store.createIndex(indexName, field, { unique: false });
         
-        // transaction.oncomplete = () => {
-        //     console.log("Индекс успешно создан");
-        // };
+        store.transaction.oncomplete = () => {
+            console.log("Индекс успешно создан");
+        };
     }
 }
 
-export default IndexedDB;
+const indexedDB = new IndexedDB('mpDatabase', 1);
+
+export default indexedDB;

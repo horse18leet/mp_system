@@ -10,13 +10,8 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { registration } from '@/utils/utils';
 import Header from '@/components/Header/Header';
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons"
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from "@/components/ui/alert"
 import { useEffect, useState } from 'react';
+import indexedDB from '@/utils/IndexedDB';
 
 export default function Signup() {
     const router = useRouter()
@@ -44,6 +39,25 @@ export default function Signup() {
 
     async function onSubmit(data: { firstName: string; lastName: string; email: string; phoneNumber: string; password: string; }) {  //функция сабмита
         const result = await registration(data.firstName, data.lastName, data.email, data.password);
+        /*registration(data.firstName, data.lastName, data.email, data.password)
+        .then((res) => {
+            console.log("res: ", res);
+            indexedDB.init();
+            indexedDB.createRecord('user', {
+                firstName: data.firstName,
+                lastName: data.lastName,
+                email: data.email,
+            });
+            router.push("/");
+        })
+        .catch((err) => {
+            console.log("err: ", err);
+            setIsError(true);
+            setErrorData({...errorData,
+                errName: err,
+            });
+        });*/
+        
         if (result.error) {
             setIsError(true);
             setErrorData({...errorData,
@@ -51,6 +65,12 @@ export default function Signup() {
             });
         }
         else {
+            await indexedDB.init();
+            await indexedDB.createRecord('user', {
+                firstName: data.firstName,
+                lastName: data.lastName,
+                email: data.email,
+            });
             router.push("/");
         }
         //result.error ? setIsError(true) : router.push("/");

@@ -1,7 +1,9 @@
 "use client";
 
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
+import Cookies from "js-cookie";
 import ApexCharts from 'apexcharts';
+import { chartListOptions } from '@/constants/chartConstants';
 
 interface LinearChartProps {
   title: string;
@@ -11,6 +13,9 @@ interface LinearChartProps {
 
 const LinearChart: React.FC<LinearChartProps> = ({ title, chartData1, chartData2 }) => {
     const linearChartRef = useRef<HTMLDivElement>(null);
+    const [selectedOption, setSelectedOption] = useState(Cookies.get("linearChartOption") || "Last 6 months");
+    const [isListOpen, setIsListOpen] = useState(false);
+    
     useEffect(() => {
         if (linearChartRef.current && typeof ApexCharts !== 'undefined') {
             linearChartRef.current.innerHTML = ''; 
@@ -106,6 +111,15 @@ const LinearChart: React.FC<LinearChartProps> = ({ title, chartData1, chartData2
         }
     }, []);
 
+    const handleListClick = () => {
+        isListOpen ? setIsListOpen(false) : setIsListOpen(true);
+    };
+    const handleOptionCLick = (evt: any) => {
+        setSelectedOption(evt.target.textContent);
+        Cookies.set("linearChartOption", evt.target.textContent, { expires: 2 }); //добавление выбранной опции в localStorage, чтобы при перезагрузке страницы, опция сохранялась
+        setIsListOpen(false);
+    };
+
     return (
         <div className="w-full bg-white rounded-lg shadow dark:bg-gray-800">
             <div className="flex justify-between p-4 md:p-6 pb-0 md:pb-0">
@@ -123,31 +137,32 @@ const LinearChart: React.FC<LinearChartProps> = ({ title, chartData1, chartData2
 
             <div ref={linearChartRef} id="labels-chart" className="px-2.5"></div>
 
-            <div className="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between mt-5 p-4 md:p-6 pt-0 md:pt-0">
+            <div className="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between mt-5 p-4 md:p-6 pt-0 md:pt-0 relative">
                 <div className="flex justify-between items-center pt-5">
                     <button
                         id="dropdownDefaultButton"
-                        data-dropdown-toggle="lastDaysdropdown"
-                        data-dropdown-placement="bottom"
                         className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
-                        type="button">
+                        type="button"
+                        onClick={handleListClick}>
+                        {selectedOption}
                         <svg className="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                         </svg>
                     </button>
-                    <div id="lastDaysdropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                        <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                            <li>
-                                <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Yesterday</a>
-                            </li>
-                            <li>
-                                <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Today</a>
-                            </li>
-                            <li>
-                                <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 7 days</a>
-                            </li>
-                        </ul>
-                    </div>
+                    {isListOpen ? 
+                            <div id="lastDaysdropdownLinear" className="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute left-[-10px] bottom-[50px]">
+                                <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                                    {chartListOptions.map((option) => {
+                                        return (
+                                            <li key={option} onClick={handleOptionCLick}>
+                                                <p className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-default">{option}</p>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </div>
+                        : <></>
+                    }
                     <a href="#" className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
                         Sales Report
                         <svg className="w-2.5 h-2.5 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">

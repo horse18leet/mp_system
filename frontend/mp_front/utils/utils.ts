@@ -8,6 +8,7 @@ export async function registration(firstName: string, lastName: string, email: s
     if (response.message) {
         return { success: false, error: response.message };
     } else {
+        
         await login(email, password);
         return { success: true, user: response };
     }
@@ -15,7 +16,6 @@ export async function registration(firstName: string, lastName: string, email: s
 
 export async function login(email: string, password: string) {              //вход
     const response = await auth.authorize(email, password);
-    console.log("response: ", response);
     if (response.message) {
         return { success: false, error: response.message };
 
