@@ -6,6 +6,7 @@ import LinearChart from '@/components/LinearChart/LinearChart';
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { barChartTitle, linearChartTitle, barChartSeriesNames } from '@/constants/chartConstants';
 
 export default function Home() {
   
@@ -31,10 +32,10 @@ export default function Home() {
           </div> */}
           <div className=' flex gap-x-[40px] justify-center w-[100%] px-[40px] mb-[40px]'>
             <div className="">
-              <BarChart title="test" greenData={barChartData} redData={barChartData} />
+              <BarChart title={barChartTitle} greenData={barChartData} redData={barChartData} seriesNames={barChartSeriesNames} />
             </div>
             <div className="w-[70%] max-w-[700px]">
-              <LinearChart title="test" chartData1={linearChartData1} chartData2={linearChartData2} />
+              <LinearChart title={linearChartTitle} chartData1={linearChartData1} chartData2={linearChartData2} />
             </div>
           </div>
           <div className='flex gap-x-[40px] justify-center w-[100%] px-[40px]'>

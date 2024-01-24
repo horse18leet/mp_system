@@ -76,7 +76,7 @@ const LinearChart: React.FC<LinearChartProps> = ({ title, chartData1, chartData2
                 },
                 xaxis: {
                     show: true,
-                    categories: ['01 Feb', '02 Feb', '03 Feb', '04 Feb', '05 Feb', '06 Feb', '07 Feb'],
+                    categories: ['01 Фев', '02 Фев', '03 Фев', '04 Фев', '05 Фев', '06 Фев', '07 Фев'],
                     labels: {
                         show: true,
                         style: {
@@ -125,7 +125,7 @@ const LinearChart: React.FC<LinearChartProps> = ({ title, chartData1, chartData2
             <div className="flex justify-between p-4 md:p-6 pb-0 md:pb-0">
                 <div>
                     <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">$12,423</h5>
-                    <p className="text-base font-normal text-gray-500 dark:text-gray-400">Sales this week</p>
+                    <p className="text-base font-normal text-gray-500 dark:text-gray-400">{title}</p>
                 </div>
                 <div className="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
                     23%
@@ -163,12 +163,6 @@ const LinearChart: React.FC<LinearChartProps> = ({ title, chartData1, chartData2
                             </div>
                         : <></>
                     }
-                    <a href="#" className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
-                        Sales Report
-                        <svg className="w-2.5 h-2.5 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                        </svg>
-                    </a>
                 </div>
             </div>
         </div>

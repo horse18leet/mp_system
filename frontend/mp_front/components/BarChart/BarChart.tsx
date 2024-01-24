@@ -4,13 +4,19 @@ import React, {useEffect, useRef, useState} from 'react';
 import Cookies from "js-cookie";
 import ApexCharts from 'apexcharts';
 import { chartListOptions } from '@/constants/chartConstants';
+
+interface seriesNamesProps {
+    positiveName: string;
+    negativeName: string;
+}
 interface BarChartProps {
   title: string;
   greenData: Array<number>; 
   redData: Array<number>;
+  seriesNames: seriesNamesProps;
 }
 
-const BarChart: React.FC<BarChartProps> = ({title, greenData, redData}) => {
+const BarChart: React.FC<BarChartProps> = ({title, greenData, redData, seriesNames}) => {
     const barChartRef = useRef<HTMLDivElement>(null);
     const [selectedOption, setSelectedOption] = useState(Cookies.get("barChartOption") || "Last 6 months");
     const [isListOpen, setIsListOpen] = useState(false);
@@ -21,12 +27,12 @@ const BarChart: React.FC<BarChartProps> = ({title, greenData, redData}) => {
             const options = {
                 series: [
                     {
-                        name: "Income",
+                        name: seriesNames["positiveName"],
                         color: "#31C48D",
                         data: greenData,
                     },
                     {
-                        name: "Expense",
+                        name: seriesNames["negativeName"],
                         color: "#F05252",
                         data: redData,
                     }
@@ -67,11 +73,7 @@ const BarChart: React.FC<BarChartProps> = ({title, greenData, redData}) => {
                     enabled: false,
                 },
                 tooltip: {
-                    shared: true,
-                    intersect: false,
-                    formatter: function (value: any) {
-                        return "$" + value
-                    }
+                    enabled: false,
                 },
                 xaxis: {
                     labels: {
@@ -84,7 +86,7 @@ const BarChart: React.FC<BarChartProps> = ({title, greenData, redData}) => {
                             return "$" + value
                         }
                     },
-                    categories: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    categories: ["Июль", "Авг", "Сент", "Окт", "Нояб", "Дек"],
                     axisTicks: {
                         show: false,
                     },
@@ -132,7 +134,7 @@ const BarChart: React.FC<BarChartProps> = ({title, greenData, redData}) => {
         <div className="w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 relative">
             <div className="flex justify-between border-gray-200 border-b dark:border-gray-700 pb-3">
                 <dl>
-                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Profit</dt>
+                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">{title}</dt>
                     <dd className="leading-none text-3xl font-bold text-gray-900 dark:text-white">$5,405</dd>
                 </dl>
                 <div>
@@ -140,18 +142,18 @@ const BarChart: React.FC<BarChartProps> = ({title, greenData, redData}) => {
                         <svg className="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
                         </svg>
-                        Profit rate 23.5%
+                        Уровень прибыли 23.5%
                     </span>
                 </div>
             </div>
 
             <div className="grid grid-cols-2 py-3">
                 <dl>
-                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Income</dt>
+                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Доходы</dt>
                     <dd className="leading-none text-xl font-bold text-green-500 dark:text-green-400">$23,635</dd>
                 </dl>
                 <dl>
-                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Expense</dt>
+                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Расходы</dt>
                     <dd className="leading-none text-xl font-bold text-red-600 dark:text-red-500">-$18,230</dd>
                 </dl>
             </div>
@@ -183,17 +185,9 @@ const BarChart: React.FC<BarChartProps> = ({title, greenData, redData}) => {
                             </div>
                         : <></>
                         }
-                        <a 
-                            href="#"
-                            className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
-                            Revenue Report
-                            <svg className="w-2.5 h-2.5 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                            </svg>
-                        </a>
                     </div>
-            </div>
-    </div>
+                </div>
+        </div>
     );
 }
 
