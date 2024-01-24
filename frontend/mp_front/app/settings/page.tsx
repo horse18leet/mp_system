@@ -51,6 +51,7 @@ import { AxiosError } from "axios";
 import { IApiKeyResponse } from "@/utils/models/api-key/api-key";
 import ApiKeyType from "@/utils/models/api-key/api-key.enum";
 import { getUserInfo } from "@/utils/utils";
+import indexedDB from "@/utils/IndexedDB";
 
 export default function Settings() {
   const { setTheme } = useTheme();
@@ -58,6 +59,11 @@ export default function Settings() {
     firstName: "", 
     lastName: "",
     email: "",
+  });
+
+  useEffect(() => {
+    indexedDB.init();
+    console.log(indexedDB.readRecords("user", "firstName"))
   });
 
   /**
