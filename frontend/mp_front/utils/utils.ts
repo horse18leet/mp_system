@@ -29,7 +29,7 @@ export async function login(firstName: string, lastName: string, email: string, 
             console.log("Таблица создана");
             saveDataToTable("mpDatabase", "user", userData);
         })
-        .catch((err) => console.error(err));
+        .catch((err) => console.error(err));6
         Cookies.set("token", response.access_token);
         return { success: true, token: response.access_token };
     }
