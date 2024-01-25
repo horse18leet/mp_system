@@ -1,11 +1,14 @@
 class IndexedDB {
-    constructor(
-        private name: string, 
-        private version: number,
-        private db?: any,     
-    ) {}
+    private name: string;
+    private version: number;
+    private db: any;
+    constructor(name: string, version: number, db?: any) {
+        this.name = name;
+        this.version = version;
+        this.db = db;
+    }
 
-    private getStore(storeName: string, transactionType: string): IDBObjectStore {
+    private getStore(storeName: string, transactionType: string): any {
         const transaction = this.db.transaction(storeName, transactionType);
         const store = transaction.objectStore(storeName);
         return store;
@@ -18,7 +21,7 @@ class IndexedDB {
         }
   
         const request = window.indexedDB.open(this.name, this.version);
-  
+        
         request.onerror = () => {
             console.error("Ошибка IndexedDB:", request.error);
         };
@@ -32,6 +35,7 @@ class IndexedDB {
             const db = (event.target as IDBRequest).result;
             console.log("IndexedDB обновлена");
         };
+
     }
   
     async createRecord(storeName: string, record: any): Promise<void> {
@@ -84,6 +88,13 @@ class IndexedDB {
     }
 }
 
-const indexedDB = new IndexedDB('mpDatabase', 1);
+async function openDatabase() {
+    const db = window.indexedDB.open("mpDatabase", 1);
+    return db;
+}
+
+const db = openDatabase();
+console.log("db: ", db);
+const indexedDB = new IndexedDB('mpDatabase', 1, openDatabase);
 
 export default indexedDB;

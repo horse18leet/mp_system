@@ -6,18 +6,18 @@ import Header from "../Header/Header";
 
 export default function ProtectedLayout({ children }: {children: React.ReactNode}) {
     //const token = Cookies.get("token");
-    const [loggedIn, setLoggedIn] = useState(true)
+    const [loggedIn, setLoggedIn] = useState(false)
     const router = useRouter();
     
-    /*useEffect(() => {
+    useEffect(() => {
         const token = Cookies.get("token");
         if (token) {
             setLoggedIn(true);
         }
         else {
-             router.push("/signin");
+            router.push("/signin");
         }
-    }, [loggedIn]);*/
+    }, [loggedIn]);
 
     return (
         <>

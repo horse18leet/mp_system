@@ -23,13 +23,6 @@ export default function Home() {
     <ProtectedLayout>
       <section className={`${styles.main}`}>
         <div className={`w-full mb-[50px] grid grid-cols-1 justify-items-center mt-[40px]`}>
-          {/* <div className="w-[500px] border-gray-800 border-2 rounded-lg">
-            <BarChart 
-              data={chartData} 
-              labels={chartLabels} 
-              title="Мои товары" 
-            />
-          </div> */}
           <div className=' flex gap-x-[40px] justify-center w-[100%] px-[40px] mb-[40px]'>
             <div className="">
               <BarChart title={barChartTitle} greenData={barChartData} redData={barChartData} seriesNames={barChartSeriesNames} />

@@ -46,9 +46,15 @@ const LinearChart: React.FC<LinearChartProps> = ({ title, chartData1, chartData2
                     toolbar: {
                       show: false,
                     },
+                    zoom: {
+                        enabled: false,
+                    },
+                    scroll: {
+                        enabled: false,
+                    },
                 },
                 tooltip: {
-                    enabled: true,
+                    enabled: false,
                     x: {
                       show: false,
                     },

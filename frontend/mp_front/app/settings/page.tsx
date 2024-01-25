@@ -61,10 +61,10 @@ export default function Settings() {
     email: "",
   });
 
-  useEffect(() => {
-    indexedDB.init();
-    console.log(indexedDB.readRecords("user", "firstName"))
-  });
+  // useEffect(() => {
+  //   indexedDB.init();
+  //   console.log(indexedDB.readRecords("user", "firstName"))
+  // });
 
   /**
   useEffect(() => {

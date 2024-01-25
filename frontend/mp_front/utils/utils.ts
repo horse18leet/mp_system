@@ -1,26 +1,38 @@
 import Cookies from 'js-cookie';
 import * as auth from "@/utils/auth";
 import { mainApi } from "./MainApi";
+import indexedDB from '@/utils/IndexedDB';
 
+async function openDatabase() {
+    const db = window.indexedDB.open("mpDatabase", 1);
+    return db;
+}
+const db = openDatabase();
 
 export async function registration(firstName: string, lastName: string, email: string, password: string) {   //регистрация
     const response = await auth.register(firstName, lastName, email, password);
     if (response.message) {
         return { success: false, error: response.message };
     } else {
-        
-        await login(email, password);
+        await login(firstName, lastName, email, password);
         return { success: true, user: response };
     }
 }
 
-export async function login(email: string, password: string) {              //вход
+export async function login(firstName: string, lastName: string, email: string, password: string) {              //вход
+    console.log("db: ", db);
     const response = await auth.authorize(email, password);
     if (response.message) {
         return { success: false, error: response.message };
 
     } else {
         Cookies.set("token", response.access_token);
+        await indexedDB.init();
+        await indexedDB.createRecord('user', {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+        });
         return { success: true, token: response.access_token };
     }
 }
