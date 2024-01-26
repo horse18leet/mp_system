@@ -27,7 +27,7 @@ export async function login(firstName: string, lastName: string, email: string, 
         console.log("userData: ", userData)
         createTable("mpDatabase", 2, "users", ["firstName", "lastName", "email"])
         .then(() => {
-            saveDataToTable("mpDatabase", "users", userData, email)
+            saveDataToTable("mpDatabase", "users", userData, response.access_token)
             .catch((err) => console.error(`Произошла ошибка ${err}`));
         })
         .catch((err) => console.error(`Произошла ошибка ${err}`));
