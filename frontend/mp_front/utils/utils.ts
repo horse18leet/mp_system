@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import * as auth from "@/utils/auth";
 import { mainApi } from "./MainApi";
-import { createTable, saveDataToTable } from './indexedDB';
+import { createTable, saveDataToTable } from "./indexedDB";
 
 export async function registration(firstName: string, lastName: string, email: string, password: string) {   //регистрация
     const response = await auth.register(firstName, lastName, email, password);
@@ -23,13 +23,15 @@ export async function login(firstName: string, lastName: string, email: string, 
             firstName: firstName,
             lastName: lastName,
             email: email,
-        }
-        createTable("mpDatabase", 3, "user", ["firstName", "lastName", "email"])
+        }   
+        console.log("userData: ", userData)
+        createTable("mpDatabase", 2, "users", ["firstName", "lastName", "email"])
         .then(() => {
-            console.log("Таблица создана");
-            saveDataToTable("mpDatabase", "user", userData);
+            saveDataToTable("mpDatabase", "users", userData, email)
+            .catch((err) => console.error(`Произошла ошибка ${err}`));
         })
-        .catch((err) => console.error(err));6
+        .catch((err) => console.error(`Произошла ошибка ${err}`));
+
         Cookies.set("token", response.access_token);
         return { success: true, token: response.access_token };
     }
@@ -84,7 +86,6 @@ export async function getUserInfo() {                //получение инф
     const response = await mainApi.getUserInfo();
     if (!response.email) {
         return { error: response.message };
-
     } else {
         return response;
     }

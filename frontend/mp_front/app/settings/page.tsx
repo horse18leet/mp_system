@@ -52,20 +52,27 @@ import { IApiKeyResponse } from "@/utils/models/api-key/api-key";
 import ApiKeyType from "@/utils/models/api-key/api-key.enum";
 import { getUserInfo } from "@/utils/utils";
 
-export default function Settings() {
+export default function Settings(userData: any) {
   const { setTheme } = useTheme();
+
   const [userInfo, setUserInfo] = useState({
     firstName: "", 
     lastName: "",
     email: "",
   });
+  /*
+  useEffect(() => {
+    async function fetchUserData() {
+      const userData = await getDataFromDB("mpDatabase", "users", "testik228@test.ru");
+      
+      setUserInfo({...userInfo, firstName: userData.user.firstName});
+    }
 
-  // useEffect(() => {
-  //   indexedDB.init();
-  //   console.log(indexedDB.readRecords("user", "firstName"))
-  // });
+    fetchUserData();
+    console.log(userInfo);
+  }, [userInfo])*/
 
-  /**
+  
   useEffect(() => {
     async function getUserData() {
       const result = await getUserInfo();
@@ -75,7 +82,7 @@ export default function Settings() {
         setUserInfo({
           ...userInfo,
           firstName: result.firstName,
-          lastName: " ",
+          lastName: result.secondName,
           email: result.email
         });
       }
@@ -83,17 +90,13 @@ export default function Settings() {
     getUserData();
   }, []);
 
-  useEffect(() => {
-    console.log("userInfo1: ", userInfo);
-  }) */
-
   const form = useForm<TAccountChangeSchema>({
     resolver: joiResolver(schema),
     defaultValues: {
       // Когда Никита добавит, сюда будут выгружаться уже существующие значения
-      firstName: userInfo.firstName,
-      lastName: " ",
-      email: userInfo.email,
+      firstName: "",
+      lastName: "",
+      email: "",
     },
   });
 
@@ -113,7 +116,7 @@ export default function Settings() {
                 <FormItem>
                   <FormLabel>Имя</FormLabel>
                   <FormControl>
-                    <Input readOnly {...field} />
+                    <Input readOnly {...field} placeholder={userInfo.firstName}/>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -126,7 +129,7 @@ export default function Settings() {
                 <FormItem>
                   <FormLabel>Фамилия</FormLabel>
                   <FormControl>
-                    <Input readOnly {...field} />
+                    <Input readOnly {...field}  placeholder={userInfo.lastName}/>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -140,8 +143,10 @@ export default function Settings() {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Введите адрес электронной почты..."
+                      type="email"
+                      //placeholder="Введите адрес электронной почты..."
                       {...field}
+                      placeholder={userInfo.email}
                     />
                   </FormControl>
                   <FormMessage />
