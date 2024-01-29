@@ -5,55 +5,16 @@
  */
 package org.openapitools.api;
 
-import org.openapitools.model.ContentV1BarcodesPost200Response;
-import org.openapitools.model.ContentV1BarcodesPostRequest;
-import org.openapitools.model.ContentV1CardsCursorListPost200Response;
-import org.openapitools.model.ContentV1CardsCursorListPostRequest;
-import org.openapitools.model.ContentV1CardsErrorListGet200Response;
-import org.openapitools.model.ContentV1CardsFilterPost200Response;
-import org.openapitools.model.ContentV1CardsFilterPostRequest;
-import org.openapitools.model.ContentV1CardsLimitsGet200Response;
-import org.openapitools.model.ContentV1CardsMoveNmPost400Response;
-import org.openapitools.model.ContentV1CardsMoveNmPostRequest;
-import org.openapitools.model.ContentV1CardsTrashListPost200Response;
-import org.openapitools.model.ContentV1CardsTrashListPostRequest;
-import org.openapitools.model.ContentV1CardsUpdatePost200Response;
-import org.openapitools.model.ContentV1CardsUpdatePostRequestInner;
-import org.openapitools.model.ContentV1CardsUploadAddPostRequest;
-import org.openapitools.model.ContentV1DirectoryColorsGet200Response;
-import org.openapitools.model.ContentV1DirectoryCountriesGet200Response;
-import org.openapitools.model.ContentV1DirectoryKindsGet200Response;
-import org.openapitools.model.ContentV1DirectorySeasonsGet200Response;
-import org.openapitools.model.ContentV1DirectoryTnvedGet200Response;
-import org.openapitools.model.ContentV1MediaSavePostRequest;
-import org.openapitools.model.ContentV1ObjectAllGet200Response;
-import org.openapitools.model.ContentV1ObjectCharacteristicsListFilterGet200Response;
-import org.openapitools.model.ContentV1ObjectCharacteristicsObjectNameGet200Response;
-import org.openapitools.model.ContentV1ObjectParentAllGet200Response;
-import org.openapitools.model.ContentV1TagIdDelete200Response;
-import org.openapitools.model.ContentV1TagIdDelete200Response1;
-import org.openapitools.model.ContentV1TagIdDelete400Response;
-import org.openapitools.model.ContentV1TagIdDelete400Response1;
-import org.openapitools.model.ContentV1TagIdDeleteRequest;
-import org.openapitools.model.ContentV1TagNomenclatureLinkPostRequest;
-import org.openapitools.model.ContentV1TagPost400Response;
-import org.openapitools.model.ContentV1TagPostRequest;
-import org.openapitools.model.ContentV1TagsGet200Response;
-import org.openapitools.model.CreatingCardInnerInner;
-import java.util.List;
-import org.openapitools.model.ResponseBodyContentError400;
-import org.openapitools.model.ResponseBodyContentError403;
-import org.openapitools.model.ResponseCardCreate;
-import org.openapitools.model.ResponseContentError4;
-import org.openapitools.model.ResponseContentError6;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import org.openapitools.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -62,12 +23,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.annotation.processing.Generated;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import javax.annotation.Generated;
+
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-11-14T20:34:42.239477400+03:00[Europe/Moscow]")
 @Validated

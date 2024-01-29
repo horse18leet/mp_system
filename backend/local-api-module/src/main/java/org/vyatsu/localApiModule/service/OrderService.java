@@ -1,8 +1,9 @@
 package org.vyatsu.localApiModule.service;
 
-import org.vyatsu.localApiModule.dto.response.api.item.OrderDto;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.ResponseEntity;
+import org.vyatsu.localApiModule.dto.request.api.OrderReqDto;
 import org.vyatsu.localApiModule.entity.item.Order;
-import org.vyatsu.localApiModule.repository.OrderRepository;
 
 import java.util.List;
 
@@ -10,4 +11,6 @@ public interface OrderService {
 
     List<Order> getOrdersByItemId(Long id);
     Order CreateOrder(Order order);
+
+    ResponseEntity<Object> getOrders(HttpServletRequest request, OrderReqDto dto);
 }

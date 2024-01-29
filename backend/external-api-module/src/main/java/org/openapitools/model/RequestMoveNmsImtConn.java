@@ -1,28 +1,20 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-import io.swagger.v3.oas.annotations.media.Schema;
-
-
-import java.util.*;
-import javax.annotation.Generated;
+import java.util.Objects;
 
 /**
  * RequestMoveNmsImtConn
  */
 
 @JsonTypeName("requestMoveNmsImtConn")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-11-14T20:34:42.239477400+03:00[Europe/Moscow]")
 public class RequestMoveNmsImtConn implements ContentV1CardsMoveNmPostRequest {
 
   @JsonProperty("targetIMT")
@@ -41,7 +33,7 @@ public class RequestMoveNmsImtConn implements ContentV1CardsMoveNmPostRequest {
    * Существующий у продавца `imtID`, под которым необходимо объединить НМ
    * @return targetIMT
   */
-  @NotNull 
+  @NotNull
   @Schema(name = "targetIMT", example = "123", description = "Существующий у продавца `imtID`, под которым необходимо объединить НМ", required = true)
   public Integer getTargetIMT() {
     return targetIMT;

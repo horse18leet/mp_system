@@ -2,7 +2,6 @@ package org.vyatsu.localApiModule.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.vyatsu.localApiModule.dto.response.api.item.ItemDto;
 import org.vyatsu.localApiModule.entity.item.Item;
 import org.vyatsu.localApiModule.entity.user.User;
 

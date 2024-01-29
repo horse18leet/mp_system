@@ -1,27 +1,18 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import org.openapitools.model.ContentV1CardsTrashListPost200ResponseData;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 
+import java.util.Objects;
 
-import java.util.*;
-import javax.annotation.Generated;
 
 /**
  * ContentV1CardsTrashListPost200Response
  */
 
 @JsonTypeName("_content_v1_cards_trash_list_post_200_response")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-11-14T20:34:42.239477400+03:00[Europe/Moscow]")
 public class ContentV1CardsTrashListPost200Response {
 
   @JsonProperty("data")
@@ -45,7 +36,7 @@ public class ContentV1CardsTrashListPost200Response {
    * Get data
    * @return data
   */
-  @Valid 
+  @Valid
   @Schema(name = "data", required = false)
   public ContentV1CardsTrashListPost200ResponseData getData() {
     return data;

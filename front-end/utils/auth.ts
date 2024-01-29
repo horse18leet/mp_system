@@ -1,4 +1,5 @@
 const DOMAIN_NAME = process.env.NEXT_PUBLIC_DOMAIN_NAME;
+
 export const register = (firstName?: string, secondName?: string, email?: string, password?: string) => {
     return fetch(`${DOMAIN_NAME}/auth/signup`, {
         credentials: "include",
@@ -21,7 +22,7 @@ export const register = (firstName?: string, secondName?: string, email?: string
 export const authorize = (email?: string, password?: string) => {
     return fetch(`${DOMAIN_NAME}/auth/signin`, {
         credentials: "include",
-        method: "POST",
+        method: 'POST',
         headers: {
           "Accept": "application/json",
           "Content-Type": "application/json",

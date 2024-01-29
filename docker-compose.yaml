@@ -1,48 +1,67 @@
 version: '2'
 
 services:
-  local-api-module-db:
-    image: 'postgres:14-alpine'
-    container_name: localApiModuleDb
-    environment:
-      - POSTGRES_USER=local-compose-postgres
-      - POSTGRES_PASSWORD=local-compose-postgres
-      - POSTGRES_DB=local-service-db
+  # local-api-module-db:
+  #   image: 'postgres:14-alpine'
+  #   container_name: localApiModuleDb
+  #   environment:
+  #     - POSTGRES_USER=local-compose-postgres
+  #     - POSTGRES_PASSWORD=local-compose-postgres
+  #     - POSTGRES_DB=local-service-db
+  #   ports:
+  #     - "5432:5432"
+
+  rabbitmq:
+    image: rabbitmq:3.9.11-management-alpine
+    container_name: rabbitmq
+    restart: unless-stopped
     ports:
-      - "5432:5432"
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=@8acJMQKc
 
   local-api-module:
     image: 'local-api-module-spring-boot:latest'
     build:
       context: backend/local-api-module
     container_name: localApiModule
-    depends_on:
-      - local-api-module-db
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://localApiModuleDb:5432/local-service-db
-      - SPRING_DATASOURCE_USERNAME=local-compose-postgres
-      - SPRING_DATASOURCE_PASSWORD=local-compose-postgres
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    restart: unless-stopped
     ports:
       - "8080:8080"
+
+  external-api-module:
+    image: 'external-api-module-spring-boot:latest'
+    build:
+      context: backend/external-api-module
+    container_name: externalApiModule
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
 
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
+    restart: unless-stopped
     ports:
       - "9411:9411"
-
-  rabbitmq:
-    image: rabbitmq:3.9.11-management-alpine
-    container_name: rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
 
   frontend:
     image: 'nextjs-frontend:latest'
     build:
       context: front-end
+    restart: unless-stopped
     container_name: nextjs-frontend
     ports:
       - "3000:3000"
+  
+  # nginx:
+  #   build: 
+  #     context: .
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+    
+
+    

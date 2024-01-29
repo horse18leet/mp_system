@@ -1,27 +1,17 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import org.openapitools.model.ContentV1TagsGet200ResponseData;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 
-
-import java.util.*;
-import javax.annotation.Generated;
+import java.util.Objects;
 
 /**
  * ContentV1TagsGet200Response
  */
 
 @JsonTypeName("_content_v1_tags_get_200_response")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-11-14T20:34:42.239477400+03:00[Europe/Moscow]")
 public class ContentV1TagsGet200Response {
 
   @JsonProperty("data")
@@ -45,7 +35,7 @@ public class ContentV1TagsGet200Response {
    * Get data
    * @return data
   */
-  @Valid 
+  @Valid
   @Schema(name = "data", required = false)
   public ContentV1TagsGet200ResponseData getData() {
     return data;

@@ -2,11 +2,11 @@
 import styles from './page.module.css';
 import ProtectedLayout from '@/components/ProtectedLayout/ProtectedLayout';
 import BarChart from '@/components/BarChart/BarChart';
-import BarChart2 from '@/components/BarChart2/BarChart2';
 import LinearChart from '@/components/LinearChart/LinearChart';
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { barChartTitle, linearChartTitle, barChartSeriesNames } from '@/constants/chartConstants';
 
 export default function Home() {
   
@@ -17,25 +17,17 @@ export default function Home() {
   const barChartData = [5, 5, 6, 3, 7, 8];  
   const linearChartData1 = [1,2,3,4,5,4,1];
   const linearChartData2 = [7,2,2,1,0,8,2];
-  const gridParams = "grid grid-cols-2 grid-flow-row gap-[16px] justify-items-center";
   
   return (
     <ProtectedLayout>
       <section className={`${styles.main}`}>
         <div className={`w-full mb-[50px] grid grid-cols-1 justify-items-center mt-[40px]`}>
-          {/* <div className="w-[500px] border-gray-800 border-2 rounded-lg">
-            <BarChart 
-              data={chartData} 
-              labels={chartLabels} 
-              title="Мои товары" 
-            />
-          </div> */}
           <div className=' flex gap-x-[40px] justify-center w-[100%] px-[40px] mb-[40px]'>
             <div className="">
-              <BarChart2 title="test" greenData={barChartData} redData={barChartData} />
+              <BarChart title={barChartTitle} greenData={barChartData} redData={barChartData} seriesNames={barChartSeriesNames} />
             </div>
             <div className="w-[70%] max-w-[700px]">
-              <LinearChart title="test" chartData1={linearChartData1} chartData2={linearChartData2} />
+              <LinearChart title={linearChartTitle} chartData1={linearChartData1} chartData2={linearChartData2} />
             </div>
           </div>
           <div className='flex gap-x-[40px] justify-center w-[100%] px-[40px]'>

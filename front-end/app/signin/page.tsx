@@ -31,7 +31,7 @@ export default function Signin() {
     }, [isError]);
 
     async function onSubmit(data: { signinEmail: string, signinPassword: string }) {
-        const result = await login(data.signinEmail, data.signinPassword);
+        const result = await login("", "", data.signinEmail, data.signinPassword);
         if (result.error) {
             setIsError(true);
             setErrorData({...errorData,

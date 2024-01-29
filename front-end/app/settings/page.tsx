@@ -1,7 +1,7 @@
 "use client";
 
 import router from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
 
 import { Button } from "@/components/ui/button";
@@ -52,22 +52,43 @@ import { IApiKeyResponse } from "@/utils/models/api-key/api-key";
 import ApiKeyType from "@/utils/models/api-key/api-key.enum";
 import { getUserInfo } from "@/utils/utils";
 
-export default function Settings() {
+export default function Settings(userData: any) {
   const { setTheme } = useTheme();
+
   const [userInfo, setUserInfo] = useState({
     firstName: "", 
     lastName: "",
     email: "",
   });
-
+  /*
   useEffect(() => {
-    const result = getUserInfo();
-    console.log(result);
-    // setUserInfo({...userInfo, 
-    // firstName: result.firstName,})
-  }, [userInfo]);
+    async function fetchUserData() {
+      const userData = await getDataFromDB("mpDatabase", "users", "testik228@test.ru");
+      
+      setUserInfo({...userInfo, firstName: userData.user.firstName});
+    }
+
+    fetchUserData();
+    console.log(userInfo);
+  }, [userInfo])*/
 
   
+  useEffect(() => {
+    async function getUserData() {
+      const result = await getUserInfo();
+      if (result.error) {
+        console.log(result.error);
+      } else {
+        setUserInfo({
+          ...userInfo,
+          firstName: result.firstName,
+          lastName: result.secondName,
+          email: result.email
+        });
+      }
+    }
+    getUserData();
+  }, []);
 
   const form = useForm<TAccountChangeSchema>({
     resolver: joiResolver(schema),
@@ -95,7 +116,7 @@ export default function Settings() {
                 <FormItem>
                   <FormLabel>Имя</FormLabel>
                   <FormControl>
-                    <Input readOnly {...field} />
+                    <Input readOnly {...field} placeholder={userInfo.firstName}/>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -108,7 +129,7 @@ export default function Settings() {
                 <FormItem>
                   <FormLabel>Фамилия</FormLabel>
                   <FormControl>
-                    <Input readOnly {...field} />
+                    <Input readOnly {...field}  placeholder={userInfo.lastName}/>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -122,8 +143,10 @@ export default function Settings() {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Введите адрес электронной почты..."
+                      type="email"
+                      //placeholder="Введите адрес электронной почты..."
                       {...field}
+                      placeholder={userInfo.email}
                     />
                   </FormControl>
                   <FormMessage />

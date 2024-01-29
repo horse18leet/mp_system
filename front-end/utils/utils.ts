@@ -1,27 +1,37 @@
 import Cookies from 'js-cookie';
 import * as auth from "@/utils/auth";
 import { mainApi } from "./MainApi";
-
+import { createTable, saveDataToTable } from "./IndexedDB";
 
 export async function registration(firstName: string, lastName: string, email: string, password: string) {   //регистрация
     const response = await auth.register(firstName, lastName, email, password);
     if (response.message) {
         return { success: false, error: response.message };
-
     } else {
-        await login(email, password);
+        await login(firstName, lastName, email, password);
         return { success: true, user: response };
     }
 }
 
-export async function login(email: string, password: string) {              //вход
+export async function login(firstName: string, lastName: string, email: string, password: string) {              //вход
     const response = await auth.authorize(email, password);
-    console.log("response: ", response);
     if (response.message) {
         return { success: false, error: response.message };
 
     } else {
-        //localStorage.setItem("token", response.access_token);       //добавляем токен в хранилище
+        const userData = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+        }   
+        console.log("userData: ", userData)
+        createTable("mpDatabase", 2, "users", ["firstName", "lastName", "email"])
+        .then(() => {
+            saveDataToTable("mpDatabase", "users", userData, response.access_token)
+            .catch((err) => console.error(`Произошла ошибка ${err}`));
+        })
+        .catch((err) => console.error(`Произошла ошибка ${err}`));
+
         Cookies.set("token", response.access_token);
         return { success: true, token: response.access_token };
     }
@@ -64,12 +74,20 @@ export async function getItemCategories() {                //получение 
 
 export async function deleteItem(itemId: string) {
     const response = await mainApi.deleteItem(String(itemId));
-
     if (response.status !== 200) {
         return { error: `Ошибка ${response.status}` };
 
     } else {
         return { res: response };
+    }
+}
+
+export async function getUserInfo() {                //получение инфы о пользователе
+    const response = await mainApi.getUserInfo();
+    if (!response.email) {
+        return { error: response.message };
+    } else {
+        return response;
     }
 }
 
@@ -79,15 +97,5 @@ export async function editUserInfo(firstName: string, lastName: string, email: s
         return { success: false, error: response.message };
     } else {
         return { success: true, user: response };
-    }
-}
-
-export async function getUserInfo() {                //получение инфы о пользователе
-    const response = await mainApi.getUserInfo();
-    if (!response.ok) {
-        return { error: response };
-
-    } else {
-        return { categories: response };
     }
 }

@@ -1,5 +1,6 @@
 package org.openapitools.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.openapitools.model.*;
 import org.openapitools.util.HelperUtil;
 import org.springframework.core.ParameterizedTypeReference;
@@ -8,12 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/content")

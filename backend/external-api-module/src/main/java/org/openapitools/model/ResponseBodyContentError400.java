@@ -1,29 +1,19 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.util.Arrays;
-import org.openapitools.jackson.nullable.JsonNullable;
-import org.openapitools.model.ResponseBodyContentError400AdditionalErrors;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
+import org.openapitools.jackson.nullable.JsonNullable;
 
-
-import java.util.*;
-import javax.annotation.Generated;
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * ResponseBodyContentError400
  */
 
 @JsonTypeName("responseBodyContentError400")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-11-14T20:34:42.239477400+03:00[Europe/Moscow]")
 public class ResponseBodyContentError400 implements ContentV1TagIdDelete400Response, ContentV1TagIdDelete400Response1, ContentV1TagPost400Response {
 
   @JsonProperty("data")
@@ -104,7 +94,7 @@ public class ResponseBodyContentError400 implements ContentV1TagIdDelete400Respo
    * Get additionalErrors
    * @return additionalErrors
   */
-  @Valid 
+  @Valid
   @Schema(name = "additionalErrors", required = false)
   public ResponseBodyContentError400AdditionalErrors getAdditionalErrors() {
     return additionalErrors;

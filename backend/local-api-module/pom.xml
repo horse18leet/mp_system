@@ -153,6 +153,14 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+
+
     </dependencies>
 
 <!--    <build>-->
