@@ -8,12 +8,16 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
 
-import IItemResponse from "@/utils/models/item";
+import IItemResponse from "@/utils/models/item/item-response";
 
 import { DataTableColumnHeader } from "../../components/Table/data-table-column-header";
 import { DataTableRowActions } from "../../components/Table/data-table-row-actions";
 import { DataTable } from "@/components/Table/data-table";
-import { deleteItem, getItems } from "@/utils/api/services/item.service";
+import {
+  createItem,
+  deleteItem,
+  getItems,
+} from "@/utils/api/services/item.service";
 import { AxiosError } from "axios";
 import {
   Dialog,
@@ -34,9 +38,40 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { IAddItem, addItemSchema } from "@/utils/schemas/item/add-item.schema";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function Items() {
-  const [items, setItems] = useState<IItemResponse[]>([]);      //староста, тут ошибка, я пока по-другому сделаю 
+  const [items, setItems] = useState<IItemResponse[]>([]); //староста, тут ошибка, я пока по-другому сделаю
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [popoverOpen, setPopoverOpen] = useState(false);
+
   useEffect(() => {
     getAllItems();
   }, []);
@@ -56,6 +91,18 @@ export default function Items() {
       return;
     } else {
       getAllItems(); // В противном случае обновляем UI.
+    }
+  }
+
+  async function addItem(data: IAddItem) {
+    const response = await createItem(data);
+
+    if (response instanceof AxiosError) {
+      console.log(response.message);
+      setDialogOpen(false);
+      return;
+    } else {
+      getAllItems().then(() => setDialogOpen(false));
     }
   }
 
@@ -170,11 +217,23 @@ export default function Items() {
     },
   ];
 
+  const addItemForm = useForm<IAddItem>({
+    resolver: joiResolver(addItemSchema),
+  });
+
+  // Заглушка пока нет получения категорий
+  const categories = [
+    { value: "Обувь" },
+    { value: "Верхняя одежда" },
+    { value: "Брюки" },
+    { value: "Электроника" },
+  ] as const;
+
   return (
     <ProtectedLayout>
       <div className="container pt-8 h-full">
         <div className="flex-col space-y-8 md:flex hidden">
-          <Dialog>
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold tracking-tight">
@@ -197,11 +256,134 @@ export default function Items() {
                   Заполните все обязательные поля, чтобы добавить новый товар
                 </DialogDescription>
               </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  
-                </div>
-              </div>
+              <Form {...addItemForm}>
+                <form
+                  className="flex flex-col gap-4"
+                  onSubmit={addItemForm.handleSubmit(addItem)}
+                >
+                  <FormField
+                    control={addItemForm.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Название</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Введите название..." {...field} />
+                        </FormControl>
+                        <FormDescription />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={addItemForm.control}
+                    name="category"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Категория</FormLabel>
+                        <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                className={cn(
+                                  "justify-between",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                {field.value
+                                  ? categories.find(
+                                      (category) =>
+                                        category.value === field.value
+                                    )?.value
+                                  : "Выберите категорию"}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-[var(--radix-popover-trigger-width)] max-h-[var(--radix-popover-content-available-height)] p-0">
+                            <Command>
+                              <CommandInput
+                                className="border-none"
+                                placeholder="Поиск категории..."
+                              />
+                              <CommandEmpty>Категория не найдена.</CommandEmpty>
+                              <CommandGroup>
+                                {categories.map((category) => (
+                                  <CommandItem
+                                    value={category.value}
+                                    key={category.value}
+                                    onSelect={() => {
+                                      addItemForm.setValue(
+                                        "category",
+                                        category.value
+                                      );
+                                      setPopoverOpen(false);
+                                    }}
+                                  >
+                                    <Check
+                                      className={cn(
+                                        "mr-2 h-4 w-4",
+                                        category.value === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                    {category.value}
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
+                      </FormItem>
+                    )}
+                  />
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                      control={addItemForm.control}
+                      name="primaryPrice"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Первичная цена</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={addItemForm.control}
+                      name="salesPrice"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Плановая цена</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <FormField
+                    control={addItemForm.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Описание</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Придумайте описание вашего товара..."
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit">Добавить</Button>
+                </form>
+              </Form>
             </DialogContent>
           </Dialog>
           <DataTable data={items} columns={columns} />

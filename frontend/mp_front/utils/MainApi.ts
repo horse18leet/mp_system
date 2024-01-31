@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import IItemResponse from "./models/item";
+import IItemResponse from "./models/item/item-response";
 
 class MainApi {
     private _baseUrl: any;

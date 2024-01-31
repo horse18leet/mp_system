@@ -1,7 +1,8 @@
 import { AxiosError, AxiosResponse } from "axios";
 import api from "../api";
 
-import IItemResponse from "../../models/item";
+import IItemResponse from "@/utils/models/item/item-response";
+import IItemRequest from "@/utils/models/item/item-request";
 
 export async function getItems(): Promise<IItemResponse[] | AxiosError | any> {     //any временно добавил, ибо ошибка была, которая мешала билд собрать
   try {
@@ -26,6 +27,20 @@ export async function deleteItem(id: number): Promise<AxiosResponse | AxiosError
     const response = await api.delete(`/item/drop/${id}`);
     
     return response;
+
+  } catch (e) {
+    const error = e as AxiosError;
+
+    return error;
+  }
+}
+
+export async function createItem(item: IItemRequest): Promise<AxiosResponse | AxiosError> {
+  try {
+    const response = await api.post(`/item/create`, item);
+    const data = response.data;
+
+    return data;
 
   } catch (e) {
     const error = e as AxiosError;
