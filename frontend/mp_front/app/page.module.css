@@ -29,6 +29,10 @@
   grid-auto-flow: row;
   justify-items: center;
 }
+
+input:focus {
+  outline: none;
+}
 /*
 .description {
   display: inherit;

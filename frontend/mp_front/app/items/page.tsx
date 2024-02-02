@@ -305,7 +305,7 @@ export default function Items() {
                           <PopoverContent className="w-[var(--radix-popover-trigger-width)] max-h-[var(--radix-popover-content-available-height)] p-0">
                             <Command>
                               <CommandInput
-                                className="border-none"
+                                className="border-none focus-visible:ring-ring focus-visible:ring-offset-2"
                                 placeholder="Поиск категории..."
                               />
                               <CommandEmpty>Категория не найдена.</CommandEmpty>
