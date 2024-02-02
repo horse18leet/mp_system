@@ -30,9 +30,6 @@
   justify-items: center;
 }
 
-input:focus {
-  outline: none;
-}
 /*
 .description {
   display: inherit;

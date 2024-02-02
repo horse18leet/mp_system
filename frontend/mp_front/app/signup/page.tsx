@@ -38,7 +38,6 @@ export default function Signup() {
 
     async function onSubmit(data: { firstName: string; lastName: string; email: string; phoneNumber: string; password: string; }) {  //функция сабмита
         const result = await registration(data.firstName, data.lastName, data.email, data.password);
-        
         if (result.error) {
             setIsError(true);
             setErrorData({...errorData,
@@ -48,7 +47,6 @@ export default function Signup() {
         else {
             router.push("/");
         }
-        //result.error ? setIsError(true) : router.push("/");
     }
 
     return (

@@ -1,39 +1,28 @@
 import Cookies from 'js-cookie';
-import * as auth from "@/utils/auth";
+//import * as auth from "@/utils/auth";
 import { mainApi } from "./MainApi";
-import { createTable, saveDataToTable } from "./indexedDB";
+//import { createTable, saveDataToTable } from "./indexedDB";
+import {register, authorize} from './api/auth/auth';
+import { AxiosError } from 'axios';
 
-export async function registration(firstName: string, lastName: string, email: string, password: string) {   //регистрация
-    const response = await auth.register(firstName, lastName, email, password);
-    if (response.message) {
-        return { success: false, error: response.message };
+export async function registration(firstName: string, secondName: string, email: string, password: string) {   //регистрация
+    const res = await register({firstName, secondName, email, password});
+    if (res instanceof AxiosError) {
+        return { error: res.response?.data.message };
     } else {
-        await login(firstName, lastName, email, password);
-        return { success: true, user: response };
+        await login(email, password);
+        return { user: res };
     }
 }
 
-export async function login(firstName: string, lastName: string, email: string, password: string) {              //вход
-    const response = await auth.authorize(email, password);
-    if (response.message) {
-        return { success: false, error: response.message };
-
-    } else {
-        const userData = {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-        }   
-        console.log("userData: ", userData)
-        createTable("mpDatabase", 2, "users", ["firstName", "lastName", "email"])
-        .then(() => {
-            saveDataToTable("mpDatabase", "users", userData, response.access_token)
-            .catch((err) => console.error(`Произошла ошибка ${err}`));
-        })
-        .catch((err) => console.error(`Произошла ошибка ${err}`));
-
-        Cookies.set("token", response.access_token);
-        return { success: true, token: response.access_token };
+export async function login(email: string, password: string) {              //вход
+    const res = await authorize({email, password});
+    if (res instanceof AxiosError) {
+        return { error: res.response?.data.message };
+    }
+    else {
+        Cookies.set("token", res.access_token);
+        return { token: res.access_token };
     }
 }
 
