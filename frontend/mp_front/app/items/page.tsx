@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
-// import { getItems, deleteItem } from "@/utils/utils";
 import { useEffect, useState } from "react";
 
 import { ColumnDef } from "@tanstack/react-table";
