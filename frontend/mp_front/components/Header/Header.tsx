@@ -5,7 +5,7 @@ import "./Header.css";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Barcode, LogOut, Settings, Truck, User2, BarChart3 } from "lucide-react";
+import { Barcode, LogOut, Settings, Truck, User2, BarChart3, PersonStanding  } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -41,6 +41,12 @@ const productsManagementItems: {
     href: "/deliveries",
     desc: "Обеспечивайте бесперебойное снабжение вашего ассортимента, гарантируя, что товары всегда доступны для ваших клиентов.",
   },
+  {
+    label: "Подрядчики",
+    icon: <PersonStanding className="mr-2 h-4 w-4" />,
+    href: "/contractors",
+    desc: "Добавляйте подрядчиков.",
+  }
 ];
 
 const analyticsItems: {

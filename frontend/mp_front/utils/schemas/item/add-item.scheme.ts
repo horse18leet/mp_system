@@ -8,7 +8,7 @@ export interface IAddItem {
     sales_price: number,
 }
 
-export const addItemSchema = Joi.object({
+export const addItemScheme = Joi.object({
     name: Joi.string().min(3).max(60).required(),
     description: Joi.string().min(3).max(5000),
     category: Joi.string().min(3).max(200),

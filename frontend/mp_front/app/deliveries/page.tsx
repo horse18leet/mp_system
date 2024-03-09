@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from '../page.module.css'
 import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
 import ProductsTable from "@/components/ProductsTable/ProductsTable";
-import { getItems, deleteItem } from "@/utils/utils";
+// import { getItems, deleteItem } from "@/utils/utils";
 import { useEffect, useState } from "react";
 
 import {

@@ -31,7 +31,7 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import {
   TAccountChangeSchema,
   schema,
-} from "@/utils/schemas/account/account-change-data.schema";
+} from "@/utils/schemas/account/account-change-data.scheme";
 import {
   NavigationMenu,
   NavigationMenuItem,

@@ -159,34 +159,34 @@ const BarChart: React.FC<BarChartProps> = ({title, greenData, redData, seriesNam
             </div>
 
             <div ref={barChartRef} id="bar-chart"></div>
-                <div className="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
-                    <div className="flex justify-between items-center pt-5">
-                        <button
-                            id="dropdownDefaultButton"
-                            className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
-                            type="button"
-                            onClick={handleListClick}>
-                            {selectedOption}
-                            <svg className="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                            </svg>
-                        </button>
-                        {isListOpen ? 
-                            <div id="lastDaysdropdownBar" className="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute left-[-10px] bottom-[50px]">
-                                <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                                    {chartListOptions.map((option) => {
-                                        return (
-                                            <li key={option} onClick={handleOptionCLick}>
-                                                <p className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-default">{option}</p>
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
-                            </div>
-                        : <></>
-                        }
-                    </div>
+            <div className="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
+                <div className="flex justify-between items-center pt-5">
+                    <button
+                        id="dropdownDefaultButton"
+                        className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
+                        type="button"
+                        onClick={handleListClick}>
+                        {selectedOption}
+                        <svg className="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                        </svg>
+                    </button>
+                    {isListOpen ? 
+                        <div id="lastDaysdropdownBar" className="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute left-[-10px] bottom-[50px]">
+                            <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                                {chartListOptions.map((option) => {
+                                    return (
+                                        <li key={option} onClick={handleOptionCLick}>
+                                            <p className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-default">{option}</p>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                    : <></>
+                    }
                 </div>
+            </div>
         </div>
     );
 }

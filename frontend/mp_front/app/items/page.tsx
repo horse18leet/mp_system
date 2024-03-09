@@ -49,7 +49,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { joiResolver } from "@hookform/resolvers/joi";
-import { IAddItem, addItemSchema } from "@/utils/schemas/item/add-item.schema";
+import { IAddItem, addItemScheme } from "@/utils/schemas/item/add-item.scheme";
 import {
   Popover,
   PopoverContent,
@@ -217,7 +217,7 @@ export default function Items() {
   ];
 
   const addItemForm = useForm<IAddItem>({
-    resolver: joiResolver(addItemSchema),
+    resolver: joiResolver(addItemScheme),
   });
 
   // Заглушка пока нет получения категорий
@@ -342,7 +342,7 @@ export default function Items() {
                   <div className="grid grid-cols-2 gap-4">
                     <FormField
                       control={addItemForm.control}
-                      name="primaryPrice"
+                      name="primary_price"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Первичная цена</FormLabel>
@@ -354,7 +354,7 @@ export default function Items() {
                     />
                     <FormField
                       control={addItemForm.control}
-                      name="salesPrice"
+                      name="sales_price"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Плановая цена</FormLabel>

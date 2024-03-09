@@ -10,7 +10,7 @@ import {
   OzonApiKeySchema,
   YandexMarketApiKeySchema,
   IApiKey,
-} from "@/utils/schemas/account/account-api-key.schema";
+} from "@/utils/schemas/account/account-api-key.scheme";
 import { joiResolver } from "@hookform/resolvers/joi";
 import {
   Form,
