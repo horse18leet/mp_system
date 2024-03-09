@@ -99,7 +99,7 @@ export default function Contractors() {
         {
             accessorKey: "contractorTitle",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={`Название/Имя подрядчика`}  />
+                <DataTableColumnHeader column={column} title="Название" />
             ),
             cell: ({ row }) => {
                 return (
@@ -135,7 +135,7 @@ export default function Contractors() {
         {
             accessorKey: "contractorType",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Вид подрядчика" />
+                <DataTableColumnHeader column={column} title="Вид" />
             ),
             cell: ({ row }) => {
             return (
@@ -147,13 +147,13 @@ export default function Contractors() {
             );
             },
             meta: {
-                filterDisplayName: "Вид подрядчика",
+                filterDisplayName: "Вид",
             },
         },
         {
             accessorKey: "contractorPhoneNumber",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Номер телефона" />
+                <DataTableColumnHeader column={column} title="Телефон" />
             ),
             cell: ({ row }) => {
             return (
@@ -165,7 +165,7 @@ export default function Contractors() {
             );
             },
             meta: {
-                filterDisplayName: "Номер телефона",
+                filterDisplayName: "Телефон",
             },
     
         },
@@ -210,7 +210,7 @@ export default function Contractors() {
         {
             accessorKey: "contractorCardNumber",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Номер карты" />
+                <DataTableColumnHeader column={column} title="Карта" />
             ),
             cell: ({ row }) => {
             return (
@@ -222,7 +222,7 @@ export default function Contractors() {
             );
             },
             meta: {
-                filterDisplayName: "Номер карты",
+                filterDisplayName: "Карта",
             },
     
         },
