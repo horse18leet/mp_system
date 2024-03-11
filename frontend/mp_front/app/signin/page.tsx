@@ -59,6 +59,7 @@ export default function Signin() {
                 <Input
                     name="signinEmail"
                     type="email"
+                    autoComplete="username"
                     label="E-mail"
                     placeholder="Введите электронную почту"
                     error={errors.signinEmail?.message as any}
@@ -67,6 +68,7 @@ export default function Signin() {
                 <Input
                     name="signinPassword"
                     type="password"
+                    autoComplete="current-password"
                     label="Пароль"
                     placeholder="Введите пароль"
                     error={errors.signinPassword?.message as any}

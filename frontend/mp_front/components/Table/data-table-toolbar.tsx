@@ -11,6 +11,7 @@ import { DataTableToolbarProps } from "./types/data-table-types";
 
 export function DataTableToolbar<TData>({
   table,
+  additionalFilters,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
@@ -36,7 +37,7 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <DataTableViewOptions table={table} />
+      <DataTableViewOptions table={table} additionalFilters={additionalFilters} />
     </div>
   );
 }

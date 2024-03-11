@@ -7,7 +7,7 @@ interface IconProps {
   className?: string;
 }
 
-interface FacetedFilterOption {
+export interface FacetedFilterOption {
   label: string;
   value: string;
   icon?: React.ComponentType<IconProps>;
@@ -21,6 +21,7 @@ declare module '@tanstack/table-core' {
 
 export interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
+  additionalFilters: FacetedFilterOption[];               //пока так, староста, не злись
 }
 
 export interface DataTableColumnHeaderProps<TData, TValue>
@@ -47,9 +48,12 @@ export interface DataTableFacetedFilterProps<TData, TValue> {
 
 export interface DataTableToolbarProps<TData> {
   table: Table<TData>;
+  additionalFilters: FacetedFilterOption[];               //пока так, староста, не злись
+
 }
 
 export interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
+  additionalFilters: FacetedFilterOption[];               //пока так, староста, не злись
   data: TData[];
 }

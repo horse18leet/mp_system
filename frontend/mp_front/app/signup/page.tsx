@@ -65,6 +65,7 @@ export default function Signup() {
                 <Input
                     name="firstName"
                     type="text"
+                    autoComplete="username"
                     label="Имя"
                     placeholder="Введите имя"
                     error={errors.firstName?.message as any}
@@ -73,6 +74,7 @@ export default function Signup() {
                 <Input
                     name="lastName"
                     type="text"
+                    autoComplete="username"
                     label="Фамилия"
                     placeholder="Введите фамилию"
                     error={errors.lastName?.message as any}
@@ -87,6 +89,7 @@ export default function Signup() {
                 <Input
                     name="phoneNumber"
                     type="tel"
+                    autoComplete="username"
                     label="Номер телефона"
                     placeholder="Введите номер телефона"
                     error={errors.phoneNumber?.message as any}
@@ -94,6 +97,7 @@ export default function Signup() {
                 <Input
                     name="password"
                     type="password"
+                    autoComplete="new-password"
                     label="Пароль"
                     placeholder="Введите пароль"
                     error={errors.password?.message as any}

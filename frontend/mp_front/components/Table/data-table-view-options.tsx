@@ -19,6 +19,7 @@ import Header from '../Header/Header';
 
 export function DataTableViewOptions<TData>({
   table,
+  additionalFilters,
 }: DataTableViewOptionsProps<TData>) {
   return (
     <DropdownMenu>
@@ -52,7 +53,22 @@ export function DataTableViewOptions<TData>({
                 {column.columnDef.meta?.filterDisplayName}
               </DropdownMenuCheckboxItem>
             );
-          })}
+          })
+        }
+        
+        <DropdownMenuLabel className="py-2 text-center px-2 mt-[10px]">Отобразить товары</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        {additionalFilters.map((filter) => (
+          <DropdownMenuCheckboxItem
+            key={filter.label}
+            className="capitalize py-2"
+            // checked={filter.getIsVisible()}
+            // onCheckedChange={(value) => filter.toggleVisibility(!!value)}
+          >
+            {filter.label}
+          </DropdownMenuCheckboxItem>
+          ))
+        }
       </DropdownMenuContent>
     </DropdownMenu>
   );

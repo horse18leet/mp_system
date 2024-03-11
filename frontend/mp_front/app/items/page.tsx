@@ -50,6 +50,7 @@ import {
 } from "@/components/ui/form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { IAddItem, addItemScheme } from "@/utils/schemas/item/add-item.scheme";
+import { FacetedFilterOption } from "@/components/Table/types/data-table-types";
 import {
   Popover,
   PopoverContent,
@@ -215,6 +216,21 @@ export default function Items() {
       ),
     },
   ];
+
+  const additionalFilters = [
+    {
+      label: "Шаблоны",
+      value: "Шаблоны",
+    },
+    {
+      label: "Импорт",
+      value: "Импорт",
+    },
+    {
+      label: "Все",
+      value: "Все",
+    } 
+  ] as FacetedFilterOption[];
 
   const addItemForm = useForm<IAddItem>({
     resolver: joiResolver(addItemScheme),
@@ -385,30 +401,9 @@ export default function Items() {
               </Form>
             </DialogContent>
           </Dialog>
-          <DataTable data={items} columns={columns} />
+          <DataTable data={items} columns={columns} additionalFilters={additionalFilters} />
         </div>
       </div>
-      {/* <section className={styles.main}>
-        <h1 className="mr-auto ml-[0px] mb-[20px] text-2xl">Мои товары</h1>
-        {items.length > 0 ? (
-          <>
-            <Link
-              href="/items/new"
-              className="mr-auto ml-[0px] mb-[20px] products__link link"
-            >
-              Добавить товар
-            </Link>
-            
-          </>
-        ) : (
-          <>
-            <h2>У вас нет товаров</h2>
-            <Link href="/items/new" className="products__link link">
-              Добавить товар
-            </Link>
-          </>
-        )}
-      </section> */}
     </ProtectedLayout>
   );
 }
