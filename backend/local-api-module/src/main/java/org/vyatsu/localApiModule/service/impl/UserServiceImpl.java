@@ -24,8 +24,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
 
-
-
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));

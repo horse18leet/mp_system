@@ -12,5 +12,6 @@ public interface OrderService {
     List<Order> getOrdersByItemId(Long id);
     Order CreateOrder(Order order);
 
+    //не трогать servlet
     ResponseEntity<Object> getOrders(HttpServletRequest request, OrderReqDto dto);
 }

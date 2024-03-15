@@ -20,7 +20,7 @@ services:
       - "15672:15672"
     environment:
       - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=@8acJMQKc
+      - RABBITMQ_DEFAULT_PASS=8acJMQKc
 
   local-api-module:
     image: 'local-api-module-spring-boot:latest'

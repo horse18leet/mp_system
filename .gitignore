@@ -2,4 +2,7 @@
 .idea
 /backend/local-api-module/.idea
 /backend/local-api-module/.jpb
+/backend/external-api-module/.idea
+/backend/external-api-module/.jpb
+/backend/.idea
 /ssl-certs

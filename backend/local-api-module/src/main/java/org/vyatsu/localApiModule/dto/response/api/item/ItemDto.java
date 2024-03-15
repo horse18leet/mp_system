@@ -8,10 +8,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-/**
- * DTO for {@link Item}
- */
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,6 +19,7 @@ public class ItemDto {
     private Double firstPrice;
     private SimpleUserDto user;
     private String category;
+    private String vendorCode;
     private String mpLink;
     private Boolean isDraft;
     private Boolean isActive;

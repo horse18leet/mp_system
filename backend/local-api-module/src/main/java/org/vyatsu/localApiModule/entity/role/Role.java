@@ -12,7 +12,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "id")
 @Builder
 @Entity
 @Table(name = "roles")
@@ -29,6 +28,9 @@ public class Role {
     @OneToMany(mappedBy = "role")
     private List<User> users;
 
+    @OneToMany(mappedBy = "role")
+    private List<News> news;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "role_permission",
@@ -36,4 +38,5 @@ public class Role {
             inverseJoinColumns = @JoinColumn(name = "permission_id", nullable = false)
     )
     private Set<Permission> permissions;
+
 }

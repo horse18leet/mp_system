@@ -3,6 +3,8 @@ package org.vyatsu.localApiModule.entity.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.vyatsu.localApiModule.entity.contractor.Contractor;
+import org.vyatsu.localApiModule.entity.contractor.WalletTransaction;
 import org.vyatsu.localApiModule.entity.item.Item;
 import org.vyatsu.localApiModule.entity.msg.Message;
 import org.vyatsu.localApiModule.entity.purchase.Purchase;
@@ -80,6 +82,15 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private Set<Token> tokens = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Notification> notifications = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Contractor> contractors = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<WalletTransaction> walletTransactions = new LinkedHashSet<>();
 
     @JsonIgnore
     @ManyToOne

@@ -24,9 +24,6 @@ public class Purchase {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToMany(mappedBy = "purchase")
-    private Set<Cost> costs = new LinkedHashSet<>();
-
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
     private User user;

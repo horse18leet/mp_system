@@ -13,6 +13,7 @@ import org.vyatsu.localApiModule.entity.user.ApiKey;
 import org.vyatsu.localApiModule.mapper.ApiKeyMapper;
 import org.vyatsu.localApiModule.mapper.ItemMapper;
 import org.vyatsu.localApiModule.mapper.OrderMapper;
+import org.vyatsu.localApiModule.security.authentication.impl.AuthenticationFacade;
 import org.vyatsu.localApiModule.service.ApiKeyService;
 import org.vyatsu.localApiModule.service.ItemService;
 import org.vyatsu.localApiModule.service.OrderService;
@@ -26,6 +27,8 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ApiKeyController {
 
+    private final AuthenticationFacade authenticationFacade;
+
     private final ApiKeyService apiKeyService;
     private final ItemService itemService;
     private final OrderService orderService;
@@ -37,9 +40,8 @@ public class ApiKeyController {
     private final ScheduleOrderService scheduleOrderService;
 
     @GetMapping
-    public ResponseEntity<?> GetAllApiKey(HttpServletRequest request,
-                                          @RequestParam(name = "type", required = false) ApiKeyType type) {
-        List<ApiKey> apiKeys = apiKeyService.getAllApiKeyUser(request, type);
+    public ResponseEntity<?> GetAllApiKey(@RequestParam(name = "type", required = false) ApiKeyType type) {
+        List<ApiKey> apiKeys = apiKeyService.getAllApiKeyUser(type);
         return ResponseEntity.ok(apiKeyMapper.toDtoList(apiKeys));
     }
 
@@ -92,8 +94,8 @@ public class ApiKeyController {
         return false;
     }
     @PostMapping
-    public ResponseEntity<?> CreateApiKey(HttpServletRequest request, @RequestBody ApiKeyDto apiKeyDto) {
-        ApiKey createdApiKey = apiKeyService.CreateApiKey(request, apiKeyMapper.toEntity(apiKeyDto));
+    public ResponseEntity<?> CreateApiKey(@RequestBody ApiKeyDto apiKeyDto) {
+        ApiKey createdApiKey = apiKeyService.CreateApiKey(apiKeyMapper.toEntity(apiKeyDto));
         return ResponseEntity.ok(apiKeyMapper.toDto(createdApiKey));
     }
 }

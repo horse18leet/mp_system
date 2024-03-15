@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-@Data
 @Entity
 @Table(name = "ads")
 public class Ad {
@@ -30,10 +29,6 @@ public class Ad {
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP NOT NULL")
     private LocalDateTime createdAt;
-
-    @ManyToOne
-    @JoinColumn(name = "id_cost", nullable = false)
-    private Cost cost;
 
     @ManyToOne
     @JoinColumn(name = "id_item", nullable = false)

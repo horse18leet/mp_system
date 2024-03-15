@@ -1,6 +1,5 @@
 package org.vyatsu.localApiModule.service.impl;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -9,6 +8,7 @@ import org.vyatsu.localApiModule.entity.user.ApiKey;
 import org.vyatsu.localApiModule.entity.user.User;
 import org.vyatsu.localApiModule.exception.AppException;
 import org.vyatsu.localApiModule.repository.ApiKeyRepository;
+import org.vyatsu.localApiModule.security.authentication.impl.AuthenticationFacade;
 import org.vyatsu.localApiModule.security.utils.JwtUtils;
 import org.vyatsu.localApiModule.service.ApiKeyService;
 
@@ -21,14 +21,16 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ApiKeyServiceImpl implements ApiKeyService {
 
+    private final AuthenticationFacade authenticationFacade;
+
     private final ApiKeyRepository apiKeyRepository;
 
     private final JwtUtils jwtUtils;
     @Override
-    public ApiKey CreateApiKey(HttpServletRequest request, ApiKey apiKey) {
+    public ApiKey CreateApiKey (ApiKey apiKey) {
         if (apiKey.getKey() != null) {
             if (apiKey.getType() == ApiKeyType.WB) {
-                User user = jwtUtils.getUserByReq(request);
+                User user = authenticationFacade.getAuthenticationUser();
                 int countApiKeys = apiKeyRepository.findByUserId(user.getId()).size();
                 if (countApiKeys < 10) {
                     ApiKey tempApiKey = apiKeyRepository.findByKey(apiKey.getKey());
@@ -54,8 +56,8 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     }
 
     @Override
-    public List<ApiKey> getAllApiKeyUser(HttpServletRequest request, ApiKeyType type) {
-        User user = jwtUtils.getUserByReq(request);
+    public List<ApiKey> getAllApiKeyUser(ApiKeyType type) {
+        User user = authenticationFacade.getAuthenticationUser();
         List<ApiKey> apiKeys = apiKeyRepository.findByUserId(user.getId());
         if (type != null) {
             return apiKeys.stream()

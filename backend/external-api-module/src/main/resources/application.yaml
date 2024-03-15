@@ -15,8 +15,8 @@ spring:
 rabbitmq:
   host: 178.141.253.196
   port: 5672
-  username: user_microservice_external
-  password: password_microservice_external
+  username: admin
+  password: 8acJMQKc
 
 cors:
   allowedOrigins: "https://api.ucheter.ru, https://ucheter.ru, http://localhost:3000, http://localhost:8080"

@@ -12,6 +12,7 @@ import org.vyatsu.localApiModule.exception.AppException;
 import org.vyatsu.localApiModule.mapper.ItemMapper;
 import org.vyatsu.localApiModule.mapper.UserMapper;
 import org.vyatsu.localApiModule.repository.ItemRepository;
+import org.vyatsu.localApiModule.security.authentication.impl.AuthenticationFacade;
 import org.vyatsu.localApiModule.security.utils.JwtUtils;
 import org.vyatsu.localApiModule.service.ItemService;
 
@@ -25,6 +26,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ItemServiceImpl implements ItemService {
 
+    private final AuthenticationFacade authenticationFacade;
+
     private final ItemRepository itemRepository;
 
     private final ItemMapper itemMapper;
@@ -33,8 +36,8 @@ public class ItemServiceImpl implements ItemService {
     private final JwtUtils jwtUtils;
 
     @Override
-    public List<ItemDto> getItemsByUser(HttpServletRequest request, boolean isDraft) {
-        User user = jwtUtils.getUserByReq(request);
+    public List<ItemDto> getItemsByUser(boolean isDraft) {
+        User user = authenticationFacade.getAuthenticationUser();
         List<ItemDto> userItemsDto = new ArrayList<>();
         if (user != null) {
             List<Item> userItems = itemRepository.findItemByUserAndIsDraft(user, isDraft);
@@ -45,8 +48,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto createItem(HttpServletRequest request, @RequestBody ItemDto itemDto){
-        User user = jwtUtils.getUserByReq(request);
+    public ItemDto createItem(@RequestBody ItemDto itemDto){
+        User user = authenticationFacade.getAuthenticationUser();
 
         itemDto.setUser(userMapper.toSimpleUserDto(user));
         itemDto.setIsActive(true);
@@ -58,8 +61,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<String> getCategoryByUser(HttpServletRequest req){
-        User user = jwtUtils.getUserByReq(req);
+    public List<String> getCategoryByUser(){
+        User user = authenticationFacade.getAuthenticationUser();
+
         List<String> categories = new ArrayList<>();
         if(user != null) categories = itemRepository.findUniqueCategoryByUserId(user.getId());
 
@@ -67,8 +71,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void deleteUserItemById(HttpServletRequest req, ItemReqDto itemReqDto) {
-        User user = jwtUtils.getUserByReq(req);
+    public void deleteUserItemById(ItemReqDto itemReqDto) {
+        User user = authenticationFacade.getAuthenticationUser();
         Optional<Item> item = itemRepository.findById(itemReqDto.getId());
         if(user != null && item.isPresent() && item.get().getUser() == user){
             itemRepository.delete(item.get());
@@ -76,8 +80,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto getUserItemById(HttpServletRequest req, Long id) {
-        User user = jwtUtils.getUserByReq(req);
+    public ItemDto getUserItemById(Long id) {
+        User user = authenticationFacade.getAuthenticationUser();
         Optional<Item> item = itemRepository.findById(id);
         ItemDto itemDto = null;
         if(item.isPresent()){
@@ -89,8 +93,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto editUserItem(HttpServletRequest request, ItemDto itemDto) {
-        User user = jwtUtils.getUserByReq(request);
+    public ItemDto editUserItem(ItemDto itemDto) {
+        User user = authenticationFacade.getAuthenticationUser();
         Optional<Item> item = itemRepository.findById(itemDto.getId());
         Item editedItem = null;
         if(item.isPresent()){

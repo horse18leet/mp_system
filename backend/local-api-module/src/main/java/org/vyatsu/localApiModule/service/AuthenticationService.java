@@ -1,13 +1,6 @@
 package org.vyatsu.localApiModule.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.vyatsu.localApiModule.dto.request.SignUpDto;
-import org.vyatsu.localApiModule.dto.request.SignInDto;
-import org.vyatsu.localApiModule.dto.response.AuthResponse;
-import org.vyatsu.localApiModule.dto.response.api.UserDto;
-import org.vyatsu.localApiModule.entity.enums.TokenType;
-import org.vyatsu.localApiModule.entity.user.Token;
-import org.vyatsu.localApiModule.entity.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,13 +10,19 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.vyatsu.localApiModule.dto.request.SignInDto;
+import org.vyatsu.localApiModule.dto.request.SignUpDto;
+import org.vyatsu.localApiModule.dto.response.AuthResponse;
+import org.vyatsu.localApiModule.dto.response.api.UserDto;
+import org.vyatsu.localApiModule.entity.enums.TokenType;
+import org.vyatsu.localApiModule.entity.user.Token;
+import org.vyatsu.localApiModule.entity.user.User;
 import org.vyatsu.localApiModule.mapper.UserMapper;
-import org.vyatsu.localApiModule.security.UserDetailsImpl;
 import org.vyatsu.localApiModule.security.JwtAuthenticationService;
+import org.vyatsu.localApiModule.security.UserDetailsImpl;
 
 import javax.management.relation.RoleNotFoundException;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 

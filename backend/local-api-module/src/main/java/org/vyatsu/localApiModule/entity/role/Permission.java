@@ -7,7 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "id")
 @Builder
 @Entity
 @Table(name = "permissions")
