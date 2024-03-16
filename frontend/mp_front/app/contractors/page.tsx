@@ -51,6 +51,7 @@ import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { controllers } from "chart.js";
+import { FacetedFilterOption } from "@/components/Table/types/data-table-types";
 
 export default function Contractors() {
     // const [contractors, SetContractors] = useState<IItemResponse[]>([]);
@@ -278,6 +279,21 @@ export default function Contractors() {
     const addContractorForm = useForm<IAddContractor>({
         resolver: joiResolver(addContractorScheme),
     });
+
+    const additionalFilters = [
+        {
+            label: "Шаблоны",
+            value: "Шаблоны",
+        },
+        {
+            label: "Импорт",
+            value: "Импорт",
+        },
+        {
+            label: "Все",
+            value: "Все",
+        } 
+    ] as  FacetedFilterOption[];
     return (
         <ProtectedLayout>
             <div className="container pt-8 h-full">
@@ -437,7 +453,7 @@ export default function Contractors() {
                             </Form>
                         </DialogContent>
                     </Dialog>
-                <DataTable data={items} columns={columns} />
+                <DataTable data={items} columns={columns} additionalFilters={additionalFilters} />
             </div>
         </div>
     </ProtectedLayout>

@@ -217,20 +217,7 @@ export default function Items() {
     },
   ];
 
-  const additionalFilters = [
-    {
-      label: "Шаблоны",
-      value: "Шаблоны",
-    },
-    {
-      label: "Импорт",
-      value: "Импорт",
-    },
-    {
-      label: "Все",
-      value: "Все",
-    } 
-  ] as FacetedFilterOption[];
+  const additionalFilters = [] as FacetedFilterOption[];
 
   const addItemForm = useForm<IAddItem>({
     resolver: joiResolver(addItemScheme),
