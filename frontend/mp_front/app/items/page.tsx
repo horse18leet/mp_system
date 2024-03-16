@@ -345,7 +345,7 @@ export default function Items() {
                   <div className="grid grid-cols-2 gap-4">
                     <FormField
                       control={addItemForm.control}
-                      name="primaryPrice"
+                      name="primary_price"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Первичная цена</FormLabel>
@@ -357,7 +357,7 @@ export default function Items() {
                     />
                     <FormField
                       control={addItemForm.control}
-                      name="salesPrice"
+                      name="sales_price"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Плановая цена</FormLabel>
