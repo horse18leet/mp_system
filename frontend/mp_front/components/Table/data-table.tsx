@@ -30,14 +30,13 @@ import { DataTableProps } from "./types/data-table-types";
 
 export function DataTable<TData, TValue>({
   columns,
-  additionalFilters,
+  additionalFilters,                            //массив дополнительных фильтров для таблицы
   data,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  console.log("ffff: ", additionalFilters)
   const table = useReactTable({
     data,
     columns,
