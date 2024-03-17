@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 
 import { IAddContractor, addContractorScheme } from "@/utils/schemas/contractor/add-contractor.scheme";
 
-import IItemResponse from "@/utils/models/item/item-response";
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 
