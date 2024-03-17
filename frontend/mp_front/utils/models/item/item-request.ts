@@ -2,7 +2,7 @@ interface IItemRequest {
     title: string,
     description: string,
     category: string,
-    primaryPrice: number,
+    firstPrice: number,
     salesPrice: number,
 }
 

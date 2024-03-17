@@ -345,7 +345,7 @@ export default function Items() {
                   <div className="grid grid-cols-2 gap-4">
                     <FormField
                       control={addItemForm.control}
-                      name="primaryPrice"
+                      name="firstPrice"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Первичная цена</FormLabel>
