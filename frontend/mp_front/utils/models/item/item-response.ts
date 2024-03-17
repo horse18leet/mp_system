@@ -1,11 +1,15 @@
+import { StringSchema } from "joi";
+
 interface IItemResponse {
   id: number;
   title: string;
   description: string;
   firstPrice: number;
-  user: number; // в будущем заменить на тип User
+  simpleUserDto: string; // в будущем заменить на тип User
   category: string;
+  vendorCode: string;
   mpLink: string;
+  isDraft: boolean;
   isActive: boolean;
   createdAt: string;
 };
