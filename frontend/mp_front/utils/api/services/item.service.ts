@@ -6,7 +6,7 @@ import IItemRequest from "@/utils/models/item/item-request";
 
 export async function getItems(): Promise<IItemResponse[] | AxiosError | any> {     //any временно добавил, ибо ошибка была, которая мешала билд собрать
   try {
-    const response = await api.get<IItemResponse[]>("/item");
+    const response = await api.get<IItemResponse[]>("/item?isDraft=true");
     const data = response.data;
 
     return data;
