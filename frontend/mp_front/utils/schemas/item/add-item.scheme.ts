@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 export interface IAddItem {
-    name: string,
+    title: string,
     description: string,
     category: string,
     primaryPrice: number,
@@ -9,7 +9,7 @@ export interface IAddItem {
 }
 
 export const addItemScheme = Joi.object({
-    name: Joi.string().min(3).max(60).required(),
+    title: Joi.string().min(3).max(60).required(),
     description: Joi.string().min(3).max(5000),
     category: Joi.string().min(3).max(200),
     primaryPrice: Joi.number().positive().required(),

@@ -265,7 +265,7 @@ export default function Items() {
                 >
                   <FormField
                     control={addItemForm.control}
-                    name="name"
+                    name="title"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Название</FormLabel>

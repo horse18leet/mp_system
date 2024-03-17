@@ -1,5 +1,5 @@
 interface IItemRequest {
-    name: string,
+    title: string,
     description: string,
     category: string,
     primaryPrice: number,
