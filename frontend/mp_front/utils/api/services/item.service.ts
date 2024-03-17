@@ -44,7 +44,6 @@ export async function createItem(item: IItemRequest): Promise<AxiosResponse | Ax
 
   } catch (e) {
     const error = e as AxiosError;
-
     return error;
   }
 }

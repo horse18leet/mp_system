@@ -1,11 +1,17 @@
 import Joi from "joi";
 
 export interface IAddItem {
-    title: string,
-    description: string,
-    category: string,
-    firstPrice: number,
-    salesPrice: number,
+    id: number;
+    title: string;
+    description: string;
+    firstPrice: number;
+    user: string; // в будущем заменить на тип User
+    category: string;
+    vendorCode: string;
+    mpLink: string;
+    isDraft: boolean;
+    isActive: boolean;
+    createdAt: string;
 }
 
 export const addItemScheme = Joi.object({
@@ -13,6 +19,6 @@ export const addItemScheme = Joi.object({
     description: Joi.string().min(3).max(5000),
     category: Joi.string().min(3).max(200),
     firstPrice: Joi.number().positive().required(),
-    salesPrice: Joi.number().positive().required()
+    // salesPrice: Joi.number().positive().required()
 })
 

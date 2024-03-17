@@ -2,7 +2,7 @@
 
 import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { IAddContractor, addContractorScheme } from "@/utils/schemas/contractor/add-contractor.scheme";
 
@@ -50,18 +50,43 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { controllers } from "chart.js";
 import { FacetedFilterOption } from "@/components/Table/types/data-table-types";
 
-export default function Contractors() {
-    // const [contractors, SetContractors] = useState<IItemResponse[]>([]);
+import { AxiosError } from "axios";
+import { createContractor, getContractors } from "@/utils/api/services/contractor.service";
+import IContractorResponse from "@/utils/models/contractor/contractor-response";
 
-    const [items, setItems] = useState<IItemResponse[]>([]); //пока  так
-    const [contractors, SetContractors] = useState(["Поставщик", "Рекламный агент", "Фулфилмент", "Байер"]);    //пока так
+export default function Contractors() {
+    const [contractors, setContractors] = useState<IContractorResponse[]>([]);
+    const [contractorTypes, setContractorTypes] = useState(["Поставщик", "Рекламный агент", "Фулфилмент", "Байер"]);    //пока так
     const [dialogOpen, setDialogOpen] = useState(false);
     const [popoverOpen, setPopoverOpen] = useState(false);
 
-    const columns: ColumnDef<IItemResponse>[] = [
+    useEffect(() => {
+        getAllContractors();
+    }, []);
+
+    async function getAllContractors() {
+        const contractors = await getContractors();
+    
+        setContractors(contractors);
+    }
+
+    async function addContractor(data: IAddContractor) {
+        console.log("etst");
+
+        const response = await createContractor(data);
+    
+        if (response instanceof AxiosError) {
+          console.log(response.message);
+          setDialogOpen(false);
+          return;
+        } else {
+            getAllContractors().then(() => setDialogOpen(false));
+        }
+    }
+
+    const columns: ColumnDef<IContractorResponse>[] = [
         {
             id: "select",
             header: ({ table }) => (
@@ -87,7 +112,7 @@ export default function Contractors() {
             enableHiding: false,
         },
         {
-            accessorKey: "contractorId",
+            accessorKey: "id",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Подрядчик" />
             ),
@@ -98,7 +123,7 @@ export default function Contractors() {
             enableHiding: false,
         },
         {
-            accessorKey: "contractorTitle",
+            accessorKey: "title",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Название" />
             ),
@@ -152,7 +177,7 @@ export default function Contractors() {
             },
         },
         {
-            accessorKey: "contractorPhoneNumber",
+            accessorKey: "contractorPhoneNum",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Телефон" />
             ),
@@ -160,7 +185,7 @@ export default function Contractors() {
             return (
                 <div className="flex space-x-2">
                     <span className="max-w-[100px] truncate font-medium">
-                    {row.getValue("type") ? row.getValue("type") : "Не указано"}
+                    {row.getValue("contractorPhoneNum") ? row.getValue("contractorPhoneNum") : "Не указано"}
                     </span>
                 </div>
             );
@@ -179,7 +204,7 @@ export default function Contractors() {
             return (
                 <div className="flex space-x-2">
                     <span className="max-w-[100px] truncate font-medium">
-                    {row.getValue("type") ? row.getValue("type") : "Не указано"}
+                    {row.getValue("contractorEmail") ? row.getValue("contractorEmail") : "Не указано"}
                     </span>
                 </div>
             );
@@ -198,7 +223,7 @@ export default function Contractors() {
             return (
                 <div className="flex space-x-2">
                     <span className="max-w-[100px] truncate font-medium">
-                    {row.getValue("type")}
+                    {row.getValue("contractorAdress")}
                     </span>
                 </div>
             );
@@ -217,7 +242,7 @@ export default function Contractors() {
             return (
                 <div className="flex space-x-2">
                     <span className="max-w-[100px] truncate font-medium">
-                    {row.getValue("type")}
+                    {row.getValue("contractorCardNumber")}
                     </span>
                 </div>
             );
@@ -236,7 +261,7 @@ export default function Contractors() {
             return (
                 <div className="flex space-x-2">
                     <span className="max-w-[100px] truncate font-medium">
-                    {row.getValue("type")}
+                    {row.getValue("contractorIsActive")}
                     </span>
                 </div>
             );
@@ -255,7 +280,7 @@ export default function Contractors() {
             return (
                 <div className="flex space-x-2">
                     <span className="max-w-[100px] truncate font-medium">
-                    {row.getValue("type")}
+                    {row.getValue("contractorCreatedAt")}
                     </span>
                 </div>
             );
@@ -314,11 +339,14 @@ export default function Contractors() {
                                 <DialogDescription>Заполните все обязательные поля, чтобы добавить подрядчика</DialogDescription>
                             </DialogHeader>
                             <Form {...addContractorForm}>
-                            {/* onSubmit={addContractorForm.handleSubmit(addContractor)} */}
-                                <form className="flex flex-col gap-4" >
+                                <form 
+                                    className="flex flex-col gap-4" 
+                                    onSubmit={addContractorForm.handleSubmit(addContractor)}
+                                >
                                     <FormField
                                         control={addContractorForm.control}
                                         name="name"
+                                        defaultValue=""
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>Название</FormLabel>
@@ -333,6 +361,7 @@ export default function Contractors() {
                                     <FormField
                                         control={addContractorForm.control}
                                         name="type"
+                                        defaultValue=""
                                         render={({ field }) => (
                                             <FormItem className="flex flex-col">
                                                 <FormLabel>Категория</FormLabel>
@@ -345,9 +374,9 @@ export default function Contractors() {
                                                                 className={cn("justify-between", !field.value && "text-muted-foreground")}
                                                             >
                                                             {field.value
-                                                            ? contractors.find(
-                                                                (contractor) =>
-                                                                contractor === field.value
+                                                            ? contractorTypes.find(
+                                                                (contractorType) =>
+                                                                contractorType === field.value
                                                             )
                                                             : "Выберите категорию подрядчика"}
                                                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -362,17 +391,17 @@ export default function Contractors() {
                                                             />
                                                             <CommandEmpty>Категория не найдена.</CommandEmpty>
                                                             <CommandGroup>
-                                                                {contractors.map((contractor) => (
+                                                                {contractorTypes.map((contractorType) => (
                                                                 <CommandItem
-                                                                    value={contractor}
-                                                                    key={contractor}
+                                                                    value={contractorType}
+                                                                    key={contractorType}
                                                                     onSelect={() => {
-                                                                    addContractorForm.setValue("type",contractor);
+                                                                    addContractorForm.setValue("type",contractorType);
                                                                     setPopoverOpen(false);
                                                                 }}
                                                                 >
-                                                                    <Check className={cn("mr-2 h-4 w-4", contractor === field.value ? "opacity-100" : "opacity-0")} />
-                                                                    {contractor}
+                                                                    <Check className={cn("mr-2 h-4 w-4", contractorType === field.value ? "opacity-100" : "opacity-0")} />
+                                                                    {contractorType}
                                                                 </CommandItem>
                                                                 ))}
                                                             </CommandGroup>
@@ -386,6 +415,7 @@ export default function Contractors() {
                                         <FormField
                                             control={addContractorForm.control}
                                             name="email"
+                                            defaultValue=""
                                             render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>E-mail</FormLabel>
@@ -395,9 +425,9 @@ export default function Contractors() {
                                             </FormItem>
                                             )}
                                         />
-                                        <FormField
+                                        {/* <FormField
                                             control={addContractorForm.control}
-                                            name="phoneNumber"
+                                            name="phoneNum"
                                             render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>Номер телефона</FormLabel>
@@ -406,11 +436,12 @@ export default function Contractors() {
                                                 </FormControl>
                                             </FormItem>
                                             )}
-                                        />
+                                        /> */}
                                     </div>
                                     <FormField
                                         control={addContractorForm.control}
                                         name="description"
+                                        defaultValue=""
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>Описание</FormLabel>
@@ -422,7 +453,8 @@ export default function Contractors() {
                                     />
                                     <FormField
                                         control={addContractorForm.control}
-                                        name="actualAdress"
+                                        name="actualAddress"
+                                        defaultValue=""
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>Адрес подрядчика</FormLabel>
@@ -436,7 +468,8 @@ export default function Contractors() {
                                     />
                                     <FormField
                                         control={addContractorForm.control}
-                                        name="cardNumber"
+                                        name="cardNum"
+                                        defaultValue=""
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>Платежные данные</FormLabel>
@@ -453,7 +486,7 @@ export default function Contractors() {
                             </Form>
                         </DialogContent>
                     </Dialog>
-                <DataTable data={items} columns={columns} additionalFilters={additionalFilters} />
+                <DataTable data={contractors} columns={columns} additionalFilters={additionalFilters} />
             </div>
         </div>
     </ProtectedLayout>

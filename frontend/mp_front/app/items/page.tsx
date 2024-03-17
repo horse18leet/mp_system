@@ -72,6 +72,7 @@ export default function Items() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [popoverOpen, setPopoverOpen] = useState(false);
 
+
   useEffect(() => {
     getAllItems();
   }, []);
@@ -355,7 +356,8 @@ export default function Items() {
                         </FormItem>
                       )}
                     />
-                    <FormField
+                    
+                    {/* <FormField
                       control={addItemForm.control}
                       name="salesPrice"
                       render={({ field }) => (
@@ -366,7 +368,7 @@ export default function Items() {
                           </FormControl>
                         </FormItem>
                       )}
-                    />
+                    /> */}
                   </div>
                   <FormField
                     control={addItemForm.control}

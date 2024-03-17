@@ -20,7 +20,7 @@ export async function login(email: string, password: string) {              //в
         return { error: res.response?.data.message };
     }
     else {
-        Cookies.set("token", res.access_token);
+        localStorage.setItem("token", res.access_token);
         return { token: res.access_token };
     }
 }

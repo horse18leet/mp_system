@@ -22,6 +22,7 @@ export async function authorize(user: ILoginUserRequest): Promise<ILoginUserResp
     try {
         const response = await api.post("/auth/signin", user);
         const data = response.data;
+        
         return data;
 
     } catch(e) {
