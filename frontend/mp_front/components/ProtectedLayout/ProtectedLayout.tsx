@@ -1,16 +1,14 @@
 "use client";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Header from "../Header/Header";
 
 export default function ProtectedLayout({ children }: {children: React.ReactNode}) {
-    //const token = Cookies.get("token");
     const [loggedIn, setLoggedIn] = useState(false)  //заменить на false
     const router = useRouter();
     
     useEffect(() => {
-        const token = Cookies.get("token");
+        const token = localStorage.getItem("token");
         if (token) {
             setLoggedIn(true);
         }
