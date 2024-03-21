@@ -390,7 +390,7 @@ export default function Items() {
               </Form>
             </DialogContent>
           </Dialog>
-          <DataTable data={items} columns={columns} additionalFilters={additionalFilters} />
+          <DataTable title="title" data={items} columns={columns} additionalFilters={additionalFilters} />
         </div>
       </div>
     </ProtectedLayout>

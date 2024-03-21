@@ -49,6 +49,7 @@ export interface DataTableFacetedFilterProps<TData, TValue> {
 export interface DataTableToolbarProps<TData> {
   table: Table<TData>;
   additionalFilters: FacetedFilterOption[];               //пока так, староста, не злись
+  title: string;
 
 }
 
@@ -56,4 +57,5 @@ export interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   additionalFilters: FacetedFilterOption[];               //пока так, староста, не злись
   data: TData[];
+  title: string;
 }

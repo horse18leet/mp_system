@@ -12,6 +12,7 @@ import { DataTableToolbarProps } from "./types/data-table-types";
 export function DataTableToolbar<TData>({
   table,
   additionalFilters,
+  title,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
   return (
@@ -19,9 +20,9 @@ export function DataTableToolbar<TData>({
       <div className="flex flex-1 items-center space-x-2">
         <Input
           placeholder="Поиск..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn(title)?.getFilterValue() as string) ?? ""}      //заменил "title" на title
           onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
+            table.getColumn(title)?.setFilterValue(event.target.value)            //заменил "title" на title
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />

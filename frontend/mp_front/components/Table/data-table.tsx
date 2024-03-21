@@ -30,6 +30,7 @@ import { DataTableProps } from "./types/data-table-types";
 
 export function DataTable<TData, TValue>({
   columns,
+  title,
   additionalFilters,                            //массив дополнительных фильтров для таблицы
   data,
 }: DataTableProps<TData, TValue>) {
@@ -61,7 +62,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} additionalFilters={additionalFilters}/>
+      <DataTableToolbar table={table} additionalFilters={additionalFilters} title={title}/>
       <div className="rounded-md border">
         <Table>
           <TableHeader>

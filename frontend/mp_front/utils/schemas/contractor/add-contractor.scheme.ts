@@ -20,7 +20,7 @@ export const addContractorScheme = Joi.object({
     email: Joi.string().email({ tlds: false }),
     actualAddress: Joi.string().min(5).max(100).required(),
     cardNum: Joi.string().min(3).max(16).required(),
-    isActive: Joi.boolean().required(),
-    createdAt: Joi.string().min(3).max(50).required(),
+    // isActive: Joi.boolean().required(),
+    // createdAt: Joi.string().min(3).max(50).required(),
 });
 

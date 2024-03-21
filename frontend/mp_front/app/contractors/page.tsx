@@ -72,7 +72,7 @@ export default function Contractors() {
     }
 
     async function addContractor(data: IAddContractor) {
-        console.log("etst");
+        console.log("кнопка сабмита нажата...");
 
         const response = await createContractor(data);
     
@@ -122,7 +122,7 @@ export default function Contractors() {
             enableHiding: false,
         },
         {
-            accessorKey: "title",
+            accessorKey: "name",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Название" />
             ),
@@ -130,7 +130,7 @@ export default function Contractors() {
                 return (
                     <div className="flex space-x-2">
                         <span className="max-w-[100px] truncate font-medium">
-                            {row.getValue("title")}
+                            {row.getValue("name")}
                         </span>
                 </div>
                 );
@@ -140,7 +140,7 @@ export default function Contractors() {
             },
         },
         {
-            accessorKey: "contractorDescription",
+            accessorKey: "description",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Описание" />
             ),
@@ -158,7 +158,7 @@ export default function Contractors() {
             },
         },
         {
-            accessorKey: "contractorType",
+            accessorKey: "type",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Вид" />
             ),
@@ -176,7 +176,7 @@ export default function Contractors() {
             },
         },
         {
-            accessorKey: "contractorPhoneNum",
+            accessorKey: "phoneNumber",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Телефон" />
             ),
@@ -184,7 +184,7 @@ export default function Contractors() {
             return (
                 <div className="flex space-x-2">
                     <span className="max-w-[100px] truncate font-medium">
-                    {row.getValue("contractorPhoneNum") ? row.getValue("contractorPhoneNum") : "Не указано"}
+                    {row.getValue("phoneNumber") ? row.getValue("contractorPhoneNum") : "Не указано"}
                     </span>
                 </div>
             );
@@ -195,7 +195,7 @@ export default function Contractors() {
     
         },
         {
-            accessorKey: "contractorEmail",
+            accessorKey: "email",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="E-mail" />
             ),
@@ -203,7 +203,7 @@ export default function Contractors() {
             return (
                 <div className="flex space-x-2">
                     <span className="max-w-[100px] truncate font-medium">
-                    {row.getValue("contractorEmail") ? row.getValue("contractorEmail") : "Не указано"}
+                    {row.getValue("email") ? row.getValue("email") : "Не указано"}
                     </span>
                 </div>
             );
@@ -214,7 +214,7 @@ export default function Contractors() {
     
         },
         {
-            accessorKey: "contractorAdress",
+            accessorKey: "actualAddress",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Адрес" />
             ),
@@ -222,7 +222,7 @@ export default function Contractors() {
             return (
                 <div className="flex space-x-2">
                     <span className="max-w-[100px] truncate font-medium">
-                    {row.getValue("contractorAdress")}
+                    {row.getValue("actualAddress")}
                     </span>
                 </div>
             );
@@ -233,7 +233,7 @@ export default function Contractors() {
     
         },
         {
-            accessorKey: "contractorCardNumber",
+            accessorKey: "cardNum",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Карта" />
             ),
@@ -241,7 +241,7 @@ export default function Contractors() {
             return (
                 <div className="flex space-x-2">
                     <span className="max-w-[100px] truncate font-medium">
-                    {row.getValue("contractorCardNumber")}
+                    {row.getValue("cardNum")}
                     </span>
                 </div>
             );
@@ -252,7 +252,7 @@ export default function Contractors() {
     
         },
         {
-            accessorKey: "contractorIsActive",
+            accessorKey: "isActive",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Активен" />
             ),
@@ -260,7 +260,7 @@ export default function Contractors() {
             return (
                 <div className="flex space-x-2">
                     <span className="max-w-[100px] truncate font-medium">
-                    {row.getValue("contractorIsActive")}
+                    {row.getValue("isActive")}
                     </span>
                 </div>
             );
@@ -271,7 +271,7 @@ export default function Contractors() {
     
         },
         {
-            accessorKey: "contractorCreatedAt",
+            accessorKey: "createdAt",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Дата добавления" />
             ),
@@ -279,7 +279,7 @@ export default function Contractors() {
             return (
                 <div className="flex space-x-2">
                     <span className="max-w-[100px] truncate font-medium">
-                    {row.getValue("contractorCreatedAt")}
+                    {row.getValue("createdAt")}
                     </span>
                 </div>
             );
@@ -302,6 +302,7 @@ export default function Contractors() {
 
     const addContractorForm = useForm<IAddContractor>({
         resolver: joiResolver(addContractorScheme),
+        
     });
 
     const additionalFilters = [
@@ -318,6 +319,7 @@ export default function Contractors() {
             value: "Все",
         } 
     ] as  FacetedFilterOption[];
+    
     return (
         <ProtectedLayout>
             <div className="container pt-8 h-full">
@@ -485,7 +487,7 @@ export default function Contractors() {
                             </Form>
                         </DialogContent>
                     </Dialog>
-                <DataTable data={contractors} columns={columns} additionalFilters={additionalFilters} />
+                <DataTable title="name" data={contractors} columns={columns} additionalFilters={additionalFilters} />
             </div>
         </div>
     </ProtectedLayout>
