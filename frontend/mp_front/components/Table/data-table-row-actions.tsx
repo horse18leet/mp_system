@@ -17,11 +17,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DataTableRowActionsProps } from "./types/data-table-types";
+import { Dialog, DialogTrigger, DialogContent } from "../ui/dialog";
+import { useState } from "react";
 
 export function DataTableRowActions<TData>({
   row,
+  // rowActions,
   onDelete,
   onUpdate,
+  onOperations,
 }: DataTableRowActionsProps<TData>) {
 
   return (
@@ -36,9 +40,24 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>Изменить</DropdownMenuItem>
+        {/* {
+          rowActions.map((rowAction, index) => (
+            <>
+              <DropdownMenuItem className="cursor-pointer">{rowAction.title}</DropdownMenuItem>
+              {index < rowActions.length - 1 ? 
+                <DropdownMenuSeparator /> 
+                :
+                <></>
+              }
+            </>
+          ))
+        } */}
+        
+        <DropdownMenuItem className="cursor-pointer" onClick={onOperations}>Операции</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={onDelete}>Удалить</DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer">Изменить</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="cursor-pointer" onClick={onDelete}>Удалить</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

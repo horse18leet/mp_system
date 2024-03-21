@@ -1,11 +1,18 @@
 import { Column, ColumnDef, RowData } from "@tanstack/react-table";
 import { Table } from "@tanstack/react-table";
 import { Row } from "@tanstack/react-table";
+import { Dispatch, SetStateAction } from "react";
 import { ZodSchema } from "zod";
 
 interface IconProps {
   className?: string;
 }
+
+/*
+export interface RowAction {              //интерфейс для действий, которые совершаются над строками таблицы
+  title: string;
+  onClick?:  () => void;
+}*/
 
 export interface FacetedFilterOption {
   label: string;
@@ -35,9 +42,11 @@ export interface DataTablePaginationProps<TData> {
 }
 
 export interface DataTableRowActionsProps<TData> {
+  // rowActions: RowAction[];                            //массив действий
   row: Row<TData>;
   onUpdate?: () => Promise<void>;
   onDelete?: () => Promise<void>;
+  onOperations?: () => void;
 }
 
 export interface DataTableFacetedFilterProps<TData, TValue> {

@@ -15,10 +15,25 @@ export interface IAddItem {
 }
 
 export const addItemScheme = Joi.object({
-    title: Joi.string().min(3).max(60).required(),
-    description: Joi.string().min(3).max(5000),
-    category: Joi.string().min(3).max(200),
-    firstPrice: Joi.number().positive().required(),
+    title: Joi.string().min(3).max(60).required().messages({
+        "string.empty": "Поле обязательно к заполнению",
+        "string.min": `Минимальная длина 3 символа`,
+        "string.max": `Максимальная длина 60 символов`,
+        "string.required": "Поле обязательно к заполнению",
+    }),
+    description: Joi.string().min(3).max(5000).messages({
+        "string.min": `Минимальная длина 3 символа`,
+        "string.max": `Максимальная длина 5000 символов`,
+    }),
+    category: Joi.string().min(3).max(200).messages({
+        "string.min": `Минимальная длина 3 символа`,
+        "string.max": `Максимальная длина 200 символов`,
+    }),
+    firstPrice: Joi.string().pattern(/^\d+$/).required().messages({
+        "string.pattern.base": "Поле может содержать только числа",
+        "string.empty": "Поле обязательно к заполнению",
+        "string.required": "Поле обязательно к заполнению",
+    }),
     // salesPrice: Joi.number().positive().required()
 })
 

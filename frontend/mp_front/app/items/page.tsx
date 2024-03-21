@@ -69,13 +69,31 @@ import { Textarea } from "@/components/ui/textarea";
 
 export default function Items() {
   const [items, setItems] = useState<IItemResponse[]>([]); //староста, тут ошибка, я пока по-другому сделаю
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isOperationsDialogOpen, setIsOperationsDialogOpen] = useState(false);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);  
+  /*
+  const rowActionsArr = [                 //массив действий со строками таблицы
+    {
+      title: "Операции",
+    },
+    {
+      title: "Изменить",
+    },
+    
+    {
+      title: "Удалить",
+    },
+  ] as RowAction[];*/
 
 
   useEffect(() => {
     getAllItems();
   }, []);
+
+  function handleOperationsClick() {
+    setIsOperationsDialogOpen(!isOperationsDialogOpen);
+  }
 
   async function getAllItems() {
     const items = await getItems();
@@ -100,10 +118,10 @@ export default function Items() {
 
     if (response instanceof AxiosError) {
       console.log(response.message);
-      setDialogOpen(false);
+      setIsDialogOpen(false);
       return;
     } else {
-      getAllItems().then(() => setDialogOpen(false));
+      getAllItems().then(() => setIsDialogOpen(false));
     }
   }
 
@@ -213,6 +231,7 @@ export default function Items() {
         <DataTableRowActions
           row={row}
           onDelete={() => removeItem(row.original.id)}
+          onOperations={handleOperationsClick}
         />
       ),
     },
@@ -236,7 +255,15 @@ export default function Items() {
     <ProtectedLayout>
       <div className="container pt-8 h-full">
         <div className="flex-col space-y-8 md:flex hidden">
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <Dialog open={isOperationsDialogOpen} onOpenChange={setIsOperationsDialogOpen}>
+            <DialogContent>
+              <div className="flex flex-col justify-between w-[300px] h-[500px]">
+                <DialogTitle>Операции</DialogTitle>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold tracking-tight">
@@ -284,7 +311,7 @@ export default function Items() {
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
                         <FormLabel>Категория</FormLabel>
-                        <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+                        <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
                           <PopoverTrigger asChild>
                             <FormControl>
                               <Button
@@ -322,7 +349,7 @@ export default function Items() {
                                         "category",
                                         category.value
                                       );
-                                      setPopoverOpen(false);
+                                      setIsPopoverOpen(false);
                                     }}
                                   >
                                     <Check

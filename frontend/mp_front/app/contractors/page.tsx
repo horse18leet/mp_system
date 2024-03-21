@@ -60,14 +60,31 @@ export default function Contractors() {
     const [contractorTypes, setContractorTypes] = useState(["Поставщик", "Реклама", "Фулфилмент", "Байер"]);    //пока так
     const [dialogOpen, setDialogOpen] = useState(false);
     const [popoverOpen, setPopoverOpen] = useState(false);
+    const [isOperationsDialogOpen, setIsOperationsDialogOpen] = useState(false);
+
+    /*
+    const rowActionsArr = [                 //массив действий со строками таблицы
+    {
+        title: "Операции",
+    },
+    {
+      title: "Изменить",
+    },
+    {
+      title: "Удалить",
+    },
+  ] as RowAction[];*/
 
     useEffect(() => {
         getAllContractors();
     }, []);
 
+    function handleOperationsClick() {
+        setIsOperationsDialogOpen(!isOperationsDialogOpen);
+    }
+
     async function getAllContractors() {
         const contractors = await getContractors();
-    
         setContractors(contractors);
     }
 
@@ -194,6 +211,7 @@ export default function Contractors() {
             },
     
         },
+        /*
         {
             accessorKey: "email",
             header: ({ column }) => (
@@ -212,7 +230,7 @@ export default function Contractors() {
                 filterDisplayName: "E-mail",
             },
     
-        },
+        }, */
         {
             accessorKey: "actualAddress",
             header: ({ column }) => (
@@ -251,6 +269,7 @@ export default function Contractors() {
             },
     
         },
+        /**
         {
             accessorKey: "isActive",
             header: ({ column }) => (
@@ -269,7 +288,7 @@ export default function Contractors() {
                 filterDisplayName: "Активен",
             },
     
-        },
+        }, 
         {
             accessorKey: "createdAt",
             header: ({ column }) => (
@@ -288,12 +307,13 @@ export default function Contractors() {
                 filterDisplayName: "Дата добавления",
             },
     
-        },
+        },*/
         {
             id: "actions",
             cell: ({ row }) => (
                 <DataTableRowActions
                 row={row}
+                onOperations={handleOperationsClick}
             //   onDelete={() => removeItem(row.original.id)}      //надо написать запросы к серваку
                 />
             ),
@@ -324,6 +344,16 @@ export default function Contractors() {
         <ProtectedLayout>
             <div className="container pt-8 h-full">
                 <div className="flex-col space-y-8 md:flex hidden">
+                    <Dialog open={isOperationsDialogOpen} onOpenChange={setIsOperationsDialogOpen}>
+                        <DialogContent>
+                            <div className="flex flex-col justify-between w-[300px] h-[500px]">
+                                <DialogHeader>
+                                    <DialogTitle>Операции</DialogTitle>
+                                </DialogHeader>
+                            </div>
+                        </DialogContent>
+                    </Dialog>
+
                     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                         <div className="flex items-center justify-between">
                             <div>
