@@ -57,7 +57,7 @@ import IContractorResponse from "@/utils/models/contractor/contractor-response";
 
 export default function Contractors() {
     const [contractors, setContractors] = useState<IContractorResponse[]>([]);
-    const [contractorTypes, setContractorTypes] = useState(["Поставщик", "Рекламный агент", "Фулфилмент", "Байер"]);    //пока так
+    const [contractorTypes, setContractorTypes] = useState(["Поставщик", "Реклама", "Фулфилмент", "Байер"]);    //пока так
     const [dialogOpen, setDialogOpen] = useState(false);
     const [popoverOpen, setPopoverOpen] = useState(false);
 
