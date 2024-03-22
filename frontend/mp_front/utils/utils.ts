@@ -1,15 +1,15 @@
-import Cookies from 'js-cookie';
 import { mainApi } from "./MainApi";
 //import { createTable, saveDataToTable } from "./indexedDB";
 import {register, authorize} from './api/auth/auth';
 import { AxiosError } from 'axios';
+import IRegUserRequest from "./models/user/reg-user-request";
 
-export async function registration(firstName: string, secondName: string, email: string, password: string) {   //регистрация
-    const res = await register({firstName, secondName, email, password});
+export async function registration(data: IRegUserRequest) {   //регистрация
+    const res = await register(data);
     if (res instanceof AxiosError) {
         return { error: res.response?.data.message };
     } else {
-        await login(email, password);
+        await login(data.email, data.password);
         return { user: res };
     }
 }

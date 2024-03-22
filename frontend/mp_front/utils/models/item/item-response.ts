@@ -1,5 +1,3 @@
-import { StringSchema } from "joi";
-
 interface IItemResponse {
   id: number;
   title: string;

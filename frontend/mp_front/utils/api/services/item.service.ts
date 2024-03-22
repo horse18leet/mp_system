@@ -3,6 +3,7 @@ import api from "../api";
 
 import IItemResponse from "@/utils/models/item/item-response";
 import IItemRequest from "@/utils/models/item/item-request";
+import IWalletTransactionResponse from "@/utils/models/wallet-transaction/wallet-transaction-response";
 
 export async function getItems(): Promise<IItemResponse[] | AxiosError | any> {     //any временно добавил, ибо ошибка была, которая мешала билд собрать
   try {
@@ -47,3 +48,18 @@ export async function createItem(item: IItemRequest): Promise<AxiosResponse | Ax
     return error;
   }
 }
+
+export async function getItemWalletTransactions(id: number): Promise<IWalletTransactionResponse[] | AxiosError | any> {
+  try {
+    const response = await api.get<IWalletTransactionResponse[]>(`/item/${id}/transactions`);
+    const data = response.data;
+
+    return data;
+
+  } catch (e) {
+    const error = e as AxiosError;
+
+    return error;
+  }
+}
+

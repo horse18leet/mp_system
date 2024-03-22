@@ -1,7 +1,6 @@
 "use client";
 
 import styles from '../page.module.css'
-import schema from "@/schemes/signupSchema";
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
 import { CustomError } from '@/components/CustomError/CustomError';
@@ -11,15 +10,17 @@ import { useRouter } from 'next/navigation';
 import { registration } from '@/utils/utils';
 import Header from '@/components/Header/Header';
 import { useEffect, useState } from 'react';
+import { regUserScheme } from '@/utils/schemas/user/reg-user.scheme';
+import IRegUserRequest from '@/utils/models/user/reg-user-request';
 
 export default function Signup() {
     const router = useRouter()
     const { register, handleSubmit, formState: { errors, isValid, isDirty }} = useForm({      //определяем некоторые параметры формы
-        resolver: joiResolver(schema),                                                        //используем joiResolver для валидации полей
+        resolver: joiResolver(regUserScheme),                                                        //используем joiResolver для валидации полей
         mode: "onChange",                                                                     //onChange для валидации в реальном времени
         defaultValues: {
             firstName: "",
-            lastName: "",
+            secondName: "",
             email: "",
             phoneNumber: "+7",
             password: "",
@@ -36,8 +37,8 @@ export default function Signup() {
         }
     }, [isError]);
 
-    async function onSubmit(data: { firstName: string; lastName: string; email: string; phoneNumber: string; password: string; }) {  //функция сабмита
-        const result = await registration(data.firstName, data.lastName, data.email, data.password);
+    async function onSubmit(data: IRegUserRequest) {  //функция сабмита
+        const result = await registration(data);
         if (result.error) {
             setIsError(true);
             setErrorData({...errorData,
@@ -72,12 +73,12 @@ export default function Signup() {
                     autoFocus
                 />
                 <Input
-                    name="lastName"
+                    name="secondName"
                     type="text"
                     autoComplete="username"
                     label="Фамилия"
                     placeholder="Введите фамилию"
-                    error={errors.lastName?.message as any}
+                    error={errors.secondName?.message as any}
                 />
                 <Input
                     name="email"

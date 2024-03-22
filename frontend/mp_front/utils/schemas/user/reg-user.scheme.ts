@@ -1,6 +1,14 @@
 import Joi from "joi";
 
-const schema = Joi.object({
+/*
+export interface IRegUser {
+    firstName: string;
+    secondName: string;
+    email: string;
+    password: string;
+};*/
+
+export const regUserScheme = Joi.object({
     firstName: Joi.string().required().min(2).max(30).pattern(/^[A-Za-zА-Яа-яЁё\-\s]+$/).messages({
         "string.pattern.base": "Имя должно содержать только буквы",
         "string.empty": "Поле обязательно к заполнению",
@@ -8,7 +16,7 @@ const schema = Joi.object({
         "string.max": "Максимальная длина 30 символов",
         "any.required": "Поле обязательно к заполнению",
     }),
-    lastName: Joi.string().required().min(2).max(30).pattern(/^[A-Za-zА-Яа-яЁё\-\s]+$/).messages({
+    secondName: Joi.string().required().min(2).max(30).pattern(/^[A-Za-zА-Яа-яЁё\-\s]+$/).messages({
         "string.pattern.base": "Фамилия должна содержать только буквы",
         "string.empty": "Поле обязательно к заполнению",
         "string.min": `Минимальная длина 2 символа`,
@@ -32,5 +40,3 @@ const schema = Joi.object({
         "any.required": "Поле обязательно к заполнению",
     }),
 });
-
-export default schema;

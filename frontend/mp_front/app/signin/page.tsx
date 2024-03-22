@@ -1,7 +1,6 @@
 "use client";
 
 import styles from '../page.module.css'
-import schema from "@/schemes/signinSchema";
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -11,11 +10,12 @@ import { login } from "@/utils/utils";
 import Header from '@/components/Header/Header';
 import { useEffect, useState } from 'react';
 import { CustomError } from '@/components/CustomError/CustomError';
+import loginUserScheme from '@/utils/schemas/user/login-user.scheme';
 
 export default function Signin() {
     const router = useRouter();
     const { register, handleSubmit, formState: { errors, isValid, isDirty }} = useForm({ 
-        resolver: joiResolver(schema),
+        resolver: joiResolver(loginUserScheme),
         mode: "onChange",
     });
 

@@ -22,11 +22,16 @@ import { useState } from "react";
 
 export function DataTableRowActions<TData>({
   row,
-  // rowActions,
+  rowId,
   onDelete,
   onUpdate,
   onOperations,
 }: DataTableRowActionsProps<TData>) {
+
+  function handleOperationsClick() {
+    onOperations;
+    // console.log(rowId);
+  }
 
   return (
     <DropdownMenu>

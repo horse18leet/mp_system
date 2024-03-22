@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const schema = Joi.object({
+const loginUserScheme = Joi.object({
     signinEmail: Joi.string().required().pattern(/[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-z]{2,4}$/).messages({
         "string.pattern.base": "Данные должны соответствовать формату: example@example.ru",
         "string.empty": "Поле обязательно к заполнению",
@@ -14,4 +14,4 @@ const schema = Joi.object({
     }),
 });
 
-export default schema;
+export default loginUserScheme;

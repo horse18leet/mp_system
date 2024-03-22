@@ -66,40 +66,35 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 import { Textarea } from "@/components/ui/textarea";
+import IWalletTransactionResponse from "@/utils/models/wallet-transaction/wallet-transaction-response";
 
 export default function Items() {
   const [items, setItems] = useState<IItemResponse[]>([]); //староста, тут ошибка, я пока по-другому сделаю
+  const [walletTransactions, setwalletTransactions] = useState<IWalletTransactionResponse[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isOperationsDialogOpen, setIsOperationsDialogOpen] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);  
-  /*
-  const rowActionsArr = [                 //массив действий со строками таблицы
-    {
-      title: "Операции",
-    },
-    {
-      title: "Изменить",
-    },
-    
-    {
-      title: "Удалить",
-    },
-  ] as RowAction[];*/
-
 
   useEffect(() => {
     getAllItems();
   }, []);
 
-  function handleOperationsClick() {
+  function handleOperationsClick(rowId: number) {
     setIsOperationsDialogOpen(!isOperationsDialogOpen);
+    console.log(rowId);
   }
-
+  
   async function getAllItems() {
     const items = await getItems();
 
     setItems(items);
   }
+  /*
+  async function getWalletTransactions() {
+    const transactions = await getWalletTransactions();
+
+    setwalletTransactions(transactions);
+  }*/
 
   async function removeItem(id: number) {
     const response = await deleteItem(id);
@@ -125,16 +120,7 @@ export default function Items() {
     }
   }
 
-  //   async function handleDeleteProduct(
-  //     event: React.MouseEvent<HTMLElement>,
-  //     itemId: string
-  //   ) {
-  //     //удаление товара
-  //     const result = await deleteItem(itemId);
-  //     result.error ? alert(result.error) : getAllItems(); //удаляем товар из таблицы, если запрос прошёл
-  //   }
-
-  // Настройка колонок таблицы
+  // Настройка колонок основной таблицы
   const columns: ColumnDef<IItemResponse>[] = [
     {
       id: "select",
@@ -230,8 +216,150 @@ export default function Items() {
       cell: ({ row }) => (
         <DataTableRowActions
           row={row}
+          rowId={row.original.id}
           onDelete={() => removeItem(row.original.id)}
-          onOperations={handleOperationsClick}
+          onOperations={() => handleOperationsClick(row.original.id)}
+        />
+      ),
+    },
+  ];
+
+  const walletTransactionsColumns: ColumnDef<IWalletTransactionResponse>[] = [      //колонки для таблицы операций
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+          className="translate-y-[2px]"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+          className="translate-y-[2px]"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "id",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Операция" />
+      ),
+      cell: ({ row }) => (
+        <div className="w-[80px]">{"ТОВАР-" + row.getValue("id")}</div>
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "amount",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Сумма" />
+      ),
+      cell: ({ row }) => {
+        return (
+          <div className="flex space-x-2">
+            <span className="max-w-[100px] truncate font-medium">
+              {row.getValue("amount")}
+            </span>
+          </div>
+        );
+      },
+      meta: {
+        filterDisplayName: "Сумма",
+      },
+    },
+    {
+      accessorKey: "description",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Описание" />
+      ),
+      cell: ({ row }) => {
+        return (
+          <div className="flex space-x-2">
+            <span className="max-w-[100px] truncate font-medium">
+              {row.getValue("description")}
+            </span>
+          </div>
+        );
+      },
+      meta: {
+        filterDisplayName: "Описание",
+      },
+    },
+    /*
+    {
+      accessorKey: "implDate",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="implDate" />
+      ),
+      cell: ({ row }) => {
+        return (
+          <div className="flex space-x-2">
+            <span className="max-w-[100px] truncate font-medium">
+              {row.getValue("implDate")}
+            </span>
+          </div>
+        );
+      },
+      meta: {
+        filterDisplayName: "Цена без скидки",
+      },
+    },
+    */
+    {
+      accessorKey: "createdAt",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Дата создания" />
+      ),
+      cell: ({ row }) => {
+        return (
+          <div className="flex space-x-2">
+            <span className="max-w-[100px] truncate font-medium">
+              {row.getValue("description")}
+            </span>
+          </div>
+        );
+      },
+      meta: {
+        filterDisplayName: "createdAt",
+      },
+    },
+    {
+      accessorKey: "contractorDto",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Подрядчик" />
+      ),
+      cell: ({ row }) => {
+        return (
+          <div className="flex space-x-2">
+            <span className="max-w-[100px] truncate font-medium">
+              {row.getValue("description")}
+            </span>
+          </div>
+        );
+      },
+      meta: {
+        filterDisplayName: "contractorDto",
+      },
+    },
+    {
+      id: "actions",
+      cell: ({ row }) => (
+        <DataTableRowActions
+          row={row}
+          rowId={row.original.id}
+          onDelete={() => removeItem(row.original.id)}
+          // onOperations={() => handleOperationsClick(row.original.id)}
         />
       ),
     },
@@ -256,10 +384,14 @@ export default function Items() {
       <div className="container pt-8 h-full">
         <div className="flex-col space-y-8 md:flex hidden">
           <Dialog open={isOperationsDialogOpen} onOpenChange={setIsOperationsDialogOpen}>
-            <DialogContent>
-              <div className="flex flex-col justify-between w-[300px] h-[500px]">
-                <DialogTitle>Операции</DialogTitle>
-              </div>
+            <DialogContent className="min-w-[1000px]">
+                <DialogHeader>
+                  <DialogTitle>Операции</DialogTitle>
+                </DialogHeader>
+
+                <DataTable title="title" data={walletTransactions} columns={walletTransactionsColumns} additionalFilters={additionalFilters} />
+              
+              {/*  */}
             </DialogContent>
           </Dialog>
 
