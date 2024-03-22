@@ -28,11 +28,6 @@ export function DataTableRowActions<TData>({
   onOperations,
 }: DataTableRowActionsProps<TData>) {
 
-  function handleOperationsClick() {
-    onOperations;
-    // console.log(rowId);
-  }
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

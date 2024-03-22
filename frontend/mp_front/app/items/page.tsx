@@ -68,6 +68,8 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import IWalletTransactionResponse from "@/utils/models/wallet-transaction/wallet-transaction-response";
 
+import WalletTransactionsTable from "@/components/WalletTransactionsTable/WalletTransactionsTable";
+
 export default function Items() {
   const [items, setItems] = useState<IItemResponse[]>([]); //староста, тут ошибка, я пока по-другому сделаю
   const [walletTransactions, setwalletTransactions] = useState<IWalletTransactionResponse[]>([]);
@@ -224,148 +226,21 @@ export default function Items() {
     },
   ];
 
-  const walletTransactionsColumns: ColumnDef<IWalletTransactionResponse>[] = [      //колонки для таблицы операций
+  const additionalFilters = [
     {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-          className="translate-y-[2px]"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-          className="translate-y-[2px]"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
+      label: "Шаблоны",
+      value: "Шаблоны",
     },
     {
-      accessorKey: "id",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Операция" />
-      ),
-      cell: ({ row }) => (
-        <div className="w-[80px]">{"ТОВАР-" + row.getValue("id")}</div>
-      ),
-      enableSorting: false,
-      enableHiding: false,
+      label: "Импорт",
+      value: "Импорт",
     },
     {
-      accessorKey: "amount",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Сумма" />
-      ),
-      cell: ({ row }) => {
-        return (
-          <div className="flex space-x-2">
-            <span className="max-w-[100px] truncate font-medium">
-              {row.getValue("amount")}
-            </span>
-          </div>
-        );
-      },
-      meta: {
-        filterDisplayName: "Сумма",
-      },
-    },
-    {
-      accessorKey: "description",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Описание" />
-      ),
-      cell: ({ row }) => {
-        return (
-          <div className="flex space-x-2">
-            <span className="max-w-[100px] truncate font-medium">
-              {row.getValue("description")}
-            </span>
-          </div>
-        );
-      },
-      meta: {
-        filterDisplayName: "Описание",
-      },
-    },
-    /*
-    {
-      accessorKey: "implDate",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="implDate" />
-      ),
-      cell: ({ row }) => {
-        return (
-          <div className="flex space-x-2">
-            <span className="max-w-[100px] truncate font-medium">
-              {row.getValue("implDate")}
-            </span>
-          </div>
-        );
-      },
-      meta: {
-        filterDisplayName: "Цена без скидки",
-      },
-    },
-    */
-    {
-      accessorKey: "createdAt",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Дата создания" />
-      ),
-      cell: ({ row }) => {
-        return (
-          <div className="flex space-x-2">
-            <span className="max-w-[100px] truncate font-medium">
-              {row.getValue("description")}
-            </span>
-          </div>
-        );
-      },
-      meta: {
-        filterDisplayName: "createdAt",
-      },
-    },
-    {
-      accessorKey: "contractorDto",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Подрядчик" />
-      ),
-      cell: ({ row }) => {
-        return (
-          <div className="flex space-x-2">
-            <span className="max-w-[100px] truncate font-medium">
-              {row.getValue("description")}
-            </span>
-          </div>
-        );
-      },
-      meta: {
-        filterDisplayName: "contractorDto",
-      },
-    },
-    {
-      id: "actions",
-      cell: ({ row }) => (
-        <DataTableRowActions
-          row={row}
-          rowId={row.original.id}
-          onDelete={() => removeItem(row.original.id)}
-          // onOperations={() => handleOperationsClick(row.original.id)}
-        />
-      ),
-    },
-  ];
+      label: "Все",
+      value: "Все",
+    } 
+] as  FacetedFilterOption[];
 
-  const additionalFilters = [] as FacetedFilterOption[];
 
   const addItemForm = useForm<IAddItem>({
     resolver: joiResolver(addItemScheme),
@@ -388,10 +263,9 @@ export default function Items() {
                 <DialogHeader>
                   <DialogTitle>Операции</DialogTitle>
                 </DialogHeader>
-
-                <DataTable title="title" data={walletTransactions} columns={walletTransactionsColumns} additionalFilters={additionalFilters} />
+                <WalletTransactionsTable itemId={22} />
+                {/* <DataTable title="title" data={walletTransactions} columns={walletTransactionsColumns} /> */}
               
-              {/*  */}
             </DialogContent>
           </Dialog>
 

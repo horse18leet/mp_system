@@ -55,28 +55,27 @@ export function DataTableViewOptions<TData>({
             );
           })
         }
-        
-        <DropdownMenuLabel className="py-2 text-center px-2 mt-[10px]">Отобразить товары</DropdownMenuLabel>
+
         {
-          additionalFilters.length > 0 ?
-          <>
-            <DropdownMenuSeparator />
-            {additionalFilters.map((filter) => (
-              <DropdownMenuCheckboxItem
-                key={filter.label}
-                className="capitalize py-2"
-                // checked={filter.getIsVisible()}
-                // onCheckedChange={(value) => filter.toggleVisibility(!!value)}
-              >
-                {filter.label}
-              </DropdownMenuCheckboxItem>
-              ))
-            }
-          </>
-          :
-          <></>
+          additionalFilters ? 
+            <>
+              <DropdownMenuLabel className="py-2 text-center px-2 mt-[10px]">Отобразить товары</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+                {additionalFilters.map((filter) => (
+                  <DropdownMenuCheckboxItem
+                    key={filter.label}
+                    className="capitalize py-2"
+                    // checked={filter.getIsVisible()}
+                    // onCheckedChange={(value) => filter.toggleVisibility(!!value)}
+                  >
+                    {filter.label}
+                  </DropdownMenuCheckboxItem>
+                  ))
+                }
+            </>
+            :
+            <></>
         }
-        
       </DropdownMenuContent>
     </DropdownMenu>
   );

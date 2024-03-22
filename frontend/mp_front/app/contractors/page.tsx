@@ -79,8 +79,9 @@ export default function Contractors() {
         getAllContractors();
     }, []);
 
-    function handleOperationsClick() {
+    function handleOperationsClick(rowId: number) {
         setIsOperationsDialogOpen(!isOperationsDialogOpen);
+        console.log(rowId);
     }
 
     async function getAllContractors() {
@@ -312,8 +313,9 @@ export default function Contractors() {
             id: "actions",
             cell: ({ row }) => (
                 <DataTableRowActions
-                row={row}
-                onOperations={handleOperationsClick}
+                    row={row}
+                    rowId={row.original.id}
+                    onOperations={() => handleOperationsClick(row.original.id)}
             //   onDelete={() => removeItem(row.original.id)}      //надо написать запросы к серваку
                 />
             ),
