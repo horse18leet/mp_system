@@ -66,37 +66,22 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 import { Textarea } from "@/components/ui/textarea";
-import IWalletTransactionResponse from "@/utils/models/wallet-transaction/wallet-transaction-response";
 
-import WalletTransactionsTable from "@/components/WalletTransactionsTable/WalletTransactionsTable";
 
 export default function Items() {
   const [items, setItems] = useState<IItemResponse[]>([]); //староста, тут ошибка, я пока по-другому сделаю
-  const [walletTransactions, setwalletTransactions] = useState<IWalletTransactionResponse[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isOperationsDialogOpen, setIsOperationsDialogOpen] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);  
 
   useEffect(() => {
     getAllItems();
   }, []);
-
-  function handleOperationsClick(rowId: number) {
-    setIsOperationsDialogOpen(!isOperationsDialogOpen);
-    console.log(rowId);
-  }
   
   async function getAllItems() {
     const items = await getItems();
 
     setItems(items);
   }
-  /*
-  async function getWalletTransactions() {
-    const transactions = await getWalletTransactions();
-
-    setwalletTransactions(transactions);
-  }*/
 
   async function removeItem(id: number) {
     const response = await deleteItem(id);
@@ -220,7 +205,7 @@ export default function Items() {
           row={row}
           rowId={row.original.id}
           onDelete={() => removeItem(row.original.id)}
-          onOperations={() => handleOperationsClick(row.original.id)}
+          // onOperations={() => handleOperationsClick(row.original.id)}
         />
       ),
     },
@@ -258,17 +243,6 @@ export default function Items() {
     <ProtectedLayout>
       <div className="container pt-8 h-full">
         <div className="flex-col space-y-8 md:flex hidden">
-          <Dialog open={isOperationsDialogOpen} onOpenChange={setIsOperationsDialogOpen}>
-            <DialogContent className="min-w-[1000px]">
-                <DialogHeader>
-                  <DialogTitle>Операции</DialogTitle>
-                </DialogHeader>
-                <WalletTransactionsTable itemId={22} />
-                {/* <DataTable title="title" data={walletTransactions} columns={walletTransactionsColumns} /> */}
-              
-            </DialogContent>
-          </Dialog>
-
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <div className="flex items-center justify-between">
               <div>

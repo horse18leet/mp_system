@@ -1,6 +1,10 @@
 "use client";
 
+import { useState } from "react";
+
 import { MoreHorizontal } from "lucide-react";
+
+import { DataTableRowActionsProps } from "./types/data-table-types";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,9 +20,15 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { DataTableRowActionsProps } from "./types/data-table-types";
-import { Dialog, DialogTrigger, DialogContent } from "../ui/dialog";
-import { useState } from "react";
+
+import {
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle 
+} from "../ui/dialog";
+
+import WalletTransactionsTable from "../WalletTransactionsTable/WalletTransactionsTable";
 
 export function DataTableRowActions<TData>({
   row,
@@ -27,6 +37,12 @@ export function DataTableRowActions<TData>({
   onUpdate,
   onOperations,
 }: DataTableRowActionsProps<TData>) {
+
+  const [isOperationsDialogOpen, setIsOperationsDialogOpen] = useState(false);
+  
+  function openDialog() {
+    setIsOperationsDialogOpen(!isOperationsDialogOpen);
+  }
 
   return (
     <>
@@ -41,13 +57,21 @@ export function DataTableRowActions<TData>({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px]">
-          <DropdownMenuItem className="cursor-pointer" onClick={onOperations}>Операции</DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer" onClick={openDialog}>Операции</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer">Изменить</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer" onClick={onDelete}>Удалить</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      <Dialog open={isOperationsDialogOpen} onOpenChange={setIsOperationsDialogOpen}>
+        <DialogContent className="min-w-[1000px]">
+          <DialogHeader>
+              <DialogTitle>Операции</DialogTitle>
+          </DialogHeader>
+          <WalletTransactionsTable itemId={rowId} />              
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

@@ -15,13 +15,13 @@ function WalletTransactionsTable({itemId}: any) {
     const [walletTransactions, setwalletTransactions] = useState<any>([]);
 
     useEffect(() => {
-        getWalletTransactions(itemId);
+      getWalletTransactions(itemId);
     }, []);
 
     async function getWalletTransactions(itemId: any) {
-        const transactions = await getItemWalletTransactions(itemId);
+      const transactions = await getItemWalletTransactions(itemId);
     
-        setwalletTransactions(transactions);
+      setwalletTransactions(transactions);
     }
 
     const walletTransactionsColumns: ColumnDef<IWalletTransactionResponse>[] = [      //колонки для таблицы операций
