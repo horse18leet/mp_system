@@ -274,6 +274,7 @@ export default function Items() {
                   <FormField
                     control={addItemForm.control}
                     name="title"
+                    defaultValue=""
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Название</FormLabel>
@@ -288,6 +289,7 @@ export default function Items() {
                   <FormField
                     control={addItemForm.control}
                     name="category"
+                    defaultValue=""
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
                         <FormLabel>Категория</FormLabel>
@@ -354,6 +356,7 @@ export default function Items() {
                     <FormField
                       control={addItemForm.control}
                       name="firstPrice"
+                      defaultValue={0}
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Первичная цена</FormLabel>
@@ -380,6 +383,7 @@ export default function Items() {
                   <FormField
                     control={addItemForm.control}
                     name="description"
+                    defaultValue=""
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Описание</FormLabel>

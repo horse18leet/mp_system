@@ -23,6 +23,20 @@ export async function getItems(): Promise<IItemResponse[] | AxiosError | any> { 
   }
 }
 
+export async function getItem(id: number): Promise<IItemResponse | AxiosError | any> {
+  try {
+    const response = await api.get<IItemResponse>(`/item/${id}`);
+    const data = response.data;
+
+    return data;
+
+  } catch (e) {
+    const error = e as AxiosError;
+
+    return error;
+  }
+}
+
 export async function deleteItem(id: number): Promise<AxiosResponse | AxiosError> {
   try {
     const response = await api.delete(`/item/drop/${id}`);
@@ -49,17 +63,4 @@ export async function createItem(item: IItemRequest): Promise<AxiosResponse | Ax
   }
 }
 
-export async function getItemWalletTransactions(id: number): Promise<IWalletTransactionResponse[] | AxiosError | any> {
-  try {
-    const response = await api.get<IWalletTransactionResponse[]>(`/item/${id}/transactions`);
-    const data = response.data;
-
-    return data;
-
-  } catch (e) {
-    const error = e as AxiosError;
-
-    return error;
-  }
-}
 

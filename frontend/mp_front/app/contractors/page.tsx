@@ -90,7 +90,6 @@ export default function Contractors() {
     }
 
     async function addContractor(data: IAddContractor) {
-        console.log("кнопка сабмита нажата...");
 
         const response = await createContractor(data);
     

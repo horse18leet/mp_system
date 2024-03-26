@@ -6,7 +6,6 @@ import IContractorResponse from "@/utils/models/contractor/contractor-response";
 
 export async function createContractor(contractor: IContractorRequest): Promise<AxiosResponse | AxiosError> {
     try {
-        console.log("test");
       const response = await api.post(`/contractor/create`, contractor);
       const data = response.data;
   
@@ -30,4 +29,18 @@ export async function getContractors(): Promise<IContractorResponse[] | AxiosErr
   
       return error;
     }
+}
+
+export async function getContractor(id: number): Promise<IContractorResponse | AxiosError | any> {
+  try {
+    const response = await api.get<IContractorResponse>(`/contractor/${id}`);
+    const data = response.data;
+
+    return data;
+
+  } catch (e) {
+    const error = e as AxiosError;
+
+    return error;
   }
+}
