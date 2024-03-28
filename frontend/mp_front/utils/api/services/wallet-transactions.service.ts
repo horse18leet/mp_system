@@ -8,7 +8,7 @@ export async function getItemWalletTransactions(id: number): Promise<IWalletTran
     try {
       const response = await api.get<IWalletTransactionResponse[]>(`/walletTransactions/item/${id}`);
       const data = response.data;
-      console.log(data);
+
       return data;
   
     } catch (e) {
@@ -29,4 +29,16 @@ export async function createWalletTransaction(id: number, walletTransaction: IWa
     return error;
   }
 }
-  
+
+export async function deleteWalletTransaction(id: number): Promise<AxiosResponse | AxiosError> {
+  try {
+    const response = await api.delete(`/walletTransactions/drop/${id}`);
+    
+    return response;
+
+  } catch (e) {
+    const error = e as AxiosError;
+
+    return error;
+  }
+}

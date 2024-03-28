@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import IWalletTransactionResponse from "@/utils/models/wallet-transaction/wallet-transaction-response";
-import { createWalletTransaction, getItemWalletTransactions } from "@/utils/api/services/wallet-transactions.service";
+import { createWalletTransaction, deleteWalletTransaction, getItemWalletTransactions } from "@/utils/api/services/wallet-transactions.service";
 import { IAddWalletTransaction, addWalletTransactionScheme } from "@/utils/schemas/wallet-transaction/add-wallet-transaction.scheme";
 
 import { getContractors } from "@/utils/api/services/contractor.service";
@@ -77,7 +77,7 @@ function WalletTransactionsTable({itemId}: any) {
     const typesArr = ["Приход", "Расход"];
 
     useEffect(() => {
-      getWalletTransactions(itemId);
+      getAllWalletTransactions(itemId);
       getAllContractors();
     }, []);
 
@@ -91,11 +91,22 @@ function WalletTransactionsTable({itemId}: any) {
       setContractorsArr(contractors);
     }
 
-    async function getWalletTransactions(id: number) {
+    async function getAllWalletTransactions(id: number) {
       const transactions = await getItemWalletTransactions(id);
     
       setwalletTransactions(transactions);
     }
+
+    async function removeWalletTransaction(id: number) {    //удаление подрядчика
+      const response = await deleteWalletTransaction(id);
+  
+      if (response instanceof AxiosError) {
+        console.log(response.message);
+        return;
+      } else {
+        getAllWalletTransactions(itemId);
+      }
+  }
 
     function getSelectedContractor() {
       const contractorName = addWalletTransactionForm.getValues("contractorDto");
@@ -118,7 +129,7 @@ function WalletTransactionsTable({itemId}: any) {
         setIsDialogFormOpen(false);
         return;
       } else {
-        getWalletTransactions(itemId).then(() => setIsDialogFormOpen(false));
+        getAllWalletTransactions(itemId).then(() => setIsDialogFormOpen(false));
       }
     }
 
@@ -274,7 +285,7 @@ function WalletTransactionsTable({itemId}: any) {
         <DataTableRowActions
           row={row}
           rowId={row.original.id}
-        //   onDelete={() => removeItem(row.original.id)}
+          onDelete={() => removeWalletTransaction(row.original.id)}
         />
       ),
     },

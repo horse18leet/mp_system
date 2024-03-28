@@ -44,3 +44,16 @@ export async function getContractor(id: number): Promise<IContractorResponse | A
     return error;
   }
 }
+
+export async function deleteContractor(id: number): Promise<AxiosResponse | AxiosError> {
+  try {
+    const response = await api.delete(`/contractor/drop/${id}`);
+    
+    return response;
+
+  } catch (e) {
+    const error = e as AxiosError;
+
+    return error;
+  }
+}

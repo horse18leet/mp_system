@@ -64,7 +64,9 @@ export function DataTableRowActions<TData>({
           <DropdownMenuItem className="cursor-pointer" onClick={onDelete}>Удалить</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <Dialog open={isOperationsDialogOpen} onOpenChange={setIsOperationsDialogOpen}>
+      
+      {/* Таблица с операциями */}
+      <Dialog open={isOperationsDialogOpen} onOpenChange={setIsOperationsDialogOpen}>   
         <DialogContent className="min-w-[1000px]">
           <DialogHeader>
               <DialogTitle>Операции</DialogTitle>

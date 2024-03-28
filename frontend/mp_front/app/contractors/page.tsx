@@ -47,12 +47,13 @@ import {
 } from "@/components/ui/dialog";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { FacetedFilterOption } from "@/components/Table/types/data-table-types";
 
 import { AxiosError } from "axios";
-import { createContractor, getContractors } from "@/utils/api/services/contractor.service";
+import { createContractor, deleteContractor, getContractors } from "@/utils/api/services/contractor.service";
 import IContractorResponse from "@/utils/models/contractor/contractor-response";
 
 export default function Contractors() {
@@ -61,19 +62,6 @@ export default function Contractors() {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [popoverOpen, setPopoverOpen] = useState(false);
     const [isOperationsDialogOpen, setIsOperationsDialogOpen] = useState(false);
-
-    /*
-    const rowActionsArr = [                 //массив действий со строками таблицы
-    {
-        title: "Операции",
-    },
-    {
-      title: "Изменить",
-    },
-    {
-      title: "Удалить",
-    },
-  ] as RowAction[];*/
 
     useEffect(() => {
         getAllContractors();
@@ -90,15 +78,25 @@ export default function Contractors() {
     }
 
     async function addContractor(data: IAddContractor) {
-
         const response = await createContractor(data);
     
         if (response instanceof AxiosError) {
-          console.log(response.message);
-          setDialogOpen(false);
-          return;
+            console.log(response.message);
+            setDialogOpen(false);
+            return;
         } else {
             getAllContractors().then(() => setDialogOpen(false));
+        }
+    }
+
+    async function removeContractor(id: number) {    //удаление подрядчика
+        const response = await deleteContractor(id);
+    
+        if (response instanceof AxiosError) {
+          console.log(response.message);
+          return;
+        } else {
+            getAllContractors();
         }
     }
 
@@ -315,7 +313,7 @@ export default function Contractors() {
                     row={row}
                     rowId={row.original.id}
                     onOperations={() => handleOperationsClick(row.original.id)}
-            //   onDelete={() => removeItem(row.original.id)}      //надо написать запросы к серваку
+                    onDelete={() => removeContractor(row.original.id)} 
                 />
             ),
         },
