@@ -1,13 +1,20 @@
 import { useState, useEffect } from "react";
 
+import { 
+  createContractorWalletTransaction,
+  createItemWalletTransaction,
+  deleteWalletTransaction,
+  getContractorWalletTransactions,
+  getItemWalletTransactions,
+} from "@/utils/api/services/wallet-transactions.service";
 import IWalletTransactionResponse from "@/utils/models/wallet-transaction/wallet-transaction-response";
-import { createWalletTransaction, deleteWalletTransaction, getItemWalletTransactions } from "@/utils/api/services/wallet-transactions.service";
 import { IAddWalletTransaction, addWalletTransactionScheme } from "@/utils/schemas/wallet-transaction/add-wallet-transaction.scheme";
 
-import { getContractors } from "@/utils/api/services/contractor.service";
+import { getContractor, getContractors } from "@/utils/api/services/contractor.service";
 import IContractorResponse from "@/utils/models/contractor/contractor-response";
 
-import { getItem } from "@/utils/api/services/item.service";
+import { getItem, getItems } from "@/utils/api/services/item.service";
+import IItemResponse from "@/utils/models/item/item-response";
 
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -64,72 +71,138 @@ import {
   ChevronsUpDown,
 } from "lucide-react";
 
+import {usePathname } from "next/navigation";
 
 
-function WalletTransactionsTable({itemId}: any) {
+function WalletTransactionsTable({dataId}: any) {
+    const currentPage = usePathname();
+
     const [walletTransactions, setwalletTransactions] = useState<any>([]);
     const [contractorsArr, setContractorsArr] = useState<IContractorResponse[]>([]);
+    const [itemsArr, setItemsArr] = useState<IItemResponse[]>([]);
 
     const [isDialogFormOpen, setIsDialogFormOpen] = useState(false);
-    const [isPopoverContractorOpen, setIsPopoverContractorOpen] = useState(false);  
+    const [isSecondaryPopoverOpen, setIsSecondaryPopoverOpen] = useState(false);  
     const [isPopoverTypeOpen, setIsPopoverTypeOpen] = useState(false);  
+
+    const dtoRowKey = currentPage === "/items" ? "contractorDto" : "itemDto";       //данные для столбца
+    const dtoRowTitle = currentPage === "/items" ? "Подрядчик" : "Товар";
+    const submitFunction =  currentPage === "/items" ? addItemWalletTransaction : addContractorWalletTransaction;
 
     const typesArr = ["Приход", "Расход"];
 
     useEffect(() => {
-      getAllWalletTransactions(itemId);
-      getAllContractors();
+      if (currentPage === "/items") {
+        getAllItemWalletTransactions(dataId);
+        getAllContractors()
+      } 
+      else if (currentPage === "/contractors") {
+        getAllContractorWalletTransactions(dataId);
+        getAllItems();
+      }
     }, []);
 
-    // async function getCurrentItem() {
-    //   const item = await getItem();
-    //   setContractorsArr(contractors);
-    // }
+    function getValueByKey(row: any, objName: string) {             //извлекаем название из объекта
+      const key = currentPage === "/items" ? "name" : "title";
+      // console.log("KEY: ", key);
+      // console.log("OBJNAME: ", objName);
 
-    async function getAllContractors() {
-      const contractors = await getContractors();
-      setContractorsArr(contractors);
+      const data = row.getValue(objName);
+      // console.log("DATA: ", data);
+      if (data[key] !== null) {
+        return data[key];
+      }
+      else {
+        return "Ошибка";
+      }
     }
 
-    async function getAllWalletTransactions(id: number) {
+    async function getAllItems() {    //получение всех товаров
+      const items = await getItems();
+      setItemsArr(items);
+    }
+
+    async function getAllItemWalletTransactions(id: number) {   //получение всех операций товара
       const transactions = await getItemWalletTransactions(id);
-    
+      console.log(transactions);
+
       setwalletTransactions(transactions);
     }
 
-    async function removeWalletTransaction(id: number) {    //удаление подрядчика
-      const response = await deleteWalletTransaction(id);
-  
-      if (response instanceof AxiosError) {
-        console.log(response.message);
-        return;
-      } else {
-        getAllWalletTransactions(itemId);
-      }
-  }
-
-    function getSelectedContractor() {
-      const contractorName = addWalletTransactionForm.getValues("contractorDto");
-      const selectedContractor = contractorsArr.find(contractor => contractor.name === contractorName); 
-      return selectedContractor;
-    }
-
-    async function addWalletTransaction(data: IAddWalletTransaction) {
+    async function addItemWalletTransaction(data: IAddWalletTransaction) {
       const currentContractor = getSelectedContractor();
-      const currentItem = await getItem(itemId);
+      const currentItem = await getItem(dataId);
       data["itemDto"] = currentItem;
       data["contractorDto"] = currentContractor;
 
-      console.log(data);
+      console.log(data);  
 
-      const response = await createWalletTransaction(itemId, data);
+      const response = await createItemWalletTransaction(dataId, data);
   
       if (response instanceof AxiosError) {
         console.log(response.message);
         setIsDialogFormOpen(false);
         return;
       } else {
-        getAllWalletTransactions(itemId).then(() => setIsDialogFormOpen(false));
+        getAllItemWalletTransactions(dataId).then(() => setIsDialogFormOpen(false));
+      }
+    }
+
+    function getSelectedItem() {                                        //получение названия товара для рендера в форме добавления операции
+      const itemTitle = addWalletTransactionForm.getValues("itemDto");
+      const selectedItem = itemsArr.find(item => item.title === itemTitle); 
+      return selectedItem;
+    }
+ 
+    async function getAllContractors() {                  //получение всех подрядчиков
+      const contractors = await getContractors();
+      setContractorsArr(contractors);
+    }
+
+    async function getAllContractorWalletTransactions(id: number) {          //получение всех операций подрядчика
+      const transactions = await getContractorWalletTransactions(id);
+      console.log(transactions);
+      setwalletTransactions(transactions);  
+    }
+
+    async function addContractorWalletTransaction(data: IAddWalletTransaction) {
+      const currentItem = getSelectedItem();
+      const currentContractor = await getContractor(dataId);
+      data["itemDto"] = currentItem;
+      data["contractorDto"] = currentContractor;
+
+      console.log(data);
+
+      const response = await createContractorWalletTransaction(dataId, data);
+  
+      if (response instanceof AxiosError) {
+        console.log(response.message);
+        setIsDialogFormOpen(false);
+        return;
+      } else {
+        getAllContractorWalletTransactions(dataId).then(() => setIsDialogFormOpen(false));
+      }
+    }
+
+    function getSelectedContractor() {                                        //получение имени поставщика для рендера в форме добавления операции
+      const contractorName = addWalletTransactionForm.getValues("contractorDto");
+      const selectedContractor = contractorsArr.find(contractor => contractor.name === contractorName); 
+      return selectedContractor;
+    }
+
+    async function removeWalletTransaction(id: number) {    //удаление операции
+      const response = await deleteWalletTransaction(id);
+  
+      if (response instanceof AxiosError) {
+        console.log(response.message);
+        return;
+      } else {
+        if (currentPage === "/items") {
+          getAllItemWalletTransactions(dataId);
+        }
+        else if(currentPage === "/contractors") {
+          getAllContractorWalletTransactions(dataId);
+        }
       }
     }
 
@@ -262,21 +335,21 @@ function WalletTransactionsTable({itemId}: any) {
       },
     },
     {
-      accessorKey: "contractorDto",
+      accessorKey: dtoRowKey,
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Подрядчик" />
+        <DataTableColumnHeader column={column} title={dtoRowTitle} />
       ),
       cell: ({ row }) => {
         return (
           <div className="flex space-x-2">
             <span className="max-w-[100px] truncate font-medium">
-              {row.getValue("type")}
+              {getValueByKey(row, dtoRowKey)}  
             </span>
           </div>
         );
       },
       meta: {
-        filterDisplayName: "contractorDto",
+        filterDisplayName: dtoRowKey,
       },
     },
     {
@@ -285,6 +358,7 @@ function WalletTransactionsTable({itemId}: any) {
         <DataTableRowActions
           row={row}
           rowId={row.original.id}
+          isOperations={false}
           onDelete={() => removeWalletTransaction(row.original.id)}
         />
       ),
@@ -321,7 +395,7 @@ function WalletTransactionsTable({itemId}: any) {
               <Form {...addWalletTransactionForm}>
                 <form
                   className="flex flex-col gap-4"
-                  onSubmit={addWalletTransactionForm.handleSubmit(addWalletTransaction)}
+                  onSubmit={addWalletTransactionForm.handleSubmit(submitFunction)}
                 >
                   <FormField
                     control={addWalletTransactionForm.control}
@@ -404,14 +478,16 @@ function WalletTransactionsTable({itemId}: any) {
                       </FormItem>
                     )}
                   />
-                  <FormField
+                  {
+                    currentPage === "/items" ?
+                    <FormField
                     control={addWalletTransactionForm.control}
                     name="contractorDto"
                     defaultValue=""
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
                         <FormLabel>Подрядчик</FormLabel>
-                        <Popover open={isPopoverContractorOpen} onOpenChange={setIsPopoverContractorOpen}>
+                        <Popover open={isSecondaryPopoverOpen} onOpenChange={setIsSecondaryPopoverOpen}>
                           <PopoverTrigger asChild>
                             <FormControl>
                               <Button
@@ -449,7 +525,7 @@ function WalletTransactionsTable({itemId}: any) {
                                         "contractorDto",
                                         contractor.name
                                       );
-                                      setIsPopoverContractorOpen(false);
+                                      setIsSecondaryPopoverOpen(false);
                                     }}
                                   >
                                     <Check
@@ -470,6 +546,75 @@ function WalletTransactionsTable({itemId}: any) {
                       </FormItem>
                     )}
                   />
+                  :
+                  <FormField
+                    control={addWalletTransactionForm.control}
+                    name="itemDto"
+                    defaultValue=""
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Товар</FormLabel>
+                        <Popover open={isSecondaryPopoverOpen} onOpenChange={setIsSecondaryPopoverOpen}>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                className={cn(
+                                  "justify-between",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                {field.value
+                                  ? itemsArr.find(
+                                      (item) =>
+                                      item.title === field.value
+                                    )?.title
+                                  : "Выберите товар"}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-[var(--radix-popover-trigger-width)] max-h-[var(--radix-popover-content-available-height)] p-0">
+                            <Command>
+                              <CommandInput
+                                className="border-none focus-visible:ring-ring focus-visible:ring-offset-2"
+                                placeholder="Поиск товара..."
+                              />
+                              <CommandEmpty>Товар не найден.</CommandEmpty>
+                              <CommandGroup>
+                                {itemsArr.map((item) => (
+                                  <CommandItem
+                                    value={item.title}
+                                    key={item.title}
+                                    onSelect={() => {
+                                      addWalletTransactionForm.setValue(
+                                        "itemDto",
+                                        item.title
+                                      );
+                                      setIsSecondaryPopoverOpen(false);
+                                    }}
+                                  >
+                                    <Check
+                                      className={cn(
+                                        "mr-2 h-4 w-4",
+                                        item.title === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                    {item.title}
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
+                      </FormItem>
+                    )}
+                  />
+                  }
+                  
                   <FormField
                     control={addWalletTransactionForm.control}
                     name="description"

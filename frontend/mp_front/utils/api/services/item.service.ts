@@ -3,11 +3,13 @@ import api from "../api";
 
 import IItemResponse from "@/utils/models/item/item-response";
 import IItemRequest from "@/utils/models/item/item-request";
-import IWalletTransactionResponse from "@/utils/models/wallet-transaction/wallet-transaction-response";
+
+import { updateToken } from "../auth/auth";
 
 export async function getItems(): Promise<IItemResponse[] | AxiosError | any> {     //any временно добавил, ибо ошибка была, которая мешала билд собрать
   try {
     const response = await api.get<IItemResponse[]>("/item?isDraft=true");
+
     const data = response.data;
 
     return data;
@@ -18,6 +20,7 @@ export async function getItems(): Promise<IItemResponse[] | AxiosError | any> { 
     // }
   } catch (e) {
     const error = e as AxiosError; // Обработку ошибок добавлю позже
+    // updateToken();
 
     return error;
   }

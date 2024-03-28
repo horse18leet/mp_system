@@ -14,7 +14,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
-
+/*
 export default function Items() {
     const [products, setProducts] = useState([]);
 
@@ -35,7 +35,7 @@ export default function Items() {
                 <>
                     <Link href="/items/new" className="mr-auto ml-[0px] mb-[20px] products__link link">Добавить поставку</Link>
                     <Table className="mb-[50px]">
-                        {/* <TableCaption>Мои товары</TableCaption> */}
+                        {/* <TableCaption>Мои товары</TableCaption> }
                         <TableHeader>
                             <TableRow>
                                 <TableHead className="text-center w-[100px]">Идентификатор</TableHead>
@@ -72,4 +72,4 @@ export default function Items() {
             </section>
         </ProtectedLayout>
     );
-}
+}*/

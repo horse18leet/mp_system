@@ -204,6 +204,7 @@ export default function Items() {
         <DataTableRowActions
           row={row}
           rowId={row.original.id}
+          isOperations={true}
           onDelete={() => removeItem(row.original.id)}
           // onOperations={() => handleOperationsClick(row.original.id)}
         />

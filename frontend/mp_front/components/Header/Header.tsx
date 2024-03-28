@@ -34,13 +34,13 @@ const productsManagementItems: {
     icon: <Barcode className="mr-2 h-4 w-4" />,
     href: "/items",
     desc: "Добавляйте, редактируйте и отслеживайте доступные товары, чтобы предоставлять вашим клиентам наилучший выбор.",
-  },
+  },/*
   {
     label: "Поставки",
     icon: <Truck className="mr-2 h-4 w-4" />,
     href: "/deliveries",
     desc: "Обеспечивайте бесперебойное снабжение вашего ассортимента, гарантируя, что товары всегда доступны для ваших клиентов.",
-  },
+  },*/
   {
     label: "Подрядчики",
     icon: <PersonStanding className="mr-2 h-4 w-4" />,
@@ -101,7 +101,7 @@ export default function Header({ loggedIn, setLoggedIn }: Props) {
               <NavigationMenuList className="flex-row">
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="bg-transparent transition-colors text-muted-foreground hover:text-foreground">
-                    Товары и поставки
+                    Товары и подрядчики
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-2 p-3 md:w-[500px] md:grid-cols-1 lg:w-[520px] ">

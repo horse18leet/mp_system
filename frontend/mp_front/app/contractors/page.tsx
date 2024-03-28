@@ -312,6 +312,7 @@ export default function Contractors() {
                 <DataTableRowActions
                     row={row}
                     rowId={row.original.id}
+                    isOperations={true}
                     onOperations={() => handleOperationsClick(row.original.id)}
                     onDelete={() => removeContractor(row.original.id)} 
                 />

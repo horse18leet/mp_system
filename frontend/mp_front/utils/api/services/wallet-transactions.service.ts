@@ -17,9 +17,35 @@ export async function getItemWalletTransactions(id: number): Promise<IWalletTran
     }
 }
 
-export async function createWalletTransaction(id: number, walletTransaction: IWalletTransactionRequest): Promise<AxiosResponse | AxiosError> {
+export async function getContractorWalletTransactions(id: number): Promise<IWalletTransactionResponse[] | AxiosError | any> {
+  try {
+    const response = await api.get<IWalletTransactionResponse[]>(`/walletTransactions/contractor/${id}`);
+    const data = response.data;
+
+    return data;
+
+  } catch (e) {
+    const error = e as AxiosError;
+    return error;
+  }
+}
+
+export async function createItemWalletTransaction(id: number, walletTransaction: IWalletTransactionRequest): Promise<AxiosResponse | AxiosError> {
   try {
     const response = await api.post(`/walletTransactions/item/${id}`, walletTransaction);
+    const data = response.data;
+
+    return data;
+
+  } catch (e) {
+    const error = e as AxiosError;
+    return error;
+  }
+}
+
+export async function createContractorWalletTransaction(id: number, walletTransaction: IWalletTransactionRequest): Promise<AxiosResponse | AxiosError> {
+  try {
+    const response = await api.post(`/walletTransactions/contractor/${id}`, walletTransaction);
     const data = response.data;
 
     return data;

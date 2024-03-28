@@ -44,6 +44,7 @@ export interface DataTablePaginationProps<TData> {
 export interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
   rowId: number;
+  isOperations: boolean;
   onUpdate?: () => Promise<void>;
   onDelete?: () => Promise<void>;
   onOperations?: () => void;

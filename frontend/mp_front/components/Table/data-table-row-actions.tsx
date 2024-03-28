@@ -33,6 +33,7 @@ import WalletTransactionsTable from "../WalletTransactionsTable/WalletTransactio
 export function DataTableRowActions<TData>({
   row,
   rowId,
+  isOperations,
   onDelete,
   onUpdate,
   onOperations,
@@ -57,8 +58,16 @@ export function DataTableRowActions<TData>({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px]">
-          <DropdownMenuItem className="cursor-pointer" onClick={openDialog}>Операции</DropdownMenuItem>
-          <DropdownMenuSeparator />
+          {
+            isOperations ? 
+            <>
+              <DropdownMenuItem className="cursor-pointer" onClick={openDialog}>Операции</DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </>
+            :
+            <></>
+          }
+          
           <DropdownMenuItem className="cursor-pointer">Изменить</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer" onClick={onDelete}>Удалить</DropdownMenuItem>
@@ -71,7 +80,7 @@ export function DataTableRowActions<TData>({
           <DialogHeader>
               <DialogTitle>Операции</DialogTitle>
           </DialogHeader>
-          <WalletTransactionsTable itemId={rowId} />              
+          <WalletTransactionsTable dataId={rowId} />              
         </DialogContent>
       </Dialog>
     </>

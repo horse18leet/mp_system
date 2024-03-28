@@ -5,7 +5,8 @@ interface IWalletTransactionResponse {
     type: string;
     // implDate: string;
     createdAt: string;
-    contractorDto: any;
+    contractorDto?: any;
+    itemDto?: any;
 };
 
 export default IWalletTransactionResponse;

@@ -26,16 +26,16 @@ export const addWalletTransactionScheme = Joi.object({
         "string.empty": "Поле обязательно к заполнению",
         "string.required": "Поле обязательно к заполнению",
     }),
-    contractorDto: Joi.string().min(3).max(200).required().messages({
+    contractorDto: Joi.string().min(3).max(200).messages({
         "string.min": `Минимальная длина 3 символа`,
         "string.max": `Максимальная длина 200 символов`,
-        "string.empty": "Поле обязательно к заполнению",
-        "string.required": "Поле обязательно к заполнению",
+        // "string.empty": "Поле обязательно к заполнению",
+        // "string.required": "Поле обязательно к заполнению",
     }),
-    // itemDto: Joi.string().min(3).max(200).required().messages({
-    //     "string.min": `Минимальная длина 3 символа`,
-    //     "string.max": `Максимальная длина 200 символов`,
-    //     "string.empty": "Поле обязательно к заполнению",
-    //     "string.required": "Поле обязательно к заполнению",
-    // }),
+    itemDto: Joi.string().min(3).max(200).messages({
+        "string.min": `Минимальная длина 3 символа`,
+        "string.max": `Максимальная длина 200 символов`,
+        // "string.empty": "Поле обязательно к заполнению",
+        // "string.required": "Поле обязательно к заполнению",
+    }),
 })
