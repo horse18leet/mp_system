@@ -15,7 +15,7 @@ export default function ProtectedLayout({ children }: {children: React.ReactNode
         else {
             router.push("/signin");
         }
-    }, [loggedIn]); 
+    }, [loggedIn]);
 
     return (
         <>

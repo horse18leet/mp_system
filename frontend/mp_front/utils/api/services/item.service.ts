@@ -20,7 +20,6 @@ export async function getItems(): Promise<IItemResponse[] | AxiosError | any> { 
     // }
   } catch (e) {
     const error = e as AxiosError; // Обработку ошибок добавлю позже
-    // updateToken();
 
     return error;
   }

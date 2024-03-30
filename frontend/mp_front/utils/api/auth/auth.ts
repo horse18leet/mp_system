@@ -35,7 +35,6 @@ export async function updateToken(): Promise<AxiosError | any> {
     try {
         const response = await api.post("/auth/refresh-token");
         const data = response.data;
-
         localStorage.setItem("token", data.access_token);
         localStorage.setItem("refresh_token", data.refresh_token);
         return data;

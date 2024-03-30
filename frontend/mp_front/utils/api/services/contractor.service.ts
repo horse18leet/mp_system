@@ -13,6 +13,7 @@ export async function createContractor(contractor: IContractorRequest): Promise<
   
     } catch (e) {
       const error = e as AxiosError;
+      console.log("contractorErr: ", error);
       return error;
     }
 }

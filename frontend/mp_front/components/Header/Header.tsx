@@ -2,7 +2,6 @@
 
 import "./Header.css";
 
-import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Barcode, LogOut, Settings, Truck, User2, BarChart3, PersonStanding  } from "lucide-react";
@@ -77,13 +76,12 @@ type Props = {
 };
 
 export default function Header({ loggedIn, setLoggedIn }: Props) {
-  const router = useRouter();
   const pathname = usePathname();
 
   function handleExit() {
     setLoggedIn(false);
     localStorage.removeItem("token");
-    // router.push("/signin");
+    localStorage.removeItem("refresh_token");
   }
 
   return (
