@@ -82,10 +82,10 @@ export default function ContractorForm({
                 <FormField
                     control={contractorForm.control}
                     name="type"
-                    defaultValue=""
+                    defaultValue={!isEdit ? "" : contractor.type}
                     render={({ field }) => (
                         <FormItem className="flex flex-col">
-                            <FormLabel>Категория</FormLabel>
+                            <FormLabel>Тип</FormLabel>
                             <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
                                 <PopoverTrigger asChild>
                                     <FormControl>
@@ -99,7 +99,7 @@ export default function ContractorForm({
                                             (contractorType) =>
                                                 contractorType === field.value
                                         )
-                                        : "Выберите категорию подрядчика"}
+                                        : "Выберите тип подрядчика"}
                                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                         </Button>
                                     </FormControl>
@@ -108,9 +108,9 @@ export default function ContractorForm({
                                     <Command>
                                         <CommandInput
                                             className="border-none focus-visible:ring-ring focus-visible:ring-offset-2"
-                                            placeholder="Поиск категории..."
+                                            placeholder="Поиск типа..."
                                         />
-                                        <CommandEmpty>Категория не найдена.</CommandEmpty>
+                                        <CommandEmpty>Тип не найден.</CommandEmpty>
                                         <CommandGroup>
                                             {contractorTypes.map((contractorType) => (
                                             <CommandItem

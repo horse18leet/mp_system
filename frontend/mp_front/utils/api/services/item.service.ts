@@ -65,4 +65,16 @@ export async function createItem(item: IItemRequest): Promise<AxiosResponse | Ax
   }
 }
 
+export async function editItem(item: IItemRequest): Promise<AxiosResponse | AxiosError> {
+  try {
+    const response = await api.put(`/item/edit`, item);
+    const data = response.data;
+
+    return data;
+
+  } catch (e) {
+    const error = e as AxiosError;
+    return error;
+  }
+}
 
