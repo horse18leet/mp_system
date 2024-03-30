@@ -94,7 +94,7 @@ function WalletTransactionsTable({dataId}: any) {
     useEffect(() => {
       if (currentPage === "/items") {
         getAllItemWalletTransactions(dataId);
-        getAllContractors()
+        getAllContractors();
       } 
       else if (currentPage === "/contractors") {
         getAllContractorWalletTransactions(dataId);
@@ -106,9 +106,9 @@ function WalletTransactionsTable({dataId}: any) {
       const key = currentPage === "/items" ? "name" : "title";
       // console.log("KEY: ", key);
       // console.log("OBJNAME: ", objName);
-
-      const data = row.getValue(objName);
-      // console.log("DATA: ", data);
+      console.log("ROW: ", row.original);
+      const data = row.original;
+      console.log("DATA: ", data);
       if (data[key] !== null) {
         return data[key];
       }
@@ -124,7 +124,7 @@ function WalletTransactionsTable({dataId}: any) {
 
     async function getAllItemWalletTransactions(id: number) {   //получение всех операций товара
       const transactions = await getItemWalletTransactions(id);
-      console.log(transactions);
+      // console.log(transactions);
 
       setwalletTransactions(transactions);
     }
@@ -135,7 +135,7 @@ function WalletTransactionsTable({dataId}: any) {
       data["itemDto"] = currentItem;
       data["contractorDto"] = currentContractor;
 
-      console.log(data);  
+      // console.log(data);  
 
       const response = await createItemWalletTransaction(dataId, data);
   

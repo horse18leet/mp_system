@@ -4,7 +4,7 @@ import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
 
 import { ReactNode, useEffect, useState } from "react";
 
-import { IAddContractor, addContractorScheme } from "@/utils/schemas/contractor/add-contractor.scheme";
+import { IAddContractor } from "@/utils/schemas/contractor/add-contractor.scheme";
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -13,30 +13,6 @@ import { DataTable } from "@/components/Table/data-table";
 import { DataTableColumnHeader } from "../../components/Table/data-table-column-header";
 import { DataTableRowActions } from "../../components/Table/data-table-row-actions";
 
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
-import { joiResolver } from "@hookform/resolvers/joi";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-} from "@/components/ui/command";
 import {
     Dialog,
     DialogContent,
@@ -45,10 +21,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
 
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { FacetedFilterOption } from "@/components/Table/types/data-table-types";
 
@@ -61,18 +34,12 @@ import { IEditContractor } from "@/utils/schemas/contractor/edit-contractor.shem
 
 export default function Contractors() {
     const [contractors, setContractors] = useState<IContractorResponse[]>([]);
-    const [contractorTypes, setContractorTypes] = useState(["Поставщик", "Реклама", "Фулфилмент", "Байер"]);    //пока так
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-    const [popoverOpen, setPopoverOpen] = useState(false);
 
     useEffect(() => {
         getAllContractors();
     }, []);
-
-    function openEditDialog() {                                     //открытие формы изменения инфы подрядчика
-        setIsEditDialogOpen(!isEditDialogOpen);
-    }
 
     function returnUpdateForm(data: any): ReactNode {                          //возвращаем разметку, которую вставим в Dialog
         const contractor = data.original;
@@ -127,9 +94,6 @@ export default function Contractors() {
             getAllContractors();
         }
     }
-
-    
-    
 
     const columns: ColumnDef<IContractorResponse>[] = [
         {

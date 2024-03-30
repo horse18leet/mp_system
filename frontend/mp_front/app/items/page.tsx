@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
 import { ReactNode, useEffect, useState } from "react";
 
@@ -28,46 +27,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { joiResolver } from "@hookform/resolvers/joi";
-import { IAddItem, addItemScheme } from "@/utils/schemas/item/add-item.scheme";
+
+import { IAddItem } from "@/utils/schemas/item/add-item.scheme";
 import { FacetedFilterOption } from "@/components/Table/types/data-table-types";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
-import { Textarea } from "@/components/ui/textarea";
-import { updateToken } from "@/utils/api/auth/auth";
+
 import ItemForm from "@/components/CustomForms/ItemForm/ItemForm";
 
 
@@ -256,19 +219,6 @@ export default function Items() {
       value: "Все",
     } 
 ] as  FacetedFilterOption[];
-
-
-  const addItemForm = useForm<IAddItem>({
-    resolver: joiResolver(addItemScheme),
-  });
-
-  // Заглушка пока нет получения категорий
-  const categories = [
-    { value: "Обувь" },
-    { value: "Верхняя одежда" },
-    { value: "Брюки" },
-    { value: "Электроника" },
-  ] as const;
 
   return (
     <ProtectedLayout>
