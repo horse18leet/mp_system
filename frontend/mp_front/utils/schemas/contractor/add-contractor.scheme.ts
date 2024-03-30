@@ -7,7 +7,7 @@ export interface IAddContractor {
     // phoneNum?: string,
     email: string,
     actualAddress: string;
-    cardNum: string;
+    paymentNum: string;
     isActive: boolean;
     createdAt: string;
 }
@@ -42,7 +42,7 @@ export const addContractorScheme = Joi.object({
         "string.max": `Максимальная длина 100 символов`,
         "string.required": "Поле обязательно к заполнению",
     }),
-    cardNum: Joi.string().min(3).max(20).pattern(/^\d+$/).required().messages({
+    paymentNum: Joi.string().min(3).max(20).pattern(/^\d+$/).required().messages({
         "string.pattern.base": "Поле может содержать только числа",
         "string.empty": "Поле обязательно к заполнению",
         "string.min": `Минимальная длина 3 символа`,

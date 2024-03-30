@@ -207,7 +207,6 @@ export default function Items() {
           rowId={row.original.id}
           isOperations={true}
           onDelete={() => removeItem(row.original.id)}
-          // onOperations={() => handleOperationsClick(row.original.id)}
         />
       ),
     },

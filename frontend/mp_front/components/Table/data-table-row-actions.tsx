@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Trash2, Pencil, Wallet } from "lucide-react";
 
 import { DataTableRowActionsProps } from "./types/data-table-types";
 
@@ -29,6 +29,7 @@ import {
 } from "../ui/dialog";
 
 import WalletTransactionsTable from "../WalletTransactionsTable/WalletTransactionsTable";
+import ContractorForm from "../CustomForms/ContractorForm/ContractorForm";
 
 export function DataTableRowActions<TData>({
   row,
@@ -40,9 +41,14 @@ export function DataTableRowActions<TData>({
 }: DataTableRowActionsProps<TData>) {
 
   const [isOperationsDialogOpen, setIsOperationsDialogOpen] = useState(false);
-  
-  function openDialog() {
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
+  function openOperationsDialog() {
     setIsOperationsDialogOpen(!isOperationsDialogOpen);
+  }
+
+  function openEditDialog() {
+    setIsEditDialogOpen(!isEditDialogOpen);
   }
 
   return (
@@ -61,18 +67,28 @@ export function DataTableRowActions<TData>({
           {
             isOperations ? 
             <>
-              <DropdownMenuItem className="cursor-pointer" onClick={openDialog}>Операции</DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer" onClick={openOperationsDialog}>
+                <Wallet size={16} className="mr-[5px]" />
+                Операции
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
             </>
             :
             <></>
           }
           
-          <DropdownMenuItem className="cursor-pointer">Изменить</DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer" onClick={openEditDialog}>
+            <Pencil size={16} className="mr-[5px]"/>
+            Изменить
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer" onClick={onDelete}>Удалить</DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer" onClick={onDelete}>
+            <Trash2 size={16} className="mr-[5px]" /> 
+            Удалить
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      
       
       {/* Таблица с операциями */}
       <Dialog open={isOperationsDialogOpen} onOpenChange={setIsOperationsDialogOpen}>   
@@ -83,6 +99,17 @@ export function DataTableRowActions<TData>({
           <WalletTransactionsTable dataId={rowId} />              
         </DialogContent>
       </Dialog>
+
+      {/* Таблица с изменением инфы */}
+      {
+        isEditDialogOpen === true ?
+        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+          {onUpdate(row)}
+        </Dialog>
+        :
+        <></>
+      }
+      
     </>
   );
 }

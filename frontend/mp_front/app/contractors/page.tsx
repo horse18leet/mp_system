@@ -2,7 +2,7 @@
 
 import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
 
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 import { IAddContractor, addContractorScheme } from "@/utils/schemas/contractor/add-contractor.scheme";
 
@@ -53,28 +53,56 @@ import { Button } from "@/components/ui/button";
 import { FacetedFilterOption } from "@/components/Table/types/data-table-types";
 
 import { AxiosError } from "axios";
-import { createContractor, deleteContractor, getContractors } from "@/utils/api/services/contractor.service";
+import { createContractor, deleteContractor, editContractor, getContractors } from "@/utils/api/services/contractor.service";
 import IContractorResponse from "@/utils/models/contractor/contractor-response";
+
+import ContractorForm from "@/components/CustomForms/ContractorForm/ContractorForm";
+import { IEditContractor } from "@/utils/schemas/contractor/edit-contractor.sheme";
 
 export default function Contractors() {
     const [contractors, setContractors] = useState<IContractorResponse[]>([]);
     const [contractorTypes, setContractorTypes] = useState(["Поставщик", "Реклама", "Фулфилмент", "Байер"]);    //пока так
-    const [dialogOpen, setDialogOpen] = useState(false);
+    const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [popoverOpen, setPopoverOpen] = useState(false);
-    const [isOperationsDialogOpen, setIsOperationsDialogOpen] = useState(false);
 
     useEffect(() => {
         getAllContractors();
     }, []);
 
-    function handleOperationsClick(rowId: number) {
-        setIsOperationsDialogOpen(!isOperationsDialogOpen);
-        console.log(rowId);
+    function openEditDialog() {                                     //открытие формы изменения инфы подрядчика
+        setIsEditDialogOpen(!isEditDialogOpen);
     }
 
-    async function getAllContractors() {
+    function returnUpdateForm(data: any): ReactNode {                          //возвращаем разметку, которую вставим в Dialog
+        const contractor = data.original;
+        console.log(contractor);
+        return (
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Изменить данные подрядчика</DialogTitle>
+                </DialogHeader>
+                <ContractorForm handleFormSubmit={editContractorInfo} isEdit={true} contractor={contractor}/>
+            </DialogContent>
+        );
+    }
+
+    async function getAllContractors() {                        
         const contractors = await getContractors();
         setContractors(contractors);
+    }
+
+    async function editContractorInfo(data: IEditContractor) {           //изменение инфы подрядчика
+        console.log(data);
+        const response = await editContractor(data);
+
+        if (response instanceof AxiosError) {
+            console.log(response.message);
+            setIsEditDialogOpen(false);
+            return;
+        } else {
+            getAllContractors().then(() => setIsEditDialogOpen(false));
+        }
     }
 
     async function addContractor(data: IAddContractor) {
@@ -82,10 +110,10 @@ export default function Contractors() {
     
         if (response instanceof AxiosError) {
             console.log(response.message);
-            setDialogOpen(false);
+            setIsAddDialogOpen(false);
             return;
         } else {
-            getAllContractors().then(() => setDialogOpen(false));
+            getAllContractors().then(() => setIsAddDialogOpen(false));
         }
     }
 
@@ -99,6 +127,9 @@ export default function Contractors() {
             getAllContractors();
         }
     }
+
+    
+    
 
     const columns: ColumnDef<IContractorResponse>[] = [
         {
@@ -249,7 +280,7 @@ export default function Contractors() {
     
         },
         {
-            accessorKey: "cardNum",
+            accessorKey: "paymentNum",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Карта" />
             ),
@@ -257,7 +288,7 @@ export default function Contractors() {
             return (
                 <div className="flex space-x-2">
                     <span className="max-w-[100px] truncate font-medium">
-                    {row.getValue("cardNum")}
+                    {row.getValue("paymentNum")}
                     </span>
                 </div>
             );
@@ -267,45 +298,6 @@ export default function Contractors() {
             },
     
         },
-        /**
-        {
-            accessorKey: "isActive",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Активен" />
-            ),
-            cell: ({ row }) => {
-            return (
-                <div className="flex space-x-2">
-                    <span className="max-w-[100px] truncate font-medium">
-                    {row.getValue("isActive")}
-                    </span>
-                </div>
-            );
-            },
-            meta: {
-                filterDisplayName: "Активен",
-            },
-    
-        }, 
-        {
-            accessorKey: "createdAt",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Дата добавления" />
-            ),
-            cell: ({ row }) => {
-            return (
-                <div className="flex space-x-2">
-                    <span className="max-w-[100px] truncate font-medium">
-                    {row.getValue("createdAt")}
-                    </span>
-                </div>
-            );
-            },
-            meta: {
-                filterDisplayName: "Дата добавления",
-            },
-    
-        },*/
         {
             id: "actions",
             cell: ({ row }) => (
@@ -313,17 +305,12 @@ export default function Contractors() {
                     row={row}
                     rowId={row.original.id}
                     isOperations={true}
-                    onOperations={() => handleOperationsClick(row.original.id)}
                     onDelete={() => removeContractor(row.original.id)} 
+                    onUpdate={returnUpdateForm}
                 />
             ),
         },
     ];
-
-    const addContractorForm = useForm<IAddContractor>({
-        resolver: joiResolver(addContractorScheme),
-        
-    });
 
     const additionalFilters = [
         {
@@ -344,17 +331,7 @@ export default function Contractors() {
         <ProtectedLayout>
             <div className="container pt-8 h-full">
                 <div className="flex-col space-y-8 md:flex hidden">
-                    <Dialog open={isOperationsDialogOpen} onOpenChange={setIsOperationsDialogOpen}>
-                        <DialogContent>
-                            <div className="flex flex-col justify-between w-[300px] h-[500px]">
-                                <DialogHeader>
-                                    <DialogTitle>Операции</DialogTitle>
-                                </DialogHeader>
-                            </div>
-                        </DialogContent>
-                    </Dialog>
-
-                    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                    <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
                         <div className="flex items-center justify-between">
                             <div>
                                 <h2 className="text-2xl font-bold tracking-tight">Список подрядчиков</h2>
@@ -369,157 +346,13 @@ export default function Contractors() {
                                 <DialogTitle>Добавить</DialogTitle>
                                 <DialogDescription>Заполните все обязательные поля, чтобы добавить подрядчика</DialogDescription>
                             </DialogHeader>
-                            <Form {...addContractorForm}>
-                                <form 
-                                    className="flex flex-col gap-4" 
-                                    onSubmit={addContractorForm.handleSubmit(addContractor)}
-                                >
-                                    <FormField
-                                        control={addContractorForm.control}
-                                        name="name"
-                                        defaultValue=""
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Название</FormLabel>
-                                                <FormControl>
-                                                    <Input placeholder="Введите название..." {...field} />
-                                                </FormControl>
-                                                <FormDescription />
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={addContractorForm.control}
-                                        name="type"
-                                        defaultValue=""
-                                        render={({ field }) => (
-                                            <FormItem className="flex flex-col">
-                                                <FormLabel>Категория</FormLabel>
-                                                <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-                                                    <PopoverTrigger asChild>
-                                                        <FormControl>
-                                                            <Button
-                                                                variant="outline"
-                                                                role="combobox"
-                                                                className={cn("justify-between", !field.value && "text-muted-foreground")}
-                                                            >
-                                                            {field.value
-                                                            ? contractorTypes.find(
-                                                                (contractorType) =>
-                                                                contractorType === field.value
-                                                            )
-                                                            : "Выберите категорию подрядчика"}
-                                                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                                            </Button>
-                                                        </FormControl>
-                                                    </PopoverTrigger>
-                                                        <PopoverContent className="w-[var(--radix-popover-trigger-width)] max-h-[var(--radix-popover-content-available-height)] p-0">
-                                                        <Command>
-                                                            <CommandInput
-                                                                className="border-none focus-visible:ring-ring focus-visible:ring-offset-2"
-                                                                placeholder="Поиск категории..."
-                                                            />
-                                                            <CommandEmpty>Категория не найдена.</CommandEmpty>
-                                                            <CommandGroup>
-                                                                {contractorTypes.map((contractorType) => (
-                                                                <CommandItem
-                                                                    value={contractorType}
-                                                                    key={contractorType}
-                                                                    onSelect={() => {
-                                                                    addContractorForm.setValue("type",contractorType);
-                                                                    setPopoverOpen(false);
-                                                                }}
-                                                                >
-                                                                    <Check className={cn("mr-2 h-4 w-4", contractorType === field.value ? "opacity-100" : "opacity-0")} />
-                                                                    {contractorType}
-                                                                </CommandItem>
-                                                                ))}
-                                                            </CommandGroup>
-                                                        </Command>
-                                                        </PopoverContent>
-                                                </Popover>
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <FormField
-                                            control={addContractorForm.control}
-                                            name="email"
-                                            defaultValue=""
-                                            render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>E-mail</FormLabel>
-                                                <FormControl>
-                                                    <Input {...field} />
-                                                </FormControl>
-                                            </FormItem>
-                                            )}
-                                        />
-                                        {/* <FormField
-                                            control={addContractorForm.control}
-                                            name="phoneNum"
-                                            render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Номер телефона</FormLabel>
-                                                <FormControl>
-                                                    <Input {...field} />
-                                                </FormControl>
-                                            </FormItem>
-                                            )}
-                                        /> */}
-                                    </div>
-                                    <FormField
-                                        control={addContractorForm.control}
-                                        name="description"
-                                        defaultValue=""
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Описание</FormLabel>
-                                                <FormControl>
-                                                    <Textarea placeholder="Напишите описание подрядчика..." {...field} />
-                                                </FormControl>
-                                             </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={addContractorForm.control}
-                                        name="actualAddress"
-                                        defaultValue=""
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Адрес подрядчика</FormLabel>
-                                                <FormControl>
-                                                    <Input placeholder="Введите адрес..." {...field} />
-                                                </FormControl>
-                                                <FormDescription />
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={addContractorForm.control}
-                                        name="cardNum"
-                                        defaultValue=""
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Платежные данные</FormLabel>
-                                                <FormControl>
-                                                    <Input placeholder="Введите номер карты..." {...field} />
-                                                </FormControl>
-                                                <FormDescription />
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <Button type="submit">Добавить</Button>
-                                </form>
-                            </Form>
+                            <ContractorForm handleFormSubmit={addContractor} isEdit={false} />
                         </DialogContent>
                     </Dialog>
-                <DataTable title="name" data={contractors} columns={columns} additionalFilters={additionalFilters} />
+
+                    <DataTable title="name" data={contractors} columns={columns} additionalFilters={additionalFilters} /> 
+                </div>
             </div>
-        </div>
-    </ProtectedLayout>
+        </ProtectedLayout>
     );
 }   

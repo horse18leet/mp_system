@@ -8,7 +8,7 @@ interface IContractorResponse {
     isActive: boolean;
     createdAt: string;
     // phoneNumber: string;
-    cardNum: string;
+    paymentNum: string;
 }
 
 export default IContractorResponse;

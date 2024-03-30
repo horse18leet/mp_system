@@ -1,7 +1,7 @@
 import { Column, ColumnDef, RowData } from "@tanstack/react-table";
 import { Table } from "@tanstack/react-table";
 import { Row } from "@tanstack/react-table";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 import { ZodSchema } from "zod";
 
 interface IconProps {
@@ -45,9 +45,9 @@ export interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
   rowId: number;
   isOperations: boolean;
-  onUpdate?: () => Promise<void>;
+  onUpdate: (data: any) => ReactNode;
   onDelete?: () => Promise<void>;
-  onOperations?: () => void;
+  onOperations?: () => ReactNode;
 }
 
 export interface DataTableFacetedFilterProps<TData, TValue> {

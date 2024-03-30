@@ -13,7 +13,6 @@ export async function createContractor(contractor: IContractorRequest): Promise<
   
     } catch (e) {
       const error = e as AxiosError;
-      console.log("contractorErr: ", error);
       return error;
     }
 }
@@ -55,6 +54,19 @@ export async function deleteContractor(id: number): Promise<AxiosResponse | Axio
   } catch (e) {
     const error = e as AxiosError;
 
+    return error;
+  }
+}
+
+export async function editContractor(contractor: IContractorRequest): Promise<AxiosResponse | AxiosError> {
+  try {
+    const response = await api.put(`/contractor/edit`, contractor);
+    const data = response.data;
+
+    return data;
+
+  } catch (e) {
+    const error = e as AxiosError;
     return error;
   }
 }

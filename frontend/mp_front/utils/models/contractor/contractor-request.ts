@@ -5,7 +5,7 @@ interface IContractorRequest {
     email: string;
     actualAddress: string;
     // phoneNumber: string;
-    cardNum: string;
+    paymentNum: string;
 }
 
 export default IContractorRequest;
