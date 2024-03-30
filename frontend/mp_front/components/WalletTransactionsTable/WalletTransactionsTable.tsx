@@ -104,13 +104,10 @@ function WalletTransactionsTable({dataId}: any) {
 
     function getValueByKey(row: any, objName: string) {             //извлекаем название из объекта
       const key = currentPage === "/items" ? "name" : "title";
-      // console.log("KEY: ", key);
-      // console.log("OBJNAME: ", objName);
-      console.log("ROW: ", row.original);
       const data = row.original;
-      console.log("DATA: ", data);
-      if (data[key] !== null) {
-        return data[key];
+      const obj = data[objName];
+      if (obj[key] !== null) {
+        return obj[key];
       }
       else {
         return "Ошибка";
@@ -134,8 +131,6 @@ function WalletTransactionsTable({dataId}: any) {
       const currentItem = await getItem(dataId);
       data["itemDto"] = currentItem;
       data["contractorDto"] = currentContractor;
-
-      // console.log(data);  
 
       const response = await createItemWalletTransaction(dataId, data);
   
