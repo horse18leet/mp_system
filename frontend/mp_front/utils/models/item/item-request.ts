@@ -2,7 +2,7 @@ interface IItemRequest {
     id: number;
     title: string;
     description: string;
-    firstPrice: number;
+    firstPrice: string;
     user: string; // в будущем заменить на тип User
     category: string;
     vendorCode: string;

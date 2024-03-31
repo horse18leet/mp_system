@@ -105,11 +105,11 @@ function WalletTransactionsTable({dataId}: any) {
     function getValueByKey(row: any, objName: string) {             //извлекаем название из объекта
       const key = currentPage === "/items" ? "name" : "title";
       const data = row.original;
-      const obj = data[objName];
-      if (obj[key] !== null) {
+      try {
+        const obj = data[objName];
         return obj[key];
-      }
-      else {
+
+      } catch(e) {
         return "Ошибка";
       }
     }
@@ -355,6 +355,7 @@ function WalletTransactionsTable({dataId}: any) {
           rowId={row.original.id}
           isOperations={false}
           onDelete={() => removeWalletTransaction(row.original.id)}
+          onUpdate={() => {return (<></>)}}
         />
       ),
     },

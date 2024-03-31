@@ -36,20 +36,11 @@ export async function getItemCategories() {                //получение 
     }
 }
 
-export async function getUserInfo() {                //получение инфы о пользователе
-    const response = await mainApi.getUserInfo();
-    if (!response.email) {
-        return { error: response.message };
-    } else {
-        return response;
+export function mergeObjects(obj1: any, obj2: any) {
+    for (let key in obj2) {
+        if (obj2.hasOwnProperty(key) && !obj1.hasOwnProperty(key)) {
+            obj1[key] = obj2[key];
+        }
     }
-}
-
-export async function editUserInfo(firstName: string, lastName: string, email: string, password: string) {   //измененние информации пользователя
-    const response = await mainApi.editUserInfo(firstName, lastName, email, password);
-    if (response.message) {
-        return { success: false, error: response.message };
-    } else {
-        return { success: true, user: response };
-    }
+    return obj1;
 }

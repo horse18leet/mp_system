@@ -37,6 +37,8 @@ import {
     CommandItem,
 } from "@/components/ui/command";
 
+import { mergeObjects } from "@/utils/utils";
+
 export default function ItemForm({
     item,
     isEdit,
@@ -52,6 +54,10 @@ export default function ItemForm({
 
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
+    function handleEditItem(data: IAddItem) {
+        mergeObjects(data, item);
+        handleFormSubmit(data);
+    }
 
     const itemForm = useForm<IAddItem>({
         resolver: joiResolver(addItemScheme),
@@ -63,7 +69,7 @@ export default function ItemForm({
         <Form {...itemForm}>
             <form 
                 className="flex flex-col gap-4" 
-                onSubmit={itemForm.handleSubmit(handleFormSubmit)}
+                onSubmit={itemForm.handleSubmit(!isEdit ? handleFormSubmit : handleEditItem)}
             >
                 <FormField
                     control={itemForm.control}
@@ -161,7 +167,7 @@ export default function ItemForm({
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Добавить</Button>
+                <Button type="submit">{!isEdit ? "Добавить" : "Изменить"}</Button>
             </form>
         </Form>
     );

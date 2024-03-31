@@ -51,10 +51,17 @@ export default function ContractorForm({
 
     const [popoverOpen, setPopoverOpen] = useState(false);
 
-
-    const contractorForm = useForm<IAddContractor | IEditContractor>({
+    const contractorForm = useForm<IAddContractor | IEditContractor | any>({
         resolver: joiResolver(addContractorScheme),
     });
+
+    function handleEditContractor(data: IEditContractor) {
+        data["id"] = contractor["id"];
+        data["isActive"] = contractor["isActive"];
+        data["createdAt"] = contractor["createdAt"];
+
+        handleFormSubmit(data);
+    }
 
    
 
@@ -62,7 +69,7 @@ export default function ContractorForm({
         <Form {...contractorForm}>
             <form 
                 className="flex flex-col gap-4" 
-                onSubmit={contractorForm.handleSubmit(handleFormSubmit)}
+                onSubmit={contractorForm.handleSubmit(!isEdit ? handleFormSubmit : handleEditContractor)}
             >
                 <FormField
                     control={contractorForm.control}
@@ -202,7 +209,7 @@ export default function ContractorForm({
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Добавить</Button>
+                <Button type="submit">{!isEdit ? "Добавить" : "Изменить"}</Button>
             </form>
         </Form>
     );

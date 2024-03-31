@@ -43,7 +43,6 @@ export default function Contractors() {
 
     function returnUpdateForm(data: any): ReactNode {                          //возвращаем разметку, которую вставим в Dialog
         const contractor = data.original;
-        console.log(contractor);
         return (
             <DialogContent>
                 <DialogHeader>
@@ -60,7 +59,6 @@ export default function Contractors() {
     }
 
     async function editContractorInfo(data: IEditContractor) {           //изменение инфы подрядчика
-        console.log(data);
         const response = await editContractor(data);
 
         if (response instanceof AxiosError) {

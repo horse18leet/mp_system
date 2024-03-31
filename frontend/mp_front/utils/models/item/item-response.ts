@@ -2,7 +2,7 @@ interface IItemResponse {
   id: number;
   title: string;
   description: string;
-  firstPrice: number;
+  firstPrice: string;
   simpleUserDto: string; // в будущем заменить на тип User
   category: string;
   vendorCode: string;
