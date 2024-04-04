@@ -26,6 +26,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
 import { Button } from "@/components/ui/button";
 
 import { IAddItem } from "@/utils/schemas/item/add-item.scheme";
@@ -38,7 +46,8 @@ export default function Items() {
   const [items, setItems] = useState<IItemResponse[]>([]); //староста, тут ошибка, я пока по-другому сделаю
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);  
+  const [isCheckBox, setIsCheckBox] = useState(false);
+
 
   useEffect(() => {
     getAllItems();
@@ -110,7 +119,13 @@ export default function Items() {
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() && "indeterminate")
           }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          onCheckedChange={
+            (value) => {
+              table.toggleAllPageRowsSelected(!!value);
+              setIsCheckBox(!!value);
+              
+            }
+          }
           aria-label="Select all"
           className="translate-y-[2px]"
         />
@@ -118,7 +133,12 @@ export default function Items() {
       cell: ({ row }) => (
         <Checkbox
           checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          onCheckedChange={
+            (value) => {
+              row.toggleSelected(!!value);
+              setIsCheckBox(!!value);
+            }
+          }
           aria-label="Select row"
           className="translate-y-[2px]"
         />
@@ -234,11 +254,33 @@ export default function Items() {
                   Отслеживайте доступные товары или добавьте новый
                 </p>
               </div>
+              <div className="flex"> 
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="w-min mr-[20px]">
+                      <Button variant="default" className="px-4 py-2 h-9" disabled={isCheckBox ? false : true}>
+                        Добавить в закуп
+                      </Button>
+                    </div>
+                  </TooltipTrigger>
+                  {
+                    isCheckBox ? 
+                    <></>
+                    :
+                    <TooltipContent side="bottom">
+                      <p>Сначала выберите товар</p>
+                    </TooltipContent>
+                  }
+                </Tooltip>
+              </TooltipProvider>
               <DialogTrigger asChild>
-                <Button variant="default" className="px-4 py-2 h-9">
+                <Button variant="default" className="px-4 py-2 h-9" >
                   Добавить товар
                 </Button>
               </DialogTrigger>
+              </div>
+              
             </div>
             <DialogContent>
               <DialogHeader>
