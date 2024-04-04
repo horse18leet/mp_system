@@ -153,18 +153,19 @@ export default function ContractorForm({
                             </FormItem>
                         )}
                     />
-                                        {/* <FormField
-                                            control={addContractorForm.control}
-                                            name="phoneNum"
-                                            render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Номер телефона</FormLabel>
-                                                <FormControl>
-                                                    <Input {...field} />
-                                                </FormControl>
-                                            </FormItem>
-                                            )}
-                                        /> */}
+                    <FormField
+                        control={contractorForm.control}
+                        name="phoneNum"
+                        defaultValue={!isEdit ? "+7" : contractor.phoneNum}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Номер телефона</FormLabel>
+                                <FormControl>
+                                    <Input {...field} />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
                 </div>
                 <FormField
                     control={contractorForm.control}

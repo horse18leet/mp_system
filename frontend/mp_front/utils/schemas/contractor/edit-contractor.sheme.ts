@@ -4,7 +4,7 @@ export interface IEditContractor {
     name: string,
     type: string,
     description: string,
-    // phoneNum?: string,
+    phoneNum: string,
     email: string,
     actualAddress: string;
     paymentNum: string;

@@ -7,7 +7,7 @@ interface IContractorResponse {
     actualAddress: string;
     isActive: boolean;
     createdAt: string;
-    // phoneNumber: string;
+    phoneNum: string;
     paymentNum: string;
 }
 

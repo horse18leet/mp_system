@@ -55,6 +55,8 @@ export default function Contractors() {
 
     async function getAllContractors() {                        
         const contractors = await getContractors();
+        console.log("contractors: ", contractors);
+
         setContractors(contractors);
     }
 
@@ -184,7 +186,7 @@ export default function Contractors() {
             },
         },
         {
-            accessorKey: "phoneNumber",
+            accessorKey: "phoneNum",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Телефон" />
             ),
@@ -192,7 +194,7 @@ export default function Contractors() {
             return (
                 <div className="flex space-x-2">
                     <span className="max-w-[100px] truncate font-medium">
-                    {row.getValue("phoneNumber") ? row.getValue("contractorPhoneNum") : "Не указано"}
+                    {row.getValue("phoneNum") ? row.getValue("phoneNum") : "Не указано"}
                     </span>
                 </div>
             );

@@ -3,9 +3,9 @@ interface IContractorRequest {
     name: string;
     type: string;
     description: string;
+    phoneNum: string;
     email: string;
     actualAddress: string;
-    // phoneNumber: string;
     paymentNum: string;
     isActive?: boolean;
     createdAt?: string;
