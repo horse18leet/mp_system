@@ -68,13 +68,13 @@ export default function Items() {
   
   async function getAllItems() {
     const items = await getItems();
-
     setItems(items);
   }
 
   async function removeItem(id: number) {
     const response = await deleteItem(id);
-
+    console.log(id);
+    console.log(response);
     if (response instanceof AxiosError) {
       // Если получили ошибку, выходим из функции
       console.log(response.message);
