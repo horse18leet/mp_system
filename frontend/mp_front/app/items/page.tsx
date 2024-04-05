@@ -55,12 +55,15 @@ export default function Items() {
     getAllItems();
   }, []);
 
-  function addItemToPurchase(data: any, isAdd: boolean) {
+  function addItemToPurchase(data: any, isAdd: boolean) {     //метод добавления товаров в окно закупа
     if (isAdd) {
-      
-    } 
-    setPurchaseItems
-    console.log(data);
+      const tempArr = Object.assign([], purchaseItems);
+      tempArr.push(data);
+      setPurchaseItems(tempArr);
+    } else {
+      const tempArr = purchaseItems.filter(item => item.id !== data.id);
+      setPurchaseItems(tempArr);
+    }
   }
 
   function handlePurchaseButtonClick() {
@@ -69,16 +72,16 @@ export default function Items() {
 
   function returnUpdateForm(data: any): ReactNode {                          //возвращаем разметку, которую вставим в Dialog
     const item = data.original;
-    console.log(item);
+    // console.log(item);
     return (
-        <DialogContent>
-            <DialogHeader>
-                <DialogTitle>Изменить информацию о товаре</DialogTitle>
-            </DialogHeader>
-            <ItemForm handleFormSubmit={editItemInfo} isEdit={true} item={item}/>
-        </DialogContent>
+      <DialogContent>
+          <DialogHeader>
+              <DialogTitle>Изменить информацию о товаре</DialogTitle>
+          </DialogHeader>
+          <ItemForm handleFormSubmit={editItemInfo} isEdit={true} item={item}/>
+      </DialogContent>
     );
-}
+  }
   
   async function getAllItems() {
     const items = await getItems();
@@ -152,7 +155,7 @@ export default function Items() {
             (value) => {
               row.toggleSelected(!!value);
               setIsCheckBox(!!value);
-              addItemToPurchase(row, !!value); 
+              addItemToPurchase(row.original, !!value); 
             }
           }
           aria-label="Select row"
@@ -258,11 +261,17 @@ export default function Items() {
 
   return (
     <ProtectedLayout>
-      <Purchase                       //закупы
-        isOpen={isPurchaseDialogOpen}   
-        setIsOpen={setIsPurchaseDialogOpen}  
-        itemsList={[]}
-      />
+      {
+        isCheckBox ?
+        <Purchase                       //закупы
+          isOpen={isPurchaseDialogOpen}   
+          setIsOpen={setIsPurchaseDialogOpen}  
+          itemsList={purchaseItems}
+        />
+        :
+        <></>
+      }
+      
       <div className="container pt-8 h-full">
         <div className="flex-col space-y-8 md:flex hidden">
           
