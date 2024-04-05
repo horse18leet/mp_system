@@ -40,18 +40,32 @@ import { IAddItem } from "@/utils/schemas/item/add-item.scheme";
 import { FacetedFilterOption } from "@/components/Table/types/data-table-types";
 
 import ItemForm from "@/components/CustomForms/ItemForm/ItemForm";
-
+import Purchase from "@/components/Purchase/Purchase";
 
 export default function Items() {
   const [items, setItems] = useState<IItemResponse[]>([]); //староста, тут ошибка, я пока по-другому сделаю
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isCheckBox, setIsCheckBox] = useState(false);
+  const [isPurchaseDialogOpen, setIsPurchaseDialogOpen] = useState(false);
+  const [purchaseItems, setPurchaseItems] = useState<IItemResponse[]>([]);
 
 
   useEffect(() => {
     getAllItems();
   }, []);
+
+  function addItemToPurchase(data: any, isAdd: boolean) {
+    if (isAdd) {
+      
+    } 
+    setPurchaseItems
+    console.log(data);
+  }
+
+  function handlePurchaseButtonClick() {
+    setIsPurchaseDialogOpen(!isPurchaseDialogOpen);
+  }
 
   function returnUpdateForm(data: any): ReactNode {                          //возвращаем разметку, которую вставим в Dialog
     const item = data.original;
@@ -123,6 +137,7 @@ export default function Items() {
             (value) => {
               table.toggleAllPageRowsSelected(!!value);
               setIsCheckBox(!!value);
+              // addItemToPurchase();
               
             }
           }
@@ -137,6 +152,7 @@ export default function Items() {
             (value) => {
               row.toggleSelected(!!value);
               setIsCheckBox(!!value);
+              addItemToPurchase(row, !!value); 
             }
           }
           aria-label="Select row"
@@ -237,13 +253,19 @@ export default function Items() {
     {
       label: "Все",
       value: "Все",
-    } 
+    }
 ] as  FacetedFilterOption[];
 
   return (
     <ProtectedLayout>
+      <Purchase                       //закупы
+        isOpen={isPurchaseDialogOpen}   
+        setIsOpen={setIsPurchaseDialogOpen}  
+        itemsList={[]}
+      />
       <div className="container pt-8 h-full">
         <div className="flex-col space-y-8 md:flex hidden">
+          
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <div className="flex items-center justify-between">
               <div>
@@ -255,32 +277,37 @@ export default function Items() {
                 </p>
               </div>
               <div className="flex"> 
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="w-min mr-[20px]">
-                      <Button variant="default" className="px-4 py-2 h-9" disabled={isCheckBox ? false : true}>
-                        Добавить в закуп
-                      </Button>
-                    </div>
-                  </TooltipTrigger>
-                  {
-                    isCheckBox ? 
-                    <></>
-                    :
-                    <TooltipContent side="bottom">
-                      <p>Сначала выберите товар</p>
-                    </TooltipContent>
-                  }
-                </Tooltip>
-              </TooltipProvider>
-              <DialogTrigger asChild>
-                <Button variant="default" className="px-4 py-2 h-9" >
-                  Добавить товар
-                </Button>
-              </DialogTrigger>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="w-min mr-[20px]">
+                        <Button 
+                          variant="default" 
+                          className="px-4 py-2 h-9" 
+                          disabled={isCheckBox ? false : true}
+                          onClick={handlePurchaseButtonClick}
+                        >
+                          Добавить в закуп
+                        </Button>
+
+                      </div>
+                    </TooltipTrigger>
+                    {
+                      isCheckBox ? 
+                      <></>
+                      :
+                      <TooltipContent side="bottom">
+                        <p>Сначала выберите товар</p>
+                      </TooltipContent>
+                    }
+                  </Tooltip>
+                </TooltipProvider>
+                <DialogTrigger asChild>
+                  <Button variant="default" className="px-4 py-2 h-9" >
+                    Добавить товар
+                  </Button>
+                </DialogTrigger>
               </div>
-              
             </div>
             <DialogContent>
               <DialogHeader>
