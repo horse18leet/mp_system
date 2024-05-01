@@ -29,8 +29,9 @@ export const addItemScheme = Joi.object({
         "string.min": `Минимальная длина 3 символа`,
         "string.max": `Максимальная длина 200 символов`,
     }),
-    firstPrice: Joi.string().pattern(/^\d+$/).required().messages({
+    firstPrice: Joi.string().min(1).pattern(/^\d+$/).required().messages({
         "string.pattern.base": "Поле может содержать только числа",
+        "string.min": `Минимальная длина 1 символ`,
         "string.empty": "Поле обязательно к заполнению",
         "string.required": "Поле обязательно к заполнению",
     }),

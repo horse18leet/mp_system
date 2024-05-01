@@ -39,6 +39,7 @@ import {
 
 import { mergeObjects } from "@/utils/utils";
 
+
 export default function ItemForm({
     item,
     isEdit,
@@ -62,6 +63,7 @@ export default function ItemForm({
     const itemForm = useForm<IAddItem>({
         resolver: joiResolver(addItemScheme),
     });
+
 
    
 
@@ -143,7 +145,7 @@ export default function ItemForm({
                     <FormField
                         control={itemForm.control}
                         name="firstPrice"
-                        defaultValue={!isEdit ? "" : item.firstPrice}
+                        defaultValue={!isEdit ? "" : (item.firstPrice).toString()}
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Первичная цена</FormLabel>

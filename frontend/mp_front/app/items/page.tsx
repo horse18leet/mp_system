@@ -55,14 +55,33 @@ export default function Items() {
     getAllItems();
   }, []);
 
-  function addItemToPurchase(data: any, isAdd: boolean) {     //метод добавления товаров в окно закупа
+  function addItemToPurchase(data: any, isAdd: boolean) {                    //метод добавления товаров в окно закупа
     if (isAdd) {
       const tempArr = Object.assign([], purchaseItems);
       tempArr.push(data);
+
       setPurchaseItems(tempArr);
+      setIsCheckBox(true);
     } else {
       const tempArr = purchaseItems.filter(item => item.id !== data.id);
       setPurchaseItems(tempArr);
+
+      if (purchaseItems.length == 1) {
+        setIsCheckBox(false);
+      }
+    }
+  }
+
+  function addAllItemsToPurchase(data: any, isChecked: boolean) {                                //обработчик нажатия на чекбокс выбора всех строк
+    if (isChecked) {
+      const rows = data["rows"];
+      const itemsArr = rows.map((rowItem: any) => rowItem["original"]);
+
+      setPurchaseItems(itemsArr);
+      setIsCheckBox(true);
+    } else {
+      setPurchaseItems([]);
+      setIsCheckBox(false);
     }
   }
 
@@ -139,9 +158,7 @@ export default function Items() {
           onCheckedChange={
             (value) => {
               table.toggleAllPageRowsSelected(!!value);
-              setIsCheckBox(!!value);
-              // addItemToPurchase();
-              
+              addAllItemsToPurchase(table.getPreSelectedRowModel(), !!value);            
             }
           }
           aria-label="Select all"
@@ -154,7 +171,7 @@ export default function Items() {
           onCheckedChange={
             (value) => {
               row.toggleSelected(!!value);
-              setIsCheckBox(!!value);
+              // setIsCheckBox(!!value);
               addItemToPurchase(row.original, !!value); 
             }
           }
@@ -262,7 +279,7 @@ export default function Items() {
   return (
     <ProtectedLayout>
       {
-        isCheckBox ?
+        isPurchaseDialogOpen ?
         <Purchase                       //закупы
           isOpen={isPurchaseDialogOpen}   
           setIsOpen={setIsPurchaseDialogOpen}  

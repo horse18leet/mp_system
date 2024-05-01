@@ -1,4 +1,3 @@
-
 export interface IEditContractor {
     id: number;
     name: string,
