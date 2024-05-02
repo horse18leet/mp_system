@@ -517,21 +517,11 @@ function WalletTransactionsTable({dataId}: any) {
                                     value={contractor.name}
                                     key={contractor.name}
                                     onSelect={() => {
-                                      addWalletTransactionForm.setValue(
-                                        "contractorDto",
-                                        contractor.name
-                                      );
+                                      addWalletTransactionForm.setValue("contractorDto", contractor.name);
                                       setIsSecondaryPopoverOpen(false);
                                     }}
                                   >
-                                    <Check
-                                      className={cn(
-                                        "mr-2 h-4 w-4",
-                                        contractor.name === field.value
-                                          ? "opacity-100"
-                                          : "opacity-0"
-                                      )}
-                                    />
+                                    <Check className={cn("mr-2 h-4 w-4", contractor.name === field.value ? "opacity-100" : "opacity-0")} />
                                     {contractor.name}
                                   </CommandItem>
                                 ))}
