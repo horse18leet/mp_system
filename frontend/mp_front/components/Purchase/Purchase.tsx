@@ -146,7 +146,7 @@ export default function Purchase({
                                                     <Command>
                                                         <CommandInput
                                                             className="border-none focus-visible:ring-ring focus-visible:ring-offset-2"
-                                                            placeholder="Поиск типа..."
+                                                            placeholder="Поиск подрядчика..."
                                                         />
                                                         <CommandEmpty>Подрядчик не найден.</CommandEmpty>
                                                         <CommandGroup>
