@@ -38,11 +38,18 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 import { 
     Check,
     ChevronsUpDown,
 } from "lucide-react";
-import { CalendarIcon } from '@radix-ui/react-icons'
+import { CalendarIcon, ChevronRightIcon, ChevronLeftIcon } from '@radix-ui/react-icons'
 
 import { Input } from "../ui/input";
 import { Calendar } from "@/components/ui/calendar"
@@ -63,13 +70,18 @@ export default function Purchase({
 }: PurchaseProps) {
 
     const [date, setDate] =useState<Date | undefined>(new Date());
-    const [currentIndex, setCurrentIndex] = useState(1);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [currentItem, setCurrentItem] = useState(itemsList[0]);
     const [errMessage, setErrMessage] = useState("");
     const [buttonText, setButtonText] = useState("К следующему товару");
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);  
     const [contractorsArr, setContractorsArr] = useState<IContractorResponse[]>([]);
+
     const purchaseForm = useForm<IAddPurchase>({});
+
+    const[isNextButtonDisabled, setIsNextButtonDisabled] = useState(itemsList.length > 1 ? false : true);
+    const[isPreviousButtonDisabled, setIsPreviousButtonDisabled] = useState(true);
+
 
     useEffect(() => {
         getAllContractors();
@@ -82,25 +94,64 @@ export default function Purchase({
     }
 
     function handleFormSubmit() {           //временно
-        
+        console.log("КРАСАВА");
     }
     
-    function handleNextItem() {
-        setCurrentIndex(currentIndex + 1);
-        if (currentIndex < itemsList.length) {
-            setCurrentItem(itemsList[currentIndex]);
+    function handleNextItem() {                                     //обработчик нажатия на кнопку следующего товара
+        if (currentIndex === 0) {
+            setIsPreviousButtonDisabled(false);
+        } 
+        if (currentIndex < itemsList.length - 1) {
+            setCurrentIndex(currentIndex + 1);
+            setCurrentItem(itemsList[currentIndex + 1]);
         }
-        else {
-            setButtonText("Выйти");
-            setIsOpen(false);
+        if (currentIndex === (itemsList.length - 2)) {
+            setIsNextButtonDisabled(true);
         }
     }
+
+    function handlePreviousItem() {                                     //обработчик нажатия на кнопку предыдущего товара
+        if (currentIndex === itemsList.length - 1) {
+            setIsNextButtonDisabled(false);
+        }
+        if (currentIndex > 0) {
+            setCurrentIndex(currentIndex - 1);
+            setCurrentItem(itemsList[currentIndex - 1]);
+        }
+        if (currentIndex === 1) {
+            setIsPreviousButtonDisabled(true);
+        }
+    }
+
+
 
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogContent className="max-w-[500px]">
-                <DialogHeader className="">
-                    <DialogTitle className="mx-auto mb-[30px] text-2xl">{currentItem ? currentItem.title : errMessage}</DialogTitle>
+                <DialogHeader className="mx-auto flex flex-row">
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button variant="outline" size="icon" disabled={isPreviousButtonDisabled} className="mt-[6px]" onClick={handlePreviousItem}>
+                                    <ChevronLeftIcon className="h-4 w-4" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent side="bottom">
+                                <p>Предыдущий товар</p>
+                            </TooltipContent>
+                        </Tooltip>
+                        <DialogTitle className="mx-[20px] mb-[30px] text-2xl">{currentItem ? currentItem.title : errMessage}</DialogTitle>
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <Button variant="outline" size="icon" disabled={isNextButtonDisabled} onClick={handleNextItem}>
+                                    <ChevronRightIcon className="h-4 w-4" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent side="bottom">
+                                <p>Следующий товар</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
                 </DialogHeader>
 
                     <Form {...purchaseForm}>
@@ -223,12 +274,7 @@ export default function Purchase({
                                     )}
                                 />
                             </div>
-                            <div className="flex">
-                                <Button type="submit" className="w-[200px]">Добавить подрядчика</Button>
-                                {/* <Button variant="secondary" className="w-[200px]" onClick={handleNextItem}>{buttonText}</Button> */}
-                            </div>
-                            
-
+                            <Button type="submit" className="w-[200px]">Добавить подрядчика</Button>
                         </form>
                     </Form>
                     {/* <DialogDescription>{errMessage}</DialogDescription> */}
