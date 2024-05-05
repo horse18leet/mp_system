@@ -58,10 +58,16 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns"
 
 import { PurchaseProps } from "./types/purchase-types";
-import { IAddPurchase } from "@/utils/schemas/purchase/add-purchase.scheme";
 
 import { getContractors } from "@/utils/api/services/contractor.service";
 import IContractorResponse from "@/utils/models/contractor/contractor-response";
+
+import { IAddPurchase, addPurchaseScheme } from "@/utils/schemas/purchase/add-purchase.scheme";
+import IPurchaseRequest from "@/utils/models/purchase/purchase-request";
+import IItemResponse from "@/utils/models/item/item-response";
+import { IPurchaseContractor } from "@/utils/schemas/purchase/purchase-contractor/purchase-contractor.scheme";
+import { createPurchase } from "@/utils/api/services/purchase.service";
+import { AxiosError } from "axios";
 
 export default function Purchase({
     isOpen, 
@@ -69,23 +75,24 @@ export default function Purchase({
     itemsList,
 }: PurchaseProps) {
 
-    const [date, setDate] =useState<Date | undefined>(new Date());
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [currentItem, setCurrentItem] = useState(itemsList[0]);
-    const [errMessage, setErrMessage] = useState("");
-    const [buttonText, setButtonText] = useState("К следующему товару");
+    const [currentItem, setCurrentItem] = useState<IItemResponse>(itemsList[0]);
+    const [currentContractorId, setCurrentContractorId] = useState(0);
+    const [tempPurchaseId, setTempPurchaseId] = useState(null);
+    const [errMessage, setErrMessage] = useState("Товары не выбраны");
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);  
     const [contractorsArr, setContractorsArr] = useState<IContractorResponse[]>([]);
 
-    const purchaseForm = useForm<IAddPurchase>({});
-
-    const[isNextButtonDisabled, setIsNextButtonDisabled] = useState(itemsList.length > 1 ? false : true);
+    const[isNextButtonDisabled, setIsNextButtonDisabled] = useState(itemsList.length == 1 ? true : false);
     const[isPreviousButtonDisabled, setIsPreviousButtonDisabled] = useState(true);
 
+    const purchaseForm = useForm<IAddPurchase>({
+        resolver: joiResolver(addPurchaseScheme),
+    });
 
     useEffect(() => {
         getAllContractors();
-    });
+    }, []);
     
 
     async function getAllContractors() {                  //получение всех подрядчиков
@@ -93,8 +100,42 @@ export default function Purchase({
         setContractorsArr(contractors);
     }
 
-    function handleFormSubmit() {           //временно
-        console.log("КРАСАВА");
+    async function addPurchase(data: any) {
+        const finalData = createPurchaseObj(data);
+
+        const response = await createPurchase(finalData);
+
+        if (response instanceof AxiosError) {
+            console.log("ошибка: ", response.message);
+            return;
+        } else {
+            if (response.id) {
+                if (tempPurchaseId === null) {
+                    setTempPurchaseId(response.id);
+                }
+            }
+        }
+    }
+
+    function createPurchaseObj(tempData: any) {           //временно
+        
+
+        const finalData = {
+            itemId: currentItem.id,
+            quantity: tempData["quantity"] as number,
+            contractorsWork: [
+                {
+                    contractorId: currentContractorId,
+                    cost: tempData["cost"],
+                    deadline: tempData["deadline"],
+                } as IPurchaseContractor,
+            ],
+        } as IPurchaseRequest;
+
+        if (tempPurchaseId) {
+            finalData["purchaseId"] = tempPurchaseId;
+        }
+        return finalData;
     }
     
     function handleNextItem() {                                     //обработчик нажатия на кнопку следующего товара
@@ -108,6 +149,7 @@ export default function Purchase({
         if (currentIndex === (itemsList.length - 2)) {
             setIsNextButtonDisabled(true);
         }
+        
     }
 
     function handlePreviousItem() {                                     //обработчик нажатия на кнопку предыдущего товара
@@ -124,11 +166,10 @@ export default function Purchase({
     }
 
 
-
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogContent className="max-w-[500px]">
-                <DialogHeader className="mx-auto flex flex-row">
+                <DialogHeader className="mx-auto flex flex-row items-center">
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
@@ -140,9 +181,9 @@ export default function Purchase({
                                 <p>Предыдущий товар</p>
                             </TooltipContent>
                         </Tooltip>
-                        <DialogTitle className="mx-[20px] mb-[30px] text-2xl">{currentItem ? currentItem.title : errMessage}</DialogTitle>
+                        <DialogTitle className="mx-[20px] mb-[30px] text-2xl max-w-[200px] text-center break-words">{currentItem ? currentItem.title : errMessage}</DialogTitle>
                         <Tooltip>
-                            <TooltipTrigger>
+                            <TooltipTrigger asChild>
                                 <Button variant="outline" size="icon" disabled={isNextButtonDisabled} onClick={handleNextItem}>
                                     <ChevronRightIcon className="h-4 w-4" />
                                 </Button>
@@ -153,13 +194,25 @@ export default function Purchase({
                         </Tooltip>
                     </TooltipProvider>
                 </DialogHeader>
-
                     <Form {...purchaseForm}>
                         <form 
                             className="flex flex-col gap-4 " 
-                            onSubmit={purchaseForm.handleSubmit(handleFormSubmit)}
+                            onSubmit={purchaseForm.handleSubmit(addPurchase)}
                         >
                             <div className="flex flex-col mb-[50px] gap-y-[30px]">
+                                <FormField
+                                    control={purchaseForm.control}
+                                    name="quantity"
+                                    defaultValue=""
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Количество закупаемого товара</FormLabel>
+                                            <FormControl>
+                                                <Input {...field} className="w-[100px]"/>
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
                                 <FormField
                                     control={purchaseForm.control}
                                     name="contractor"
@@ -199,6 +252,7 @@ export default function Purchase({
                                                                 key={contractor.name}
                                                                 onSelect={() => {
                                                                     purchaseForm.setValue("contractor", contractor.name);
+                                                                    setCurrentContractorId(contractor.id);
                                                                     setIsPopoverOpen(false);
                                                                 }}
                                                             >
@@ -215,22 +269,8 @@ export default function Purchase({
                                 />
                                 <FormField
                                     control={purchaseForm.control}
-                                    name="quantity"
-                                    defaultValue=""
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Количество закупаемого товара</FormLabel>
-                                            <FormControl>
-                                                <Input {...field} className="w-[100px]"/>
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <FormField
-                                    control={purchaseForm.control}
-                                    name="price"
-                                    defaultValue=""
+                                    name="cost"
+                                    defaultValue={0}
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>Стоимость</FormLabel>
@@ -242,7 +282,7 @@ export default function Purchase({
                                 />
                                 <FormField
                                     control={purchaseForm.control}
-                                    name="date"
+                                    name="deadline"
                                     defaultValue=""
                                     render={({ field }) => (
                                         <FormItem>
