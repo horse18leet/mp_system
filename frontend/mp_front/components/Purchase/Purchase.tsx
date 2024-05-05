@@ -30,7 +30,7 @@ import {
     CommandGroup,
     CommandInput,
     CommandItem,
-} from "@/components/ui/command";
+} from "@/components/ui/command";               //todo: toast
 
 import {
     Popover,
@@ -49,10 +49,16 @@ import {
     Check,
     ChevronsUpDown,
 } from "lucide-react";
-import { CalendarIcon, ChevronRightIcon, ChevronLeftIcon } from '@radix-ui/react-icons'
+import { 
+    CalendarIcon, 
+    ChevronRightIcon, 
+    ChevronLeftIcon ,
+} from '@radix-ui/react-icons'
 
 import { Input } from "../ui/input";
 import { Calendar } from "@/components/ui/calendar"
+
+import { CustomAlert } from "../CustomAlert/CustomAlert";
 
 import { cn } from "@/lib/utils";
 import { format } from "date-fns"
@@ -82,9 +88,10 @@ export default function Purchase({
     const [errMessage, setErrMessage] = useState("Товары не выбраны");
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);  
     const [contractorsArr, setContractorsArr] = useState<IContractorResponse[]>([]);
+    const [isAlert, setIsAlert] = useState(true);
 
-    const[isNextButtonDisabled, setIsNextButtonDisabled] = useState(itemsList.length == 1 ? true : false);
-    const[isPreviousButtonDisabled, setIsPreviousButtonDisabled] = useState(true);
+    const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(itemsList.length == 1 ? true : false);
+    const [isPreviousButtonDisabled, setIsPreviousButtonDisabled] = useState(true);
 
     const purchaseForm = useForm<IAddPurchase>({
         resolver: joiResolver(addPurchaseScheme),
@@ -109,6 +116,7 @@ export default function Purchase({
             console.log("ошибка: ", response.message);
             return;
         } else {
+            setIsAlert(true);
             if (response.id) {
                 if (tempPurchaseId === null) {
                     setTempPurchaseId(response.id);
@@ -167,6 +175,7 @@ export default function Purchase({
 
 
     return (
+        <>
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogContent className="max-w-[500px]">
                 <DialogHeader className="mx-auto flex flex-row items-center">
@@ -314,11 +323,12 @@ export default function Purchase({
                                     )}
                                 />
                             </div>
-                            <Button type="submit" className="w-[200px]">Добавить подрядчика</Button>
+                            <Button type="submit" className="w-[200px]">Добавить в закуп</Button>
                         </form>
                     </Form>
-                    {/* <DialogDescription>{errMessage}</DialogDescription> */}
             </DialogContent>
         </Dialog>
+        
+        </>
     );
 } 

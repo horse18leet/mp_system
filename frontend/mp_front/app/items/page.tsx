@@ -42,6 +42,9 @@ import { FacetedFilterOption } from "@/components/Table/types/data-table-types";
 import ItemForm from "@/components/CustomForms/ItemForm/ItemForm";
 import Purchase from "@/components/Purchase/Purchase";
 
+import { CustomAlertProps } from "@/components/CustomAlert/types/alert-types";
+import { CustomAlert } from "@/components/CustomAlert/CustomAlert";
+
 export default function Items() {
   const [items, setItems] = useState<IItemResponse[]>([]); //староста, тут ошибка, я пока по-другому сделаю
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);

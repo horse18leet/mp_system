@@ -4,7 +4,7 @@ import api from "../api";
 import IPurchaseRequest from "@/utils/models/purchase/purchase-request";
 import IPurchaseResponse from "@/utils/models/purchase/purchase-response";
 
-export async function createPurchase(purchase: IPurchaseRequest): Promise<AxiosResponse | AxiosError> {
+export async function createPurchase(purchase: IPurchaseRequest): Promise<AxiosResponse | AxiosError | any> {
   try {
     const response = await api.post(`/purchase/create`, purchase);
     const data = response.data;

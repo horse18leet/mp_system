@@ -3,7 +3,7 @@
 import styles from '../page.module.css'
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
-import { CustomError } from '@/components/CustomError/CustomError';
+import { CustomAlert } from '@/components/CustomAlert/CustomAlert';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
@@ -105,7 +105,7 @@ export default function Signup() {
                 />
             </Form>
 
-            {isError ? <CustomError errName={errorData["errName"]}/> : <></>}
+            {isError ? <CustomAlert type="error" title={errorData["errName"]} /> : <></>}
         </section>
         </>
     )
