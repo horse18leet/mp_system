@@ -65,8 +65,6 @@ import {
 import { Input } from "../ui/input";
 import { Calendar } from "@/components/ui/calendar"
 
-import { CustomAlert } from "../CustomAlert/CustomAlert";
-
 import { cn } from "@/lib/utils";
 import { format } from "date-fns"
 
@@ -83,6 +81,8 @@ import { createPurchase } from "@/utils/api/services/purchase.service";
 import { AxiosError } from "axios";
 import { formatDate } from "@/utils/utils";
 
+import { useToast } from "@/components/ui/use-toast";
+
 
 export default function Purchase({
     isOpen, 
@@ -92,13 +92,10 @@ export default function Purchase({
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentItem, setCurrentItem] = useState<IItemResponse>(itemsList[0]);
-    const [currentContractorId, setCurrentContractorId] = useState(0);
     const [tempPurchaseId, setTempPurchaseId] = useState(null);
-    const [errMessage, setErrMessage] = useState("Товары не выбраны");
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);  
     const [contractorsArr, setContractorsArr] = useState<IContractorResponse[]>([]);
     const [tableItems, setTableItems] = useState<any>([]);
-    const [isAlert, setIsAlert] = useState(true);
 
     const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(itemsList.length == 1 ? true : false);
     const [isPreviousButtonDisabled, setIsPreviousButtonDisabled] = useState(true);
@@ -106,6 +103,8 @@ export default function Purchase({
     const purchaseForm = useForm<IAddPurchase>({
         resolver: joiResolver(addPurchaseScheme),
     });
+
+    const { toast } = useToast();
 
     const columns: ColumnDef<IItemResponse>[] = [
        /* {
@@ -182,7 +181,9 @@ export default function Purchase({
               return (
                 <div className="flex space-x-2">
                   <span className="max-w-[100px] truncate font-medium">
-                    {row.getValue("deadline")}
+                    {
+                        changeTableDate(row.getValue("deadline"))
+                    }
                   </span>
                 </div>
               );
@@ -216,21 +217,34 @@ export default function Purchase({
         setContractorsArr(contractors);
     }
 
-    async function addPurchase() {
+    function changeTableDate(tableDateValue: any) {
+        const dateObject = new Date(tableDateValue);
+        const dateString = formatDate(dateObject, false);
+        return dateString;
+    }
+
+    async function addPurchase() {                              //отправка запроса на создание purchase на сервер
         const finalData = createPurchaseObj();
         const response = await createPurchase(finalData);
 
         if (response instanceof AxiosError) {
-            console.log("ошибка: ", response.message);
+            // console.log("ошибка: ", response.message);
+            toast({
+                variant: "destructive",
+                title: "Ошибка",
+                description: response.message,
+            });
             return;
         } else {
-            console.log(response);
-            setIsAlert(true);
+            // console.log(response);
             if (response.id) {
                 if (tempPurchaseId === null) {
                     setTempPurchaseId(response.id);
                 }
             }
+            toast({
+                title: "Закуп создан",
+            });
         }
     }
 
@@ -264,10 +278,6 @@ export default function Purchase({
         const contractorType = contractor ? contractor["type"] : "";
         data["type"] = contractorType;
 
-        const dateObject = new Date(data["deadline"]);
-        const dateString = formatDate(dateObject, false);
-        data["deadline"] = dateString;
-
         setTableItems([...tableItems, data]);
     }
     
@@ -283,6 +293,8 @@ export default function Purchase({
             setIsNextButtonDisabled(true);
         }
         setTableItems([]);
+        purchaseForm.reset();
+
     }
 
     function handlePreviousItem() {                                     //обработчик нажатия на кнопку предыдущего товара
@@ -297,6 +309,8 @@ export default function Purchase({
             setIsPreviousButtonDisabled(true);
         }
         setTableItems([]);
+        purchaseForm.reset();
+
     }
 
     return (
@@ -315,7 +329,7 @@ export default function Purchase({
                                 <p>Предыдущий товар</p>
                             </TooltipContent>
                         </Tooltip>
-                        <DialogTitle className="mx-[20px] mb-[30px] text-2xl max-w-[400px] text-center break-words">{currentItem ? currentItem.title : errMessage}</DialogTitle>
+                        <DialogTitle className="mx-[20px] mb-[30px] text-2xl max-w-[400px] text-center break-words">{currentItem ? currentItem.title : "Товары не выбраны"}</DialogTitle>
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <Button variant="outline" size="icon" disabled={isNextButtonDisabled} onClick={handleNextItem}>
@@ -331,7 +345,7 @@ export default function Purchase({
                     <div className="flex flex-row justify-between">
                         <Form {...purchaseForm}>
                             <form 
-                                className="flex flex-col gap-4 border-solid border-2 border-sky-500 h-[448px]" 
+                                className="flex flex-col gap-4 h-[438px]" 
                                 onSubmit={purchaseForm.handleSubmit(addContractorToTable)}
                             >
                                 <div className="flex flex-col gap-y-[30px]">
@@ -387,7 +401,6 @@ export default function Purchase({
                                                                     key={contractor.name}
                                                                     onSelect={() => {
                                                                         purchaseForm.setValue("contractor", contractor.name);
-                                                                        setCurrentContractorId(contractor.id);
                                                                         setIsPopoverOpen(false);
                                                                     }}
                                                                 >
@@ -449,11 +462,11 @@ export default function Purchase({
                                             </FormItem>
                                         )}
                                     />
-                                    <Button type="submit" variant="secondary" className="w-[200px] my-auto">Добавить в таблицу</Button>
+                                    <Button type="submit" variant="secondary" className="w-[200px]">Добавить в таблицу</Button>
                                 </div>
                             </form>
                         </Form>
-                        <div className="flex flex-col justify-between h-[448px]">
+                        <div className="flex flex-col justify-between h-[438px]">
                             <div className="max-h-[368px] overflow-auto">
                                 <DataTable title="contractor" data={tableItems} columns={columns} isToolbar={false} isTablePagination={false} />
                             </div>

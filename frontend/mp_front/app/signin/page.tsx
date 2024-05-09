@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { login } from "@/utils/utils";
 import Header from '@/components/Header/Header';
 import { useEffect, useState } from 'react';
-import { CustomError } from '@/components/CustomAlert/CustomAlert';
+import { CustomAlert } from '@/components/CustomAlert/CustomAlert';
 import loginUserScheme from '@/utils/schemas/user/login-user.scheme';
 
 export default function Signin() {
@@ -75,7 +75,7 @@ export default function Signin() {
                 />
             </Form>
             
-            {isError ? <CustomError errName={errorData["errName"]}/> : <></>}
+            {isError ? <CustomAlert type="error" title="Ошибка" description={errorData["errName"]} /> : <></>}
 
         </section>
         </>

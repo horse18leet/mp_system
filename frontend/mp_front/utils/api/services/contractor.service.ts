@@ -4,7 +4,7 @@ import api from "../api";
 import IContractorRequest from "@/utils/models/contractor/contractor-request";
 import IContractorResponse from "@/utils/models/contractor/contractor-response";
 
-export async function createContractor(contractor: IContractorRequest): Promise<AxiosResponse | AxiosError> {
+export async function createContractor(contractor: IContractorRequest): Promise<AxiosResponse | AxiosError | any> {
     try {
       const response = await api.post(`/contractor/create`, contractor);
       const data = response.data;
@@ -45,7 +45,7 @@ export async function getContractor(id: number): Promise<IContractorResponse | A
   }
 }
 
-export async function deleteContractor(id: number): Promise<AxiosResponse | AxiosError> {
+export async function deleteContractor(id: number): Promise<AxiosResponse | AxiosError | any> {
   try {
     const response = await api.delete(`/contractor/drop/${id}`);
     
@@ -58,7 +58,7 @@ export async function deleteContractor(id: number): Promise<AxiosResponse | Axio
   }
 }
 
-export async function editContractor(contractor: IContractorRequest): Promise<AxiosResponse | AxiosError> {
+export async function editContractor(contractor: IContractorRequest): Promise<AxiosResponse | AxiosError | any> {
   try {
     const response = await api.put(`/contractor/edit`, contractor);
     const data = response.data;

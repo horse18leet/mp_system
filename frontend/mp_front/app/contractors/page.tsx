@@ -32,10 +32,13 @@ import IContractorResponse from "@/utils/models/contractor/contractor-response";
 import ContractorForm from "@/components/CustomForms/ContractorForm/ContractorForm";
 import { IEditContractor } from "@/utils/schemas/contractor/edit-contractor.sheme";
 
+import { useToast } from "@/components/ui/use-toast";
+
 export default function Contractors() {
     const [contractors, setContractors] = useState<IContractorResponse[]>([]);
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    const { toast } = useToast();
 
     useEffect(() => {
         getAllContractors();
@@ -65,9 +68,16 @@ export default function Contractors() {
 
         if (response instanceof AxiosError) {
             console.log(response.message);
-            setIsEditDialogOpen(false);
+            toast({
+                variant: "destructive",
+                title: "Ошибка при изменении данных подрядчика",
+                description: response.message,
+            });
             return;
         } else {
+            toast({
+                title: `Данные подрядчика '${response.name}' изменены`,
+            }); 
             getAllContractors().then(() => setIsEditDialogOpen(false));
         }
     }
@@ -77,9 +87,16 @@ export default function Contractors() {
     
         if (response instanceof AxiosError) {
             console.log(response.message);
-            setIsAddDialogOpen(false);
+            toast({
+                variant: "destructive",
+                title: "Ошибка при создании подрядчика",
+                description: response.message,
+            });
             return;
         } else {
+            toast({
+                title: `Подрядчик '${response.name}' создан`,
+            }); 
             getAllContractors().then(() => setIsAddDialogOpen(false));
         }
     }
@@ -89,8 +106,16 @@ export default function Contractors() {
     
         if (response instanceof AxiosError) {
           console.log(response.message);
+          toast({
+            variant: "destructive",
+            title: "Ошибка при удалении подрядчика",
+            description: response.message,
+            });
           return;
         } else {
+            toast({
+                title: `Подрядчик '${response.name}' удалён`,
+            }); 
             getAllContractors();
         }
     }

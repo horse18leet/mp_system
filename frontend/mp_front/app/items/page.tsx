@@ -42,8 +42,7 @@ import { FacetedFilterOption } from "@/components/Table/types/data-table-types";
 import ItemForm from "@/components/CustomForms/ItemForm/ItemForm";
 import Purchase from "@/components/Purchase/Purchase";
 
-import { CustomAlertProps } from "@/components/CustomAlert/types/alert-types";
-import { CustomAlert } from "@/components/CustomAlert/CustomAlert";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function Items() {
   const [items, setItems] = useState<IItemResponse[]>([]); //староста, тут ошибка, я пока по-другому сделаю
@@ -52,7 +51,7 @@ export default function Items() {
   const [isCheckBox, setIsCheckBox] = useState(false);
   const [isPurchaseDialogOpen, setIsPurchaseDialogOpen] = useState(false);
   const [purchaseItems, setPurchaseItems] = useState<IItemResponse[]>([]);
-
+  const { toast } = useToast();
 
   useEffect(() => {
     getAllItems();
@@ -112,13 +111,20 @@ export default function Items() {
 
   async function removeItem(id: number) {
     const response = await deleteItem(id);
-    console.log(id);
-    console.log(response);
     if (response instanceof AxiosError) {
       // Если получили ошибку, выходим из функции
       console.log(response.message);
+      toast({
+        variant: "destructive",
+        title: "Ошибка при удалении товара",
+        description: response.message,
+      });
       return;
     } else {
+      toast({
+        title: `Товар '${response.title}' удалён`,
+      });
+
       getAllItems(); // В противном случае обновляем UI.
     }
   }
@@ -128,9 +134,16 @@ export default function Items() {
 
     if (response instanceof AxiosError) {
       console.log(response.message);
-      setIsAddDialogOpen(false);
+      toast({
+        variant: "destructive",
+        title: "Ошибка при создании товара",
+        description: response.message,
+      });      
       return;
     } else {
+      toast({
+        title: `Товар '${response.title}' создан`,
+      });    
       getAllItems().then(() => setIsAddDialogOpen(false));
     }
   }
@@ -141,9 +154,16 @@ export default function Items() {
 
     if (response instanceof AxiosError) {
       console.log(response.message);
-      setIsEditDialogOpen(false);
-        return;
+      toast({
+        variant: "destructive",
+        title: "Ошибка при изменении информации о товаре",
+        description: response.message,
+      });   
+      return;
     } else {
+      toast({
+        title: `Товар '${response.title}' изменён`,
+      });   
       getAllItems().then(() => setIsEditDialogOpen(false));
     }
 }
@@ -277,6 +297,7 @@ export default function Items() {
       label: "Все",
       value: "Все",
     }
+    
 ] as  FacetedFilterOption[];
 
   return (

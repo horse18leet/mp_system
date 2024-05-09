@@ -39,7 +39,7 @@ export async function getItem(id: number): Promise<IItemResponse | AxiosError | 
   }
 }
 
-export async function deleteItem(id: number): Promise<AxiosResponse | AxiosError> {
+export async function deleteItem(id: number): Promise<AxiosResponse | AxiosError | any> {
   try {
     const response = await api.delete(`/item/drop/${id}`);
     
@@ -52,7 +52,7 @@ export async function deleteItem(id: number): Promise<AxiosResponse | AxiosError
   }
 }
 
-export async function createItem(item: IItemRequest): Promise<AxiosResponse | AxiosError> {
+export async function createItem(item: IItemRequest): Promise<AxiosResponse | AxiosError | any> {
   try {
     const response = await api.post(`/item/create`, item);
     const data = response.data;
@@ -65,7 +65,7 @@ export async function createItem(item: IItemRequest): Promise<AxiosResponse | Ax
   }
 }
 
-export async function editItem(item: IItemRequest): Promise<AxiosResponse | AxiosError> {
+export async function editItem(item: IItemRequest): Promise<AxiosResponse | AxiosError | any> {
   try {
     const response = await api.put(`/item/edit`, item);
     const data = response.data;
