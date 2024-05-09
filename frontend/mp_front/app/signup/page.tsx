@@ -3,15 +3,15 @@
 import styles from '../page.module.css'
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
-import { CustomAlert } from '@/components/CustomAlert/CustomAlert';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { registration } from '@/utils/utils';
 import Header from '@/components/Header/Header';
-import { useEffect, useState } from 'react';
 import { regUserScheme } from '@/utils/schemas/user/reg-user.scheme';
 import IRegUserRequest from '@/utils/models/user/reg-user-request';
+
+import { useToast } from "@/components/ui/use-toast";
 
 export default function Signup() {
     const router = useRouter()
@@ -26,23 +26,16 @@ export default function Signup() {
             password: "",
         }
     });
-    const [isError, setIsError] = useState(false);
-    const [errorData, setErrorData] = useState({errName: ""});
-
-    useEffect(() => {
-        if (isError) {
-            setTimeout(() => {
-                setIsError(false);
-            }, 3000);
-        }
-    }, [isError]);
+    const { toast } = useToast();
 
     async function onSubmit(data: IRegUserRequest) {  //функция сабмита
         const result = await registration(data);
         if (result.error) {
-            setIsError(true);
-            setErrorData({...errorData,
-                errName: result.error
+            console.log(result.error);
+            toast({
+                variant: "destructive",
+                title: "Ошибка при регистрации",
+                description: result.error,
             });
         }
         else {
@@ -104,8 +97,6 @@ export default function Signup() {
                     error={errors.password?.message as any}
                 />
             </Form>
-
-            {isError ? <CustomAlert type="error" title={errorData["errName"]} /> : <></>}
         </section>
         </>
     )

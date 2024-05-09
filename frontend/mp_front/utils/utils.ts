@@ -17,7 +17,7 @@ export async function registration(data: IRegUserRequest) {   //регистра
 export async function login(email: string, password: string) {              //вход
     const res = await authorize({email, password});
     if (res instanceof AxiosError) {
-        return { error: res.response?.data.message };
+        return { res };
     }
     else {
         localStorage.setItem("token", res.access_token);
