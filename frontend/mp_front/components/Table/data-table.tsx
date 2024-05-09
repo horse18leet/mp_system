@@ -33,6 +33,8 @@ export function DataTable<TData, TValue>({
   title,
   additionalFilters,                            //массив дополнительных фильтров для таблицы
   data,
+  isToolbar,
+  isTablePagination,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -62,7 +64,9 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} additionalFilters={additionalFilters} title={title}/>
+      {
+        isToolbar ? <DataTableToolbar table={table} additionalFilters={additionalFilters} title={title}/> : <></>
+      }
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -113,7 +117,9 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      {
+        isTablePagination ? <DataTablePagination table={table} /> : <></> 
+      }
     </div>
   );
 }

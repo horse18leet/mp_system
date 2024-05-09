@@ -44,3 +44,16 @@ export function mergeObjects(obj1: any, obj2: any) {
     }
     return obj1;
 }
+
+export function formatDate(date: Date, isForReq: boolean) {                                 //преобразование строки в формат даты ДД.ММ.ГГГГ
+    const day = String(date.getDate()).padStart(2, '0');                 
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+
+    if (isForReq) {
+        return `${year}-${month}-${day}T00:00:00`; 
+    }
+    else {
+        return `${day}.${month}.${year}`; 
+    }        
+}

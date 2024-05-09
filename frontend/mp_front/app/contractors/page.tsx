@@ -314,7 +314,7 @@ export default function Contractors() {
                         </DialogContent>
                     </Dialog>
 
-                    <DataTable title="name" data={contractors} columns={columns} additionalFilters={additionalFilters} /> 
+                    <DataTable title="name" data={contractors} columns={columns} additionalFilters={additionalFilters} isToolbar={true} isTablePagination={true} /> 
                 </div>
             </div>
         </ProtectedLayout>

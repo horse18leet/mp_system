@@ -104,7 +104,7 @@ export function DataTableRowActions<TData>({
       {
         isEditDialogOpen === true ?
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-          {onUpdate(row)}
+          {onUpdate ? onUpdate(row): ""}
         </Dialog>
         :
         <></>

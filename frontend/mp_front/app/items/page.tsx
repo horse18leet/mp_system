@@ -287,14 +287,10 @@ export default function Items() {
           isOpen={isPurchaseDialogOpen}   
           setIsOpen={setIsPurchaseDialogOpen}  
           itemsList={purchaseItems}
-        />
-        :
-        <></>
+        /> : <></>
       }
-      
-      <div className="container pt-8 h-full">
+      <div className="container pt-8 h-full mb-[50px]">
         <div className="flex-col space-y-8 md:flex hidden">
-          
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <div className="flex items-center justify-between">
               <div>
@@ -318,7 +314,6 @@ export default function Items() {
                         >
                           Добавить в закуп
                         </Button>
-
                       </div>
                     </TooltipTrigger>
                     {
@@ -348,7 +343,7 @@ export default function Items() {
               <ItemForm handleFormSubmit={addItem} isEdit={false}/>
             </DialogContent>
           </Dialog>
-          <DataTable title="title" data={items} columns={columns} additionalFilters={additionalFilters} />
+          <DataTable title="title" data={items} columns={columns} additionalFilters={additionalFilters} isToolbar={true} isTablePagination={true} />
         </div>
       </div>
     </ProtectedLayout>

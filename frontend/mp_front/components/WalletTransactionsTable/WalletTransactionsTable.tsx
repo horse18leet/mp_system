@@ -622,7 +622,7 @@ function WalletTransactionsTable({dataId}: any) {
               </Form>
             </DialogContent>
           </Dialog>
-          <DataTable title="amount" data={walletTransactions} columns={walletTransactionsColumns} />   
+          <DataTable title="amount" data={walletTransactions} columns={walletTransactionsColumns} isToolbar={true} isTablePagination={true} />   
         </div>
       </div>
     );

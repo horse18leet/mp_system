@@ -45,7 +45,7 @@ export interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
   rowId: number;
   isOperations: boolean;
-  onUpdate: (data: any) => ReactNode;
+  onUpdate?: (data: any) => ReactNode;
   onDelete?: () => Promise<void>;
   onOperations?: () => ReactNode;
 }
@@ -68,4 +68,6 @@ export interface DataTableProps<TData, TValue> {
   additionalFilters?: FacetedFilterOption[];               //пока так, староста, не злись
   data: TData[];
   title: string;
+  isToolbar: boolean;
+  isTablePagination: boolean;
 }

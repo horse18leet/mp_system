@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 
 import { joiResolver } from "@hookform/resolvers/joi";
 
+import { ru } from 'date-fns/locale';
+
 import { Button } from "../ui/button";
 
 import {
@@ -45,6 +47,11 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+import { DataTableColumnHeader } from "../../components/Table/data-table-column-header";
+import { DataTableRowActions } from "../../components/Table/data-table-row-actions";
+import { DataTable } from "@/components/Table/data-table";
+import { ColumnDef } from "@tanstack/react-table";
+
 import { 
     Check,
     ChevronsUpDown,
@@ -74,6 +81,8 @@ import IItemResponse from "@/utils/models/item/item-response";
 import { IPurchaseContractor } from "@/utils/schemas/purchase/purchase-contractor/purchase-contractor.scheme";
 import { createPurchase } from "@/utils/api/services/purchase.service";
 import { AxiosError } from "axios";
+import { formatDate } from "@/utils/utils";
+
 
 export default function Purchase({
     isOpen, 
@@ -88,6 +97,7 @@ export default function Purchase({
     const [errMessage, setErrMessage] = useState("Товары не выбраны");
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);  
     const [contractorsArr, setContractorsArr] = useState<IContractorResponse[]>([]);
+    const [tableItems, setTableItems] = useState<any>([]);
     const [isAlert, setIsAlert] = useState(true);
 
     const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(itemsList.length == 1 ? true : false);
@@ -96,6 +106,105 @@ export default function Purchase({
     const purchaseForm = useForm<IAddPurchase>({
         resolver: joiResolver(addPurchaseScheme),
     });
+
+    const columns: ColumnDef<IItemResponse>[] = [
+       /* {
+          accessorKey: "id",
+          header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Наименование" />
+          ),
+          cell: ({ row }) => (
+            <div className="w-[80px]">{"ТОВАР-" + row.getValue("id")}</div>
+          ),
+          enableSorting: false,
+          enableHiding: false,
+        },*/
+        {
+          accessorKey: "contractor",
+          header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Наименование" />
+          ),
+          cell: ({ row }) => {
+            return (
+              <div className="flex space-x-2">
+                <span className="max-w-[100px] truncate font-medium">
+                  {row.getValue("contractor")}
+                </span>
+              </div>
+            );
+          },
+          meta: {
+            filterDisplayName: "Наименование",
+          },
+        },
+        {
+          accessorKey: "type",
+          header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Тип" />
+          ),
+          cell: ({ row }) => {
+            return (
+              <div className="flex space-x-2">
+                <span className="max-w-[100px] truncate font-medium">
+                  {row.getValue("type")}
+                </span>
+              </div>
+            );
+          },
+          meta: {
+            filterDisplayName: "Тип",
+          },
+        },
+        {
+          accessorKey: "cost",
+          header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Стоимость" />
+          ),
+          cell: ({ row }) => {
+            return (
+              <div className="flex space-x-2">
+                <span className="max-w-[100px] truncate font-medium">
+                  {row.getValue("cost")}
+                </span>
+              </div>
+            );
+          },
+          meta: {
+            filterDisplayName: "Стоимость",
+          },
+        },
+        {
+            accessorKey: "deadline",
+            header: ({ column }) => (
+              <DataTableColumnHeader column={column} title="Дата окончания работ" />
+            ),
+            cell: ({ row }) => {
+              return (
+                <div className="flex space-x-2">
+                  <span className="max-w-[100px] truncate font-medium">
+                    {row.getValue("deadline")}
+                  </span>
+                </div>
+              );
+            },
+            meta: {
+              filterDisplayName: "Дата окончания работ",
+            },
+        },
+        /*
+        {
+          id: "actions",
+          cell: ({ row }) => (
+            <DataTableRowActions
+              row={row}
+              rowId={row.original.id}
+              isOperations={false}
+            //   onDelete={() => removeItem(row.original.id)}
+            //   onUpdate={returnUpdateForm}
+            />
+          ),
+        },*/
+      ];
 
     useEffect(() => {
         getAllContractors();
@@ -107,15 +216,15 @@ export default function Purchase({
         setContractorsArr(contractors);
     }
 
-    async function addPurchase(data: any) {
-        const finalData = createPurchaseObj(data);
-
+    async function addPurchase() {
+        const finalData = createPurchaseObj();
         const response = await createPurchase(finalData);
 
         if (response instanceof AxiosError) {
             console.log("ошибка: ", response.message);
             return;
         } else {
+            console.log(response);
             setIsAlert(true);
             if (response.id) {
                 if (tempPurchaseId === null) {
@@ -125,25 +234,41 @@ export default function Purchase({
         }
     }
 
-    function createPurchaseObj(tempData: any) {           //временно
-        
+    function createPurchaseObj() {    
+        const reqContractorArr = JSON.parse(JSON.stringify(tableItems));
+        reqContractorArr.forEach((item: any) => {
+            delete item["quantity"];
+            delete item["type"];
+            const contractor = contractorsArr.find(contractor => contractor.name === item.contractor);
+            item["contractorId"] = contractor?.id;
+            delete item["contractor"];
+            const dateObject = new Date(tableItems[0]["deadline"]);
+            const newDate = formatDate(dateObject, true);
+            item["deadline"] = newDate;
+        });
 
         const finalData = {
             itemId: currentItem.id,
-            quantity: tempData["quantity"] as number,
-            contractorsWork: [
-                {
-                    contractorId: currentContractorId,
-                    cost: tempData["cost"],
-                    deadline: tempData["deadline"],
-                } as IPurchaseContractor,
-            ],
+            quantity: tableItems[0]["quantity"] as number,
+            contractorsWork: reqContractorArr,
         } as IPurchaseRequest;
 
         if (tempPurchaseId) {
             finalData["purchaseId"] = tempPurchaseId;
         }
         return finalData;
+    }
+
+    function addContractorToTable(data: any) {                              //добавление полей формы в таблицу
+        const contractor = contractorsArr.find(contractor => contractor.name === data.contractor);
+        const contractorType = contractor ? contractor["type"] : "";
+        data["type"] = contractorType;
+
+        const dateObject = new Date(data["deadline"]);
+        const dateString = formatDate(dateObject, false);
+        data["deadline"] = dateString;
+
+        setTableItems([...tableItems, data]);
     }
     
     function handleNextItem() {                                     //обработчик нажатия на кнопку следующего товара
@@ -157,7 +282,7 @@ export default function Purchase({
         if (currentIndex === (itemsList.length - 2)) {
             setIsNextButtonDisabled(true);
         }
-        
+        setTableItems([]);
     }
 
     function handlePreviousItem() {                                     //обработчик нажатия на кнопку предыдущего товара
@@ -171,14 +296,14 @@ export default function Purchase({
         if (currentIndex === 1) {
             setIsPreviousButtonDisabled(true);
         }
+        setTableItems([]);
     }
-
 
     return (
         <>
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogContent className="max-w-[500px]">
-                <DialogHeader className="mx-auto flex flex-row items-center">
+            <DialogContent className="max-w-[1000px]">
+                <DialogHeader className="mx-auto flex flex-row items-center mb-[30px]">
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
@@ -190,7 +315,7 @@ export default function Purchase({
                                 <p>Предыдущий товар</p>
                             </TooltipContent>
                         </Tooltip>
-                        <DialogTitle className="mx-[20px] mb-[30px] text-2xl max-w-[200px] text-center break-words">{currentItem ? currentItem.title : errMessage}</DialogTitle>
+                        <DialogTitle className="mx-[20px] mb-[30px] text-2xl max-w-[400px] text-center break-words">{currentItem ? currentItem.title : errMessage}</DialogTitle>
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <Button variant="outline" size="icon" disabled={isNextButtonDisabled} onClick={handleNextItem}>
@@ -203,106 +328,107 @@ export default function Purchase({
                         </Tooltip>
                     </TooltipProvider>
                 </DialogHeader>
-                    <Form {...purchaseForm}>
-                        <form 
-                            className="flex flex-col gap-4 " 
-                            onSubmit={purchaseForm.handleSubmit(addPurchase)}
-                        >
-                            <div className="flex flex-col mb-[50px] gap-y-[30px]">
-                                <FormField
-                                    control={purchaseForm.control}
-                                    name="quantity"
-                                    defaultValue=""
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Количество закупаемого товара</FormLabel>
-                                            <FormControl>
-                                                <Input {...field} className="w-[100px]"/>
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={purchaseForm.control}
-                                    name="contractor"
-                                    defaultValue=""
-                                    render={({ field }) => (
-                                        <FormItem className="flex flex-col w-[200px]">
-                                            <FormLabel>Подрядчик</FormLabel>
-                                            <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-                                                <PopoverTrigger asChild>
-                                                    <FormControl>
-                                                        <Button
-                                                            variant="outline"
-                                                            role="combobox"
-                                                            className={cn("justify-between", !field.value && "text-muted-foreground")}
-                                                        >
-                                                            {field.value
-                                                            ? contractorsArr.find(
-                                                                (contractor) =>
-                                                                    contractor.name === field.value
-                                                            )?.name
-                                                            : "Выбрать подрядчика"}
-                                                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                                        </Button>
-                                                    </FormControl>
-                                                </PopoverTrigger>
-                                                <PopoverContent className="w-[var(--radix-popover-trigger-width)] max-h-[var(--radix-popover-content-available-height)] p-0">
-                                                    <Command>
-                                                        <CommandInput
-                                                            className="border-none focus-visible:ring-ring focus-visible:ring-offset-2"
-                                                            placeholder="Поиск подрядчика..."
-                                                        />
-                                                        <CommandEmpty>Подрядчик не найден.</CommandEmpty>
-                                                        <CommandGroup>
-                                                            {contractorsArr.map((contractor) => (
-                                                            <CommandItem
-                                                                value={contractor.name}
-                                                                key={contractor.name}
-                                                                onSelect={() => {
-                                                                    purchaseForm.setValue("contractor", contractor.name);
-                                                                    setCurrentContractorId(contractor.id);
-                                                                    setIsPopoverOpen(false);
-                                                                }}
+                    <div className="flex flex-row justify-between">
+                        <Form {...purchaseForm}>
+                            <form 
+                                className="flex flex-col gap-4 border-solid border-2 border-sky-500 h-[448px]" 
+                                onSubmit={purchaseForm.handleSubmit(addContractorToTable)}
+                            >
+                                <div className="flex flex-col gap-y-[30px]">
+                                    <FormField
+                                        control={purchaseForm.control}
+                                        name="quantity"
+                                        defaultValue=""
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Количество закупаемого товара</FormLabel>
+                                                <FormControl>
+                                                    <Input {...field} className="w-[200px]"/>
+                                                </FormControl>
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={purchaseForm.control}
+                                        name="contractor"
+                                        defaultValue=""
+                                        render={({ field }) => (
+                                            <FormItem className="flex flex-col w-[200px]">
+                                                <FormLabel>Подрядчик</FormLabel>
+                                                <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+                                                    <PopoverTrigger asChild>
+                                                        <FormControl>
+                                                            <Button
+                                                                variant="outline"
+                                                                role="combobox"
+                                                                className={cn("justify-between", !field.value && "text-muted-foreground")}
                                                             >
-                                                                <Check className={cn("mr-2 h-4 w-4", contractor.name === field.value ? "opacity-100" : "opacity-0")} />
-                                                                {contractor.name}
-                                                            </CommandItem>
-                                                            ))}
-                                                        </CommandGroup>
-                                                    </Command>
-                                                </PopoverContent>
-                                            </Popover>
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={purchaseForm.control}
-                                    name="cost"
-                                    defaultValue={0}
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Стоимость</FormLabel>
-                                            <FormControl>
-                                                <Input  {...field} className="w-[100px]"/>
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={purchaseForm.control}
-                                    name="deadline"
-                                    defaultValue=""
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <div className="flex flex-col">
-                                                <FormLabel>Дата окончания работ</FormLabel>
+                                                                {field.value
+                                                                ? contractorsArr.find(
+                                                                    (contractor) =>
+                                                                        contractor.name === field.value
+                                                                )?.name
+                                                                : "Выбрать подрядчика"}
+                                                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                                            </Button>
+                                                        </FormControl>
+                                                    </PopoverTrigger>
+                                                    <PopoverContent className="w-[var(--radix-popover-trigger-width)] max-h-[var(--radix-popover-content-available-height)] p-0">
+                                                        <Command>
+                                                            <CommandInput
+                                                                className="border-none focus-visible:ring-ring focus-visible:ring-offset-2"
+                                                                placeholder="Поиск подрядчика..."
+                                                            />
+                                                            <CommandEmpty>Подрядчик не найден.</CommandEmpty>
+                                                            <CommandGroup>
+                                                                {contractorsArr.map((contractor) => (
+                                                                <CommandItem
+                                                                    value={contractor.name}
+                                                                    key={contractor.name}
+                                                                    onSelect={() => {
+                                                                        purchaseForm.setValue("contractor", contractor.name);
+                                                                        setCurrentContractorId(contractor.id);
+                                                                        setIsPopoverOpen(false);
+                                                                    }}
+                                                                >
+                                                                    <Check className={cn("mr-2 h-4 w-4", contractor.name === field.value ? "opacity-100" : "opacity-0")} />
+                                                                    {contractor.name}
+                                                                </CommandItem>
+                                                                ))}
+                                                            </CommandGroup>
+                                                        </Command>
+                                                    </PopoverContent>
+                                                </Popover>
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={purchaseForm.control}
+                                        name="cost"
+                                        defaultValue={0}
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Стоимость</FormLabel>
+                                                <FormControl>
+                                                    <Input  {...field} className="w-[200px]"/>
+                                                </FormControl>
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={purchaseForm.control}
+                                        name="deadline"
+                                        defaultValue=""
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <div className="flex flex-col">
+                                                    <FormLabel>Дата окончания работ</FormLabel>
                                                     <Popover>
                                                         <PopoverTrigger asChild>
                                                             <FormControl>
                                                                 <Button
                                                                     variant={"outline"}
-                                                                    className={cn("w-[240px] justify-start text-left font-normal mt-[12px]", !field.value && "text-muted-foreground")}
+                                                                    className={cn("w-[200px] justify-start text-left font-normal mt-[12px]", !field.value && "text-muted-foreground")}
                                                                 >
                                                                     <CalendarIcon className="mr-2 h-4 w-4" />
                                                                     {field.value ? format(field.value, "PPP") : <span>Выбрать дату</span>}
@@ -315,17 +441,26 @@ export default function Purchase({
                                                                 selected={field.value}
                                                                 onSelect={field.onChange}
                                                                 initialFocus
+                                                                locale={ru}
                                                             />
                                                         </PopoverContent>
                                                     </Popover>
-                                            </div>
-                                        </FormItem>
-                                    )}
-                                />
+                                                </div>
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <Button type="submit" variant="secondary" className="w-[200px] my-auto">Добавить в таблицу</Button>
+                                </div>
+                            </form>
+                        </Form>
+                        <div className="flex flex-col justify-between h-[448px]">
+                            <div className="max-h-[368px] overflow-auto">
+                                <DataTable title="contractor" data={tableItems} columns={columns} isToolbar={false} isTablePagination={false} />
                             </div>
-                            <Button type="submit" className="w-[200px]">Добавить в закуп</Button>
-                        </form>
-                    </Form>
+                            <Button className="w-[200px] self-end" disabled={tableItems.length > 0 ? false : true} onClick={addPurchase}>Добавить в закуп</Button>
+                        </div>
+                        
+                    </div>           
             </DialogContent>
         </Dialog>
         
