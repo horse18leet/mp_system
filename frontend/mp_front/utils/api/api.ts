@@ -15,13 +15,14 @@ const api = axios.create({
 api.interceptors.request.use( 
   (config) => {
     const token = localStorage.getItem('token');
-    // const refreshToken = localStorage.getItem('refresh_token');
+    config.headers.Authorization = `Bearer ${token}`;
+    /*const refreshToken = localStorage.getItem('refresh_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     // else if(refreshToken) {
     //   config.headers.Authorization = `Bearer ${refreshToken}`;
-    // }
+    }*/
 
     return config;
   },
@@ -35,10 +36,11 @@ api.interceptors.response.use(
   return response;
   },
 (error) => {
-  // if (error.response?.status === 401) {
-  //   localStorage.removeItem("token");
-  //   updateToken();
-  // }
+  console.log(error);
+  /*if (error.response?.status === 403) {
+    updateToken();
+    console.log("updateToken");
+  }*/
 
   return Promise.reject(error);
 });
