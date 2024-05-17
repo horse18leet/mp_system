@@ -18,7 +18,7 @@ interface BarChartProps {
 
 const BarChart: React.FC<BarChartProps> = ({title, greenData, redData, seriesNames}) => {
     const barChartRef = useRef<HTMLDivElement>(null);
-    const [selectedOption, setSelectedOption] = useState(Cookies.get("barChartOption") || "Last 6 months");
+    const [selectedOption, setSelectedOption] = useState(localStorage.getItem("barChartOption") || "Последние 6 месяцев");
     const [isListOpen, setIsListOpen] = useState(false);
 
     useEffect(() => {
@@ -126,7 +126,7 @@ const BarChart: React.FC<BarChartProps> = ({title, greenData, redData, seriesNam
 
     const handleOptionCLick = (evt: any) => {
         setSelectedOption(evt.target.textContent);
-        Cookies.set("barChartOption", evt.target.textContent, { expires: 2 }); //добавление выбранной опции в localStorage, чтобы при перезагрузке страницы, опция сохранялась
+        localStorage.setItem("barChartOption", evt.target.textContent); //добавление выбранной опции в localStorage, чтобы при перезагрузке страницы, опция сохранялась
         setIsListOpen(false);
     };
 

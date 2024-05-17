@@ -13,7 +13,7 @@ interface LinearChartProps {
 
 const LinearChart: React.FC<LinearChartProps> = ({ title, chartData1, chartData2 }) => {
     const linearChartRef = useRef<HTMLDivElement>(null);
-    const [selectedOption, setSelectedOption] = useState(Cookies.get("linearChartOption") || "Last 6 months");
+    const [selectedOption, setSelectedOption] = useState(localStorage.getItem("linearChartOption") || "Последние 6 месяцев");
     const [isListOpen, setIsListOpen] = useState(false);
     
     useEffect(() => {
@@ -122,7 +122,7 @@ const LinearChart: React.FC<LinearChartProps> = ({ title, chartData1, chartData2
     };
     const handleOptionCLick = (evt: any) => {
         setSelectedOption(evt.target.textContent);
-        Cookies.set("linearChartOption", evt.target.textContent, { expires: 2 }); //добавление выбранной опции в localStorage, чтобы при перезагрузке страницы, опция сохранялась
+        localStorage.setItem("linearChartOption", evt.target.textContent); //добавление выбранной опции в localStorage, чтобы при перезагрузке страницы, опция сохранялась
         setIsListOpen(false);
     };
 
