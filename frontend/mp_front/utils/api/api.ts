@@ -3,6 +3,8 @@ import { updateToken } from './auth/auth';
 
 const baseURL = process.env.NEXT_PUBLIC_DOMAIN_NAME;
 
+let isToken;
+
 const api = axios.create({
   baseURL: baseURL,
   headers: {
@@ -15,14 +17,18 @@ const api = axios.create({
 api.interceptors.request.use( 
   (config) => {
     const token = localStorage.getItem('token');
-    config.headers.Authorization = `Bearer ${token}`;
-    /*const refreshToken = localStorage.getItem('refresh_token');
+    // const refreshToken = localStorage.getItem('refresh_token');
+
+    //config.headers.Authorization = `Bearer ${token}`;
+    
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+      console.log("token");
     }
-    // else if(refreshToken) {
-    //   config.headers.Authorization = `Bearer ${refreshToken}`;
-    }*/
+    /* else if(refreshToken){
+      config.headers.Authorization = `Bearer ${refreshToken}`;
+      console.log("refreshhhh");
+    } */
 
     return config;
   },
@@ -33,14 +39,14 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   (response) => {
-  return response;
+    return response;
   },
 (error) => {
   console.log(error);
-  /*if (error.response?.status === 403) {
+  if (error.response?.status === 401) {
     updateToken();
     console.log("updateToken");
-  }*/
+  }
 
   return Promise.reject(error);
 });

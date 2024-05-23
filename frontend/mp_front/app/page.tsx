@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { barChartTitle, linearChartTitle, barChartSeriesNames } from '@/constants/chartConstants';
+import { updateToken } from '@/utils/api/auth/auth';
 
 export default function Home() {
   
@@ -17,6 +18,7 @@ export default function Home() {
   const barChartData = [5, 5, 6, 3, 7, 8];  
   const linearChartData1 = [1,2,3,4,5,4,1];
   const linearChartData2 = [7,2,2,1,0,8,2];
+  // updateToken();
   
   return (
     <ProtectedLayout>

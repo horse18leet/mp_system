@@ -58,8 +58,6 @@ export default function Contractors() {
 
     async function getAllContractors() {                        
         const contractors = await getContractors();
-        console.log("contractors: ", contractors);
-
         setContractors(contractors);
     }
 
