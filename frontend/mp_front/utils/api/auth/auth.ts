@@ -33,13 +33,14 @@ export async function authorize(user: ILoginUserRequest): Promise<ILoginUserResp
 
 export async function updateToken(): Promise<AxiosError | any> { 
     try {
+        console.log("updateToken");
         const refreshToken = localStorage.getItem('refresh_token');
 
         // localStorage.removeItem("token");
         const response = await api.post("/auth/refresh-token",
         {
             "refresh-token": refreshToken
-        });
+        }); 
         const data = response.data;
         localStorage.setItem("token", data.access_token);
         localStorage.setItem("refresh_token", data.refresh_token);

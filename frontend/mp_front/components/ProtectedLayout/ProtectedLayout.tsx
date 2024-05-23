@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import Header from "../Header/Header";
 
 export default function ProtectedLayout({ children }: {children: React.ReactNode}) {
-    const [loggedIn, setLoggedIn] = useState(true)  //заменить на false
+    const [loggedIn, setLoggedIn] = useState(false)  //заменить на false
     const router = useRouter();
-    /*
+    
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
@@ -15,7 +15,7 @@ export default function ProtectedLayout({ children }: {children: React.ReactNode
         else {
             router.push("/signin");
         }
-    }, [loggedIn]);*/
+    }, [loggedIn]);
 
     return (
         <>

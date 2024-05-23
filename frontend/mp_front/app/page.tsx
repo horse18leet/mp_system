@@ -18,7 +18,7 @@ export default function Home() {
   const barChartData = [5, 5, 6, 3, 7, 8];  
   const linearChartData1 = [1,2,3,4,5,4,1];
   const linearChartData2 = [7,2,2,1,0,8,2];
-  // updateToken();
+  updateToken();
   
   return (
     <ProtectedLayout>

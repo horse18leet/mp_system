@@ -3,8 +3,6 @@ import { updateToken } from './auth/auth';
 
 const baseURL = process.env.NEXT_PUBLIC_DOMAIN_NAME;
 
-let isToken;
-
 const api = axios.create({
   baseURL: baseURL,
   headers: {
@@ -17,19 +15,11 @@ const api = axios.create({
 api.interceptors.request.use( 
   (config) => {
     const token = localStorage.getItem('token');
-    // const refreshToken = localStorage.getItem('refresh_token');
-
-    //config.headers.Authorization = `Bearer ${token}`;
     
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log("token");
+      console.log("отправляем в теле токен: ", token);
     }
-    /* else if(refreshToken){
-      config.headers.Authorization = `Bearer ${refreshToken}`;
-      console.log("refreshhhh");
-    } */
-
     return config;
   },
   (error) => {
@@ -45,7 +35,6 @@ api.interceptors.response.use(
   console.log(error);
   if (error.response?.status === 401) {
     updateToken();
-    console.log("updateToken");
   }
 
   return Promise.reject(error);
