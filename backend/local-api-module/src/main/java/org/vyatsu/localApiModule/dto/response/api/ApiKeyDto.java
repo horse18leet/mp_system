@@ -14,5 +14,8 @@ import java.time.LocalDateTime;
 public class ApiKeyDto implements Serializable {
     Long id;
     String key;
+    String clientId;
     ApiKeyType type;
+    Boolean isExpired;
+    Long userId;
 }

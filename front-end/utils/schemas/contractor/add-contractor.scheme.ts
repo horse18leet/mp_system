@@ -4,7 +4,11 @@ export interface IAddContractor {
     name: string,
     type: string,
     description: string,
+<<<<<<< Updated upstream
     // phoneNum?: string,
+=======
+    phoneNum: string,
+>>>>>>> Stashed changes
     email: string,
     actualAddress: string;
     paymentNum: string;
@@ -32,7 +36,15 @@ export const addContractorScheme = Joi.object({
         "string.min": `Минимальная длина 3 символа`,
         "string.max": `Максимальная длина 5000 символов`,
     }),
+<<<<<<< Updated upstream
     // phoneNum: Joi.string().min(6).max(12),
+=======
+    phoneNum: Joi.string().required().pattern(/^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/).messages({
+        "string.pattern.base": "Данные должны соответствовать формату: 8 777 66 55",
+        "string.empty": "Поле обязательно к заполнению",
+        "string.required": "Поле обязательно к заполнению",
+    }),
+>>>>>>> Stashed changes
     email: Joi.string().email({ tlds: false }).messages({
         "string.pattern.base": "Поле дожлно соответствовать формату электронной почты",
     }),

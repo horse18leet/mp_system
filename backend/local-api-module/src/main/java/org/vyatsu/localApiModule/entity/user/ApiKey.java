@@ -3,9 +3,7 @@ package org.vyatsu.localApiModule.entity.user;
 import jakarta.persistence.*;
 import lombok.*;
 import org.vyatsu.localApiModule.entity.enums.ApiKeyType;
-import org.vyatsu.localApiModule.entity.enums.TokenType;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -32,6 +30,9 @@ public class ApiKey {
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private ApiKeyType type = ApiKeyType.WB;
+
+    @Column(name = "is_expired", nullable = false)
+    private Boolean isExpired;
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP NOT NULL")
     private LocalDateTime createdAt;

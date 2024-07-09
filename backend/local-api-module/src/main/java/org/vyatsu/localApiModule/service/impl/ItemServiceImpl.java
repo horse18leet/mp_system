@@ -1,10 +1,12 @@
 package org.vyatsu.localApiModule.service.impl;
 
+<<<<<<< Updated upstream
 import jakarta.transaction.Transactional;
+=======
+>>>>>>> Stashed changes
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.vyatsu.localApiModule.dto.request.api.ItemReqDto;
 import org.vyatsu.localApiModule.dto.response.api.item.ItemDto;
 import org.vyatsu.localApiModule.entity.item.Item;
 import org.vyatsu.localApiModule.entity.user.User;
@@ -39,7 +41,7 @@ public class ItemServiceImpl implements ItemService {
         User user = authenticationFacade.getAuthenticationUser();
         List<ItemDto> userItemsDto = new ArrayList<>();
         if (user != null) {
-            List<Item> userItems = itemRepository.findItemByUserAndIsDraft(user, isDraft);
+            List<Item> userItems = itemRepository.findItemByUserAndIsDraft(user, isDraft).stream().filter(Item::getIsActive).toList();
             userItemsDto = itemMapper.toDtoList(userItems);
         }
 
@@ -76,9 +78,13 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void deleteUserItemById(ItemReqDto itemReqDto) {
+    public void deleteUserItemById(Long id) {
         User user = authenticationFacade.getAuthenticationUser();
+<<<<<<< Updated upstream
         Item item = itemRepository.findById(itemReqDto.getId()).get();
+=======
+        Item item = itemRepository.findById(id).get();
+>>>>>>> Stashed changes
         if(item.getUser() == user){
             item.setIsActive(false);
             itemRepository.save(item);

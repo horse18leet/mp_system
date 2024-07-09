@@ -1,8 +1,11 @@
 package org.vyatsu.localApiModule.service.impl;
 
 import lombok.AllArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.vyatsu.localApiModule.dto.response.api.ApiKeyDto;
 import org.vyatsu.localApiModule.entity.enums.ApiKeyType;
 import org.vyatsu.localApiModule.entity.user.ApiKey;
 import org.vyatsu.localApiModule.entity.user.User;
@@ -20,6 +23,9 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class ApiKeyServiceImpl implements ApiKeyService {
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     private final AuthenticationFacade authenticationFacade;
 
@@ -39,6 +45,17 @@ public class ApiKeyServiceImpl implements ApiKeyService {
                         apiKey.setUser(user);
                         apiKey.setType(apiKey.getType());
                         apiKey.setCreatedAt(LocalDateTime.now());
+                        apiKey.setIsExpired(false);
+
+                        rabbitTemplate.setExchange("exchange-apikeywb-1");
+                        rabbitTemplate.convertAndSend(ApiKeyDto.builder()
+                                .key(apiKey.getKey())
+                                .type(apiKey.getType())
+                                .userId(user.getId())
+                                .clientId(apiKey.getClientId())
+                                .isExpired(apiKey.getIsExpired())
+                                .build());
+
                         return apiKeyRepository.save(apiKey);
                     } else {
                         throw new AppException("API-ключ уже используется", HttpStatus.BAD_REQUEST);

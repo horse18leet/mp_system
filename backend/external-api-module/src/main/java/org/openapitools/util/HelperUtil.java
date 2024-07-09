@@ -1,12 +1,16 @@
 package org.openapitools.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.lang.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -45,5 +49,35 @@ public class HelperUtil {
         ).getBody();
 
         return userApiKeysMp;
+    }
+
+    public static String createWBRequest(String url, HttpMethod httpMethod, String apiKeyWb, @Nullable String body) throws JsonProcessingException, URISyntaxException {
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", apiKeyWb);
+
+        RequestEntity<String> entity = new RequestEntity<>(
+                body,
+                headers,
+                httpMethod,
+                new URI(url)
+        );
+
+        Object result = null;
+
+        try {
+            ResponseEntity<Object> responseEntity = restTemplate.exchange(entity, Object.class);
+            result = responseEntity.getBody();
+
+        } catch (HttpClientErrorException ex) {
+            if (ex.getStatusCode() == HttpStatus.BAD_REQUEST) {
+                System.out.println("Error response body: " + ex.getResponseBodyAsString());
+            } else {
+                System.out.println("Error status code: " + ex.getStatusCode());
+            }
+        }
+
+        return new ObjectMapper().writeValueAsString(result);
     }
 }

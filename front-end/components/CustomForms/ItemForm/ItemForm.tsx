@@ -39,6 +39,10 @@ import {
 
 import { mergeObjects } from "@/utils/utils";
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 export default function ItemForm({
     item,
     isEdit,
@@ -63,6 +67,10 @@ export default function ItemForm({
         resolver: joiResolver(addItemScheme),
     });
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
    
 
     return (
@@ -143,7 +151,11 @@ export default function ItemForm({
                     <FormField
                         control={itemForm.control}
                         name="firstPrice"
+<<<<<<< Updated upstream
                         defaultValue={!isEdit ? "" : item.firstPrice}
+=======
+                        defaultValue={!isEdit ? "" : (item.firstPrice).toString()}
+>>>>>>> Stashed changes
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Первичная цена</FormLabel>

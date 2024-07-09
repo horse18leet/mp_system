@@ -517,6 +517,7 @@ function WalletTransactionsTable({dataId}: any) {
                                     value={contractor.name}
                                     key={contractor.name}
                                     onSelect={() => {
+<<<<<<< Updated upstream
                                       addWalletTransactionForm.setValue(
                                         "contractorDto",
                                         contractor.name
@@ -532,6 +533,13 @@ function WalletTransactionsTable({dataId}: any) {
                                           : "opacity-0"
                                       )}
                                     />
+=======
+                                      addWalletTransactionForm.setValue("contractorDto", contractor.name);
+                                      setIsSecondaryPopoverOpen(false);
+                                    }}
+                                  >
+                                    <Check className={cn("mr-2 h-4 w-4", contractor.name === field.value ? "opacity-100" : "opacity-0")} />
+>>>>>>> Stashed changes
                                     {contractor.name}
                                   </CommandItem>
                                 ))}
@@ -632,7 +640,11 @@ function WalletTransactionsTable({dataId}: any) {
               </Form>
             </DialogContent>
           </Dialog>
+<<<<<<< Updated upstream
           <DataTable title="amount" data={walletTransactions} columns={walletTransactionsColumns} />   
+=======
+          <DataTable title="amount" data={walletTransactions} columns={walletTransactionsColumns} isToolbar={true} isTablePagination={true} />   
+>>>>>>> Stashed changes
         </div>
       </div>
     );

@@ -56,7 +56,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             e.getMessage();
         }
 
-
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
@@ -82,6 +81,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // Установка статуса 401
                 return;
             }
+        }
+        else {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // Установка статуса 401
+            return;
         }
 
         filterChain.doFilter(request, response);

@@ -79,11 +79,12 @@ public class AuthenticationService {
 
         String accessToken = jwtAuthenticationService.generateAccessToken(userDetails);
         String refreshToken = jwtAuthenticationService.generateRefreshToken(userDetails);
+        UserDto userDto = userMapper.toDto(user);
 
         revokeAllUserTokens(user);
         saveUserToken(user, accessToken);
 
-        return new AuthResponse(accessToken, refreshToken);
+        return new AuthResponse(accessToken, refreshToken, userDto);
     }
 
     // TODO Добавить метод для отзыва токенов через endpoint
@@ -117,11 +118,12 @@ public class AuthenticationService {
 
             if (jwtAuthenticationService.isTokenValid(refreshToken, userDetails)) {
                 String accessToken = jwtAuthenticationService.generateAccessToken(userDetails);
+                UserDto userDto = userMapper.toDto(user);
 
                 revokeAllUserTokens(user);
                 saveUserToken(user, accessToken);
 
-                AuthResponse authResponse = new AuthResponse(accessToken, refreshToken);
+                AuthResponse authResponse = new AuthResponse(accessToken, refreshToken, userDto);
 
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }

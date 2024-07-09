@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.vyatsu.localApiModule.dto.request.api.ContractorDto;
+<<<<<<< Updated upstream
 import org.vyatsu.localApiModule.exception.AppException;
+=======
+>>>>>>> Stashed changes
 import org.vyatsu.localApiModule.mapper.ContractorMapper;
 import org.vyatsu.localApiModule.service.ContractorService;
 

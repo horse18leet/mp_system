@@ -1,16 +1,17 @@
 package org.vyatsu.localApiModule.service;
 
-import org.springframework.http.HttpStatus;
+import jakarta.servlet.http.HttpServletRequest;
+import org.vyatsu.localApiModule.dto.response.api.DashboardDTO;
 import org.vyatsu.localApiModule.entity.user.User;
-import org.vyatsu.localApiModule.exception.AppException;
-import org.vyatsu.localApiModule.exception.UserNotFoundException;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.vyatsu.localApiModule.repository.UserRepository;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 public interface UserService {
 
-    public User getUserByEmail(String email);
+    User getUserByEmail(String email);
+    User saveUser(User user);
+    DashboardDTO getUserDashboard(HttpServletRequest req, LocalDateTime dateFrom, LocalDateTime dateTo);
 
-    public User saveUser(User user);
+    List<User> getAllUsers();
 }

@@ -4,7 +4,10 @@ import api from "../api";
 import IItemResponse from "@/utils/models/item/item-response";
 import IItemRequest from "@/utils/models/item/item-request";
 
+<<<<<<< Updated upstream
 import { updateToken } from "../auth/auth";
+=======
+>>>>>>> Stashed changes
 
 export async function getItems(): Promise<IItemResponse[] | AxiosError | any> {     //any временно добавил, ибо ошибка была, которая мешала билд собрать
   try {
@@ -39,7 +42,11 @@ export async function getItem(id: number): Promise<IItemResponse | AxiosError | 
   }
 }
 
+<<<<<<< Updated upstream
 export async function deleteItem(id: number): Promise<AxiosResponse | AxiosError> {
+=======
+export async function deleteItem(id: number): Promise<AxiosResponse | AxiosError | any> {
+>>>>>>> Stashed changes
   try {
     const response = await api.delete(`/item/drop/${id}`);
     
@@ -52,7 +59,7 @@ export async function deleteItem(id: number): Promise<AxiosResponse | AxiosError
   }
 }
 
-export async function createItem(item: IItemRequest): Promise<AxiosResponse | AxiosError> {
+export async function createItem(item: IItemRequest): Promise<AxiosResponse | AxiosError | any> {
   try {
     const response = await api.post(`/item/create`, item);
     const data = response.data;
@@ -65,7 +72,11 @@ export async function createItem(item: IItemRequest): Promise<AxiosResponse | Ax
   }
 }
 
+<<<<<<< Updated upstream
 export async function editItem(item: IItemRequest): Promise<AxiosResponse | AxiosError> {
+=======
+export async function editItem(item: IItemRequest): Promise<AxiosResponse | AxiosError | any> {
+>>>>>>> Stashed changes
   try {
     const response = await api.put(`/item/edit`, item);
     const data = response.data;

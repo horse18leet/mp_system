@@ -1,9 +1,6 @@
 package org.vyatsu.localApiModule.service;
 
-import jakarta.servlet.http.HttpServletRequest;
-import org.vyatsu.localApiModule.dto.request.api.ItemReqDto;
 import org.vyatsu.localApiModule.dto.response.api.item.ItemDto;
-import org.vyatsu.localApiModule.entity.user.User;
 
 import java.util.List;
 
@@ -13,7 +10,7 @@ public interface ItemService {
 
     ItemDto createItem(ItemDto itemDto);
     List<String> getCategoryByUser();
-    void deleteUserItemById(ItemReqDto itemReqDto);
+    void deleteUserItemById(Long id);
     ItemDto getUserItemById(Long id);
 
     ItemDto editUserItem(ItemDto itemDto);

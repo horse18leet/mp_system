@@ -1,41 +1,36 @@
 package org.openapitools.controller;
 
+import lombok.AllArgsConstructor;
 import org.openapitools.dto.messaging.receive.MessageOrderReceiveDTO;
+<<<<<<< Updated upstream
 import org.openapitools.dto.messaging.send.MessageOrderSendDTO;
 import org.openapitools.messaging.dto.OrderWBDto;
 import org.openapitools.util.HelperUtil;
 import org.springframework.amqp.core.DirectExchange;
+=======
+import org.openapitools.service.OrderService;
+>>>>>>> Stashed changes
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 
 @RestController
 @EnableRabbit
 @RequestMapping("/stats")
+@AllArgsConstructor
 public class StatsController {
 
-    @Autowired
-    RabbitTemplate rabbitTemplate;
-
-    @Autowired
-    private DirectExchange directExchange;
+    private final OrderService orderService;
 
 //    @GetMapping("/orders")
     @RabbitListener(queues = "queue.Order")
+<<<<<<< Updated upstream
     private void getIntervalOrders(@RequestBody MessageOrderReceiveDTO message) throws URISyntaxException, IOException {
 
         String getOrdersUrl = HelperUtil.urlStatsWB + "api/v1/supplier/orders?dateFrom=" + message.getDateFrom() + "&flag=" + message.getFlag();
@@ -68,5 +63,11 @@ public class StatsController {
 
         rabbitTemplate.setExchange("exchange-order-1");
         rabbitTemplate.convertAndSend(orders);
+=======
+    @PostMapping("/getOrders")
+    private void getOrdersPerDay(@RequestBody MessageOrderReceiveDTO message) throws URISyntaxException, IOException {
+        orderService.getOrdersPerDay(message);
+>>>>>>> Stashed changes
     }
+
 }

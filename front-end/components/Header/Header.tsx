@@ -2,6 +2,10 @@
 
 import "./Header.css";
 
+<<<<<<< Updated upstream
+=======
+import { useState } from "react";
+>>>>>>> Stashed changes
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Barcode, LogOut, Settings, Truck, User2, BarChart3, PersonStanding  } from "lucide-react";
@@ -16,6 +20,18 @@ import {
 } from "../ui/navigation-menu";
 import { ListItem } from "../NavigationListItem/navigation-list-item";
 import { Separator } from "../ui/separator";
+
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger, 
+} from "../ui/dropdown-menu";
+
+import { Button } from "../ui/button";
 
 const authItems = [
   { label: "Войти", href: "/signin" },
@@ -60,12 +76,18 @@ const analyticsItems: {
     href: "/items",
     desc: "some text, text again and more text",
   },
+  {
+    label: "Прогнозирование",
+    icon: <BarChart3 className="mr-2 h-4 w-4" />,
+    href: "/prediction",
+    desc: "some text, text again and more text",
+  },
 ];
 
 const navItems = [
   { label: "Финансы", href: "/finance" },
   { label: "Планирование", href: "/planning" },
-  { label: "Прогнозирование", href: "/prediction" },
+  // { label: "Прогнозирование", href: "/prediction" },
   { label: "Swagger", href: "https://api.ucheter.ru/swagger-ui/index.html" },
 
 ];
@@ -77,6 +99,15 @@ type Props = {
 
 export default function Header({ loggedIn, setLoggedIn }: Props) {
   const pathname = usePathname();
+  const [position, setPosition] = useState("bottom")
+
+  const [currentLang, setCurrentLang] = useState("RU");
+  const [userFirstName, setUserFirstName] = useState(localStorage.getItem("userFirstName"));
+  const [userSecondName, setUserSecondName] = useState(localStorage.getItem("userSecondName"));
+
+  function changeLang(event: any) {
+    setCurrentLang(event.target);
+  }
 
   function handleExit() {
     setLoggedIn(false);
@@ -92,7 +123,7 @@ export default function Header({ loggedIn, setLoggedIn }: Props) {
             className="mr-6 flex items-center space-x-2"
             href={loggedIn ? "/" : pathname}
           >
-            <span className="hidden font-bold sm:inline-block">wb</span>
+            <span className="hidden font-bold sm:inline-block">учётер</span>
           </Link>
           {loggedIn ? (
             <NavigationMenu>
@@ -173,7 +204,7 @@ export default function Header({ loggedIn, setLoggedIn }: Props) {
                 <NavigationMenuList>
                   <NavigationMenuItem>
                     <NavigationMenuTrigger className="bg-transparent transition-colors text-muted-foreground hover:text-foreground">
-                      Фамилия И.О.
+                      {`${userSecondName!}  ${userFirstName!}`}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <ul className="grid w-56 gap-0 p-3 md:grid-cols-1">
@@ -222,6 +253,19 @@ export default function Header({ loggedIn, setLoggedIn }: Props) {
               </div>
             )}
           </nav>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">{currentLang}</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>Выберите язык</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuRadioGroup value={currentLang} onValueChange={setCurrentLang}>
+                <DropdownMenuRadioItem value="RU">RU</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="EN">EN</DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+        </DropdownMenu>
         </div>
       </div>
     </header>

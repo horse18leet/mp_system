@@ -30,6 +30,10 @@ services:
     restart: unless-stopped
     ports:
       - "8080:8080"
+    environment:
+    - TZ=Europe/Moscow
+    links:
+      - mongo_db:app_db
 
   external-api-module:
     image: 'external-api-module-spring-boot:latest'
@@ -39,6 +43,18 @@ services:
     restart: unless-stopped
     ports:
       - "8081:8081"
+    environment:
+    - TZ=Europe/Moscow
+    links:
+      - mongo_db:app_db
+  
+  mongo_db:
+    image: "mongo:4.4.3"
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - 'C:/mongodb/database:/data/db'
 
   zipkin:
     image: openzipkin/zipkin

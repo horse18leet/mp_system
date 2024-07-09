@@ -1,7 +1,7 @@
 package org.vyatsu.localApiModule.mapper;
 
 import org.mapstruct.*;
-import org.vyatsu.localApiModule.dto.response.api.item.OrderDto;
+import org.vyatsu.localApiModule.dto.response.api.OrderDto;
 import org.vyatsu.localApiModule.entity.item.Order;
 
 import java.util.List;

@@ -51,6 +51,24 @@ public class RabbitConfiguration {
     }
 
     @Bean
+    public Queue queueRecordOrder(){
+        return new Queue("queue.RecordOrder", false);
+    }
+    @Bean
+    public Queue queueRecordSale(){
+        return new Queue("queue.RecordSale", false);
+    }
+    @Bean
+    public Queue queueApiKeyWB(){
+        return new Queue("queue.ApiKeyWB", false);
+    }
+
+    @Bean
+    public Queue queueReportDetailWB(){
+        return new Queue("queue.ReportDetailWB", false);
+    }
+
+    @Bean
     DirectExchange exchange(){
         return new DirectExchange("exchange.direct");
     }
@@ -58,6 +76,30 @@ public class RabbitConfiguration {
     @Bean
     public FanoutExchange fanoutExchangeA(){
         return new FanoutExchange("exchange-order-1");
+<<<<<<< Updated upstream
+    }
+//    @Bean
+//    Binding bidingOrder(Queue queueOrder, DirectExchange exchange){
+//        return BindingBuilder.bind(queueOrder).to(exchange).with("event_get_orders");
+//    }
+
+    @Bean
+    public Binding binding1(){
+        return BindingBuilder.bind(queueOrder()).to(fanoutExchangeA());
+=======
+>>>>>>> Stashed changes
+    }
+    @Bean
+    public FanoutExchange fanoutExchangeC(){
+        return new FanoutExchange("exchange-order-2");
+    }
+    @Bean
+    public FanoutExchange fanoutExchangeD(){
+        return new FanoutExchange("exchange-sale-1");
+    }
+    @Bean
+    public FanoutExchange fanoutExchangeB(){
+        return new FanoutExchange("exchange-apikeywb-1");
     }
 //    @Bean
 //    Binding bidingOrder(Queue queueOrder, DirectExchange exchange){
@@ -68,6 +110,23 @@ public class RabbitConfiguration {
     public Binding binding1(){
         return BindingBuilder.bind(queueOrder()).to(fanoutExchangeA());
     }
+    @Bean
+    public Binding binding2(){
+        return BindingBuilder.bind(queueApiKeyWB()).to(fanoutExchangeB());
+    }
+    @Bean
+    public Binding binding3(){
+        return BindingBuilder.bind(queueRecordOrder()).to(fanoutExchangeC());
+    }
+    @Bean
+    public Binding binding4(){
+        return BindingBuilder.bind(queueRecordSale()).to(fanoutExchangeD());
+    }
+    @Bean
+    public Binding binding5(){
+        return BindingBuilder.bind(queueReportDetailWB()).to(fanoutExchangeA());
+    }
+
     @Bean
     MessageConverter messageConverter(){
         return new Jackson2JsonMessageConverter();

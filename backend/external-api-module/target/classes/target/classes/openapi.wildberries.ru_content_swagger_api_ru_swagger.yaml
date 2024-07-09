@@ -1,0 +1,3290 @@
+openapi: 3.0.1
+info:
+  title: Описание API Контента
+  version: '2.18'
+  description: '<dl> <dt>Словарь сокращений:</dt> <dd>КТ - карточка товара</dd> <dd>НМ
+    - номенклатура</dd> </dl> Ограничения по количеству запросов: <dd>Допускается
+    максимум 100 запросов в минуту на методы контента в целом.</dd>
+
+    <br> Публичное API Контента создано для синхронизации данных между серверами Wildberries
+    и серверами продавцов. <br> Вы загружаете данные на свои носители, работаете с
+    ними на своих мощностях и синхронизируетесь с нашими серверами по мере необходимости.
+    <br> <code>Не допускается использование API Контента в качестве внешней базы данных.
+    При превышении лимитов на запросы доступ к API будет ограничен.</code> <br> <br>
+    <br>
+
+    '
+security:
+- HeaderApiKey: []
+x-tagGroups:
+- name: Контент
+  tags:
+  - Загрузка
+  - Просмотр
+  - Конфигуратор
+  - Медиафайлы
+  - Теги
+  - Корзина
+tags:
+- name: Загрузка
+  description: Создание и редактирование КТ
+- name: Просмотр
+  description: Получение информации о созданных КТ, НМ и размерах
+- name: Конфигуратор
+- name: Медиафайлы
+  description: Работа с медиафайлами
+- name: Теги
+  description: Сервис для работы с тегами КТ. Теги предназначены для быстрого поиска
+    КТ в вашем лк.
+- name: Корзина
+components:
+  securitySchemes:
+    HeaderApiKey:
+      type: apiKey
+      name: Authorization
+      in: header
+  examples:
+    TokenMissing:
+      description: Токен отсутствует
+      value: 'proxy: unauthorized'
+    TokenInvalid:
+      description: Токен недействителен
+      value: 'proxy: invalid token'
+    TokenNotFound:
+      description: Токен удален
+      value: 'proxy: not found'
+    creatingOneCard:
+      description: ''
+      value:
+      - - characteristics:
+          - ТНВЭД: '4203100001'
+          - Ширина упаковки: 2
+          - Длина упаковки: 2
+          - Высота упаковки: 2
+          - Пол:
+            - Женский
+          - Цвет:
+            - красный
+          - Предмет: Платья
+          - Стилистика:
+            - casual
+          - Комплектация:
+            - Платье женское - 1шт
+          - Бренд:
+            - GlisH
+          vendorCode: ttteeessstt-1
+          sizes:
+          - techSize: 38-39
+            wbSize: 38-39
+            price: 3000
+            skus:
+            - test333333331
+    creatingMergedCards:
+      description: ''
+      value:
+      - - characteristics:
+          - ТНВЭД: '4203100001'
+          - Пол:
+            - Женский
+          - Цвет:
+            - красный
+          - Предмет: Платья
+          - Стилистика:
+            - casual
+          - Комплектация:
+            - Шлепанцы женские на нескользящей подошве - 1 пара
+          - Бренд:
+            - GlisH
+          - Высота упаковки: 1
+          - Длина упаковки: 1
+          - Ширина упаковки: 1
+          vendorCode: Primer0
+          sizes:
+          - techSize: 38-39
+            wbSize: 38-39
+            price: 3000
+            skus:
+            - test33
+          - techSize: 36-37
+            wbSize: 36-37
+            price: 3000
+            skus:
+            - test22
+          - techSize: 40-41
+            wbSize: 40-41
+            price: 3000
+            skus:
+            - test11
+        - characteristics:
+          - ТНВЭД: '4203100001'
+          - Пол:
+            - Женский
+          - Предмет: Платья
+          - Стилистика:
+            - casual
+          - Комплектация:
+            - Шлепанцы женские на нескользящей подошве - 1 пара
+          - Бренд:
+            - GlisH
+          - Цвет:
+            - зеленый
+          - Высота упаковки: 1
+          - Глубина упаковки: 1
+          - Ширина упаковки: 1
+          vendorCode: Primer1
+          sizes:
+          - techSize: 38-39
+            wbSize: 38-39
+            price: 2000
+            skus:
+            - barcode111
+          - techSize: 36-37
+            wbSize: 36-37
+            price: 2000
+            skus:
+            - barcode222
+          - techSize: 40-41
+            wbSize: 40-41
+            price: 2000
+            skus:
+            - barcode333
+    creatingGroupOfIndividualCards:
+      description: ''
+      value:
+      - - characteristics:
+          - ТНВЭД: '4203100001'
+          - Пол:
+            - Женский
+          - Предмет: Платья
+          - Стилистика:
+            - casual
+          - Комплектация:
+            - Шлепанцы женские на нескользящей подошве - 1 пара
+          - Бренд:
+            - GlisH
+          - Высота упаковки: 1
+          - Длина упаковки: 1
+          - Ширина упаковки: 1
+          vendorCode: ttt6eee1ssst3t-1
+          sizes:
+          - techSize: 38-39
+            wbSize: 38-39
+            price: 3000
+            skus:
+            - '2036870643946'
+          - techSize: 36-37
+            wbSize: 36-37
+            price: 3000
+            skus:
+            - '2036870643939'
+          - techSize: 40-41
+            wbSize: 40-41
+            price: 3000
+            skus:
+            - '2036870643953'
+      - - characteristics:
+          - ТНВЭД: '4203100001'
+          - Пол:
+            - Женский
+          - Предмет: Платья
+          - Стилистика:
+            - casual
+          - Комплектация:
+            - Шлепанцы женские на нескользящей подошве - 1 пара
+          - Бренд:
+            - GlisH
+          - Высота упаковки: 1
+          - Глубина упаковки: 1
+          - Ширина упаковки: 1
+          vendorCode: ttteeesss3t3t-2
+          sizes:
+          - techSize: 38-39
+            wbSize: 38-39
+            price: 2000
+            skus:
+            - '2036870643960'
+          - techSize: 36-37
+            wbSize: 36-37
+            price: 2000
+            skus:
+            - '2036870643977'
+          - techSize: 40-41
+            wbSize: 40-41
+            price: 2000
+            skus:
+            - '2036870643984'
+    responseIncorrectBeginDate:
+      description: Некорректная дата начала
+      value:
+        error: Некорректная дата начала
+    responseIncorrectEndDate:
+      description: Некорректная дата конца
+      value:
+        error: Некорректная дата конца
+    responseExceededLimit:
+      description: ''
+      value:
+        data: null
+        error: true
+        errorText: В группу можно объединить не больше 30 карточек. В результате запроса
+          будет превышен лимит
+        additionalErrors:
+          error: В группу можно объединить не больше 30 карточек. В результате запроса
+            будет превышен лимит
+    responseCombining:
+      description: ''
+      value:
+        data: null
+        error: true
+        errorText: Объединение товаров с разными предметами невозможно
+        additionalErrors:
+          error: Объединение товаров с разными предметами невозможно
+    responseIncorrectRequestFormat:
+      description: ''
+      value:
+        data: null
+        error: true
+        errorText: Неправильный формат запроса
+        additionalErrors:
+          error: Неправильный формат запроса
+    responseNonExistentNmId:
+      description: ''
+      value:
+        data: null
+        error: true
+        errorText: Указан несуществующий nmID карточки товара
+        additionalErrors:
+          error: Указан несуществующий nmID карточки товара
+    responseNonExistentImt:
+      description: ''
+      value:
+        data: null
+        error: true
+        errorText: Указан несуществующий imt
+        additionalErrors:
+          error: Указан несуществующий imt
+    responseDuplicateRequests:
+      description: ''
+      value:
+        data: null
+        error: true
+        errorText: Недопустимо отправлять дублирующиеся запросы!
+        additionalErrors:
+          error: Недопустимо отправлять дублирующиеся запросы!
+    responseAllCardsInSameGroup:
+      description: ''
+      value:
+        data: null
+        error: true
+        errorText: Все карточки находятся в одной группе
+        additionalErrors:
+          error: Все карточки находятся в одной группе
+    responseCardCreate1:
+      description: ''
+      value:
+        data: null
+        error: true
+        errorText: string
+        additionalErrors:
+          string: string
+    responseBodyContentError400:
+      description: ''
+      value:
+        data: null
+        error: true
+        errorText: Текст ошибки
+        additionalErrors:
+          MoveNmsToTrash: Bad request
+    responseOK200:
+      description: ''
+      value:
+        data: null
+        error: false
+        errorText: ''
+        additionalErrors: null
+    responseBody400LenName:
+      description: ''
+      value:
+        data: null
+        error: true
+        errorText: Недопустимое значение наименования тега
+        additionalErrors:
+          description: Cлишком длинное название тега. Разрешено не более 15 символов
+    responseBodyLimitTag:
+      description: ''
+      value:
+        data: null
+        error: true
+        errorText: Исчерпан лимит на создание тегов
+        additionalErrors: null
+    responseBodyNameNotExist:
+      description: ''
+      value:
+        data: null
+        error: true
+        errorText: Тег с таким именем уже существует
+        additionalErrors: null
+    responseNotFound200:
+      description: ''
+      value:
+        data: null
+        error: true
+        errorText: Неправильный запрос
+        additionalErrors:
+          description: Такого тега не существует у продавца
+    responseNotFound200Del:
+      description: ''
+      value:
+        data: null
+        error: true
+        errorText: Такого тега не существует
+        additionalErrors:
+          tagID: '1234'
+    IncorrectRequest4:
+      description: ''
+      value:
+        data: null
+        error: true
+        errorText: Неправильный запрос
+        additionalErrors:
+          description: Указаны несуществующие теги
+    responseBodyTagNotExist:
+      description: ''
+      value:
+        data: null
+        error: true
+        errorText: Такого тега не существует
+        additionalErrors:
+          tagID: '1234'
+    responseBodyError500:
+      description: ''
+      value:
+        data: null
+        error: true
+        errorText: Внутренняя ошибка.
+        additionalErrors: null
+  schemas:
+    responseBodyContentError400:
+      type: object
+      properties:
+        data:
+          type: object
+          nullable: true
+        error:
+          description: Флаг ошибки
+          type: boolean
+        errorText:
+          description: Описание ошибки
+          type: string
+        additionalErrors:
+          description: Дополнительные ошибки
+          type: object
+          properties:
+            MoveNmsToTrash:
+              type: string
+      example:
+        data: null
+        error: true
+        errorText: Текст ошибки
+        additionalErrors:
+          MoveNmsToTrash: Bad request
+    responseBodyContentError403:
+      type: object
+      properties:
+        data:
+          type: object
+          nullable: true
+        error:
+          description: Флаг ошибки
+          type: boolean
+        errorText:
+          description: Описание ошибки
+          type: string
+        additionalErrors:
+          description: Дополнительные ошибки
+          type: string
+      example:
+        data: null
+        error: true
+        errorText: Доступ запрещен
+        additionalErrors: Доступ запрещен
+    creatingCard:
+      type: array
+      items:
+        type: array
+        items:
+          type: object
+          properties:
+            characteristics:
+              description: Массив характеристик, индивидуальный для каждой категории
+              type: array
+              items:
+                type: object
+            vendorCode:
+              description: Артикул продавца
+              type: string
+            sizes:
+              description: Массив размеров для номенклатуры (для безразмерного товара
+                все равно нужно передавать данный массив без параметров (`wbSize`
+                и `techSize`), но с ценой и баркодом)
+              type: array
+              items:
+                type: object
+                properties:
+                  techSize:
+                    description: Размер товара (пример S, M, L, XL, 42, 42-43)
+                    type: string
+                  wbSize:
+                    description: Российский размер товара
+                    type: string
+                  price:
+                    description: Цена
+                    type: integer
+                  skus:
+                    description: Массив баркодов, строковых идентификаторов размеров
+                      товара (их можно сгенерировать с помощью API, см. раздел "Просмотр")
+                    type: array
+                    items:
+                      type: string
+    requestMoveNmsImtConn:
+      type: object
+      required:
+      - targetIMT
+      - nmIDs
+      properties:
+        targetIMT:
+          description: Существующий у продавца `imtID`, под которым необходимо объединить
+            НМ
+          type: integer
+          example: 123
+        nmIDs:
+          description: '`nmID`, которые необходимо объединить (max 30)'
+          type: array
+          items:
+            type: integer
+          example:
+          - 837459235
+          - 828572090
+    requestMoveNmsImtDisconn:
+      type: object
+      required:
+      - nmIDs
+      properties:
+        nmIDs:
+          description: '`nmID`, которые необходимо разъединить (max 30)'
+          type: array
+          items:
+            type: integer
+          example:
+          - 837459235
+          - 828572090
+    responseCardCreate:
+      type: object
+      properties:
+        data:
+          type: object
+          nullable: true
+          example: null
+        error:
+          description: Флаг ошибки
+          type: boolean
+        errorText:
+          description: Описание ошибки
+          type: string
+        additionalErrors:
+          description: Дополнительные ошибки
+          oneOf:
+          - type: object
+            properties:
+              string:
+                type: string
+          - type: string
+    responseContentError1:
+      type: object
+      properties:
+        data:
+          type: object
+          nullable: true
+          example: null
+        error:
+          description: Флаг ошибки
+          type: boolean
+        errorText:
+          description: Описание ошибки
+          type: string
+        additionalErrors:
+          description: Дополнительные ошибки
+          type: object
+          properties:
+            error:
+              type: string
+    responseIncorrectDate:
+      type: object
+      properties:
+        error:
+          type: string
+    responseContentError4:
+      type: object
+      properties:
+        data:
+          type: object
+          nullable: true
+        error:
+          description: Флаг ошибки
+          type: boolean
+        errorText:
+          description: Описание ошибки
+          type: string
+        additionalErrors:
+          description: Дополнительные ошибки
+          type: object
+          properties:
+            description:
+              type: string
+    responseContentError5:
+      type: object
+      properties:
+        data:
+          type: object
+          nullable: true
+        error:
+          description: Флаг ошибки
+          type: boolean
+        errorText:
+          description: Описание ошибки
+          type: string
+        additionalErrors:
+          description: Дополнительные ошибки
+          type: object
+          properties:
+            tagID:
+              type: string
+    responseContentError6:
+      type: object
+      properties:
+        data:
+          type: object
+          nullable: true
+        error:
+          description: Флаг ошибки
+          type: boolean
+        errorText:
+          description: Описание ошибки
+          type: string
+        additionalErrors:
+          description: Дополнительные ошибки
+          type: string
+          nullable: true
+      example:
+        data: null
+        error: false
+        errorText: ''
+        additionalErrors: null
+paths:
+  /content/v1/cards/update:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    post:
+      security:
+      - HeaderApiKey: []
+      summary: Редактирование КТ
+      description: 'Метод позволяет отредактировать несколько карточек за раз. <br>
+        Редактирование КТ происходит асинхронно, после отправки запрос становится
+        в очередь на обработку. <br> `Важно`: Баркоды (skus) не подлежат удалению
+        или замене. Попытка заменить существующий баркод приведет к добавлению нового
+        баркода к существующему. <br> Если запрос прошел успешно, а информация в карточке
+        не обновилась, значит были допущены ошибки и карточка попала в "Черновики"
+        (метод `cards/error/list`) с описанием ошибок. <br>Необходимо исправить ошибки
+        в запросе и отправить его повторно. <br> <br> Для успешного обновления карточки
+        рекомендуем Вам придерживаться следующего порядка действий: <br> 1. Сначала
+        существующую карточку необходимо запросить методом cards/filter. <br> 2. Забираем
+        из ответа массив data. <br> 3. В этом массиве вносим необходимые изменения
+        и отправляем его в cards/update <br> <br>За раз можно отредактировать 1000
+        КТ по 5 НМ в каждой. <br> <br> `Важно!`  <br> Изменение цен данным методом
+        невозможно, используйте метод <b>"Загрузка цен"</b>, раздел документации <b>"Цены"</b>.
+        <br> <br> Редактирование медиафайлов данным методом не предусмотрено.  <br>
+        Массив `mediaFiles` передавать в запросе не обязательно.
+
+        '
+      tags:
+      - Загрузка
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                required:
+                - nmID
+                - vendorCode
+                - sizes
+                - characteristics
+                properties:
+                  imtID:
+                    description: Идентификатор карточки товара
+                    type: integer
+                    example: 85792498
+                  nmID:
+                    description: Артикул WB
+                    type: integer
+                    example: 66964219
+                  object:
+                    description: Предмет
+                    type: string
+                    example: Рубашки
+                  objectID:
+                    description: Идентификатор предмета
+                    type: integer
+                    example: 184
+                  vendorCode:
+                    description: Артикул продавца
+                    type: string
+                    example: '6000000001'
+                  mediaFiles:
+                    description: Медиафайлы номенклатуры
+                    items:
+                      type: string
+                  sizes:
+                    description: Массив размеров для номенклатуры (для безразмерного
+                      товара все равно нужно передавать данный массив без параметров
+                      (`wbSize` и `techSize`), но с `chrtID` и баркодом)
+                    type: array
+                    items:
+                      type: object
+                      required:
+                      - chrtID
+                      - skus
+                      properties:
+                        techSize:
+                          description: Размер товара (пример S, M, L, XL, 42, 42-43)
+                          type: string
+                          example: 40-41
+                        chrtID:
+                          description: 'Числовой идентификатор размера для данной
+                            номенклатуры Wildberries<br> Обязателен к заполнению для
+                            существующих размеров.<br> Для добавляемых размеров не
+                            указывается.
+
+                            '
+                          type: integer
+                          example: 116108635
+                        wbSize:
+                          description: Российский размер товара
+                          type: string
+                          example: 40-41
+                        skus:
+                          description: Массив баркодов, строковых идентификаторов
+                            размеров товара (их можно сгенерировать с помощью API,
+                            см. раздел "Просмотр")
+                          type: array
+                          items:
+                            type: string
+                            example: '1000000001'
+                  characteristics:
+                    description: Массив характеристик, индивидуальный для каждой категории
+                    type: array
+                    items:
+                      type: object
+                    example:
+                    - ТНВЭД:
+                      - '6403993600'
+                    - Пол:
+                      - Мужской
+                    - Цвет:
+                      - зеленый
+                    - Предмет:
+                      - Блузки
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    nullable: true
+                    example: null
+                  error:
+                    description: Флаг ошибки
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки
+                    type: string
+                    example: ''
+        400:
+          description: Неверная форма запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError400'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/cards/upload:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    post:
+      security:
+      - HeaderApiKey: []
+      summary: Создание  КТ
+      description: 'Создание карточки товара происходит асинхронно, при отправке запроса
+        на создание КТ ваш запрос становится в очередь на создание КТ. <br>`ПРИМЕЧАНИЕ`:
+        Карточка товара считается `созданной`, если успешно создалась хотя бы одна
+        `НМ`. <br>`ВАЖНО`: Если во время обработки запроса в очереди выявляются ошибки,
+        то НМ считается ошибочной. <br>Если запрос на создание прошел успешно, а карточка
+        не создалась, то необходимо в первую очередь проверить наличие карточки в
+        методе `cards/error/list`. Если карточка попала в ответ к этому методу, то
+        необходимо исправить описанные ошибки в запросе на создание карточки и отправить
+        его повторно. <br>За раз можно создать 1000 КТ по 5 НМ в каждой.  <br>Если
+        Вам требуется больше 5 НМ в КТ, то после создания карточки Вы можете добавить
+        их методом "Добавление НМ к КТ".
+
+        '
+      tags:
+      - Загрузка
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/creatingCard'
+            examples:
+              creatingOneCard:
+                $ref: '#/components/examples/creatingOneCard'
+              creatingMergedCards:
+                $ref: '#/components/examples/creatingMergedCards'
+              creatingGroupOfIndividualCards:
+                $ref: '#/components/examples/creatingGroupOfIndividualCards'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    nullable: true
+                    example: null
+                  error:
+                    description: Флаг ошибки
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки
+                    type: string
+                    example: ''
+        400:
+          description: Неверная форма запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError400'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/cards/upload/add:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    post:
+      security:
+      - HeaderApiKey: []
+      summary: Добавление НМ к КТ
+      description: 'Метод позволяет добавить к карточке товара новую номенклатуру.
+        <br>Добавление НМ к КТ происходит асинхронно, после отправки запрос становится
+        в очередь на обработку. <br>`Важно`: Если после успешной отправки запроса
+        номенклатура не создалась, то необходимо проверить раздел "Список несозданных
+        НМ с ошибками". Для того чтобы убрать НМ из ошибочных, необходимо повторно
+        сделать запрос с исправленными ошибками.
+
+        '
+      tags:
+      - Загрузка
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                vendorCode:
+                  description: Артикул продавца
+                  type: string
+                cards:
+                  description: Массив НМ которые хотим добавить к КТ
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      vendorCode:
+                        description: Артикул продавца
+                        type: string
+                      characteristics:
+                        description: Массив характеристик, индивидуальный для каждой
+                          категории
+                        type: array
+                        items:
+                          type: object
+                      sizes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            techSize:
+                              description: Размер товара (пример S, M, L, XL, 42,
+                                42-43)
+                              type: string
+                            wbSize:
+                              description: Российский размер товара
+                              type: string
+                            price:
+                              description: Цена (указывается в рублях)
+                              type: integer
+                            skus:
+                              description: Массив баркодов, строковых идентификаторов
+                                размеров товара (их можно сгенерировать с помощью
+                                API, см. Viewer)
+                              type: array
+                              items:
+                                type: string
+            example:
+              vendorCode: '6000000001'
+              cards:
+              - characteristics:
+                - ТНВЭД: '4203100001'
+                - Ширина упаковки: 2
+                - Длина упаковки: 2
+                - Высота упаковки: 2
+                - Пол:
+                  - Женский
+                - Цвет:
+                  - красный
+                - Предмет: Платья
+                - Стилистика:
+                  - casual
+                - Комплектация:
+                  - Платье женское - 1шт
+                - Бренд:
+                  - GlisH
+                vendorCode: '6000000002'
+                sizes:
+                - techSize: 38-39
+                  wbSize: 38-39
+                  price: 3000
+                  skus:
+                  - test333333331
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    nullable: true
+                    example: null
+                  error:
+                    description: Флаг ошибки
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки
+                    type: string
+                    example: ''
+        400:
+          description: Неверная форма запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError400'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/cards/moveNm:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    post:
+      tags:
+      - Загрузка
+      summary: Объединение / Разъединение НМ
+      description: 'Метод позволяет объединять номенклатуры (`nmID`) под одним `imtID`
+        и разъединять их.<br>
+
+        Для объединения НМ необходимо отправить запрос со списком НМ с заполненным
+        параметром `targetIMT` в теле запроса.  При этом все НМ объединятся под `imtID`
+        указанном в `targetIMT`. <br> <br> Чтобы отсоединить НМ от карточки, необходимо
+        передать эту НМ без параметра `targetIMT` в теле запроса.<br> При этом для
+        передаваемой НМ создается новый `imtID`. <br> Если в запросе на <b>разъединение</b>
+        передается несколько НМ, то все они автоматически <b>объединятся</b> под <b>одним</b>
+        новым `imtID`. <br> Чтобы присвоить каждой НМ уникальный `imtID` необходимо
+        передавать по одной НМ за запрос. Для НМ, не участвующих в запросе, никаких
+        изменений не происходит.<br> <br> `ВАЖНО:` Объединить можно только номенклатуры
+        с одинаковыми предметами.<br> `ВАЖНО:` В одной КТ (под одним `imtID`) не может
+        быть больше 30 номенклатур (`nmID`).
+
+        '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/requestMoveNmsImtConn'
+              - $ref: '#/components/schemas/requestMoveNmsImtDisconn'
+      responses:
+        200:
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseCardCreate'
+              example:
+                data: null
+                error: false
+                errorText: ''
+                additionalErrors: {}
+        400:
+          description: Некорретный формат запроса
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/responseContentError1'
+                - $ref: '#/components/schemas/responseCardCreate'
+                - $ref: '#/components/schemas/responseIncorrectDate'
+              examples:
+                responseExceededLimit:
+                  $ref: '#/components/examples/responseExceededLimit'
+                responseCombining:
+                  $ref: '#/components/examples/responseCombining'
+                responseIncorrectRequestFormat:
+                  $ref: '#/components/examples/responseIncorrectRequestFormat'
+                responseNonExistentNmId:
+                  $ref: '#/components/examples/responseNonExistentNmId'
+                responseNonExistentImt:
+                  $ref: '#/components/examples/responseNonExistentImt'
+                responseCardCreate1:
+                  $ref: '#/components/examples/responseCardCreate1'
+                responseDuplicateRequests:
+                  $ref: '#/components/examples/responseDuplicateRequests'
+                responseAllCardsInSameGroup:
+                  $ref: '#/components/examples/responseAllCardsInSameGroup'
+                responseIncorrectBeginDate:
+                  $ref: '#/components/examples/responseIncorrectBeginDate'
+                responseIncorrectEndDate:
+                  $ref: '#/components/examples/responseIncorrectEndDate'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseCardCreate'
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseCardCreate'
+  /content/v1/barcodes:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    post:
+      security:
+      - HeaderApiKey: []
+      summary: Генерация баркодов
+      description: Метод позволяет сгенерировать массив уникальных баркодов для создания
+        размера НМ в КТ.
+      tags:
+      - Загрузка
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                count:
+                  description: Кол-во баркодов которые надо сгенерировать, максимальное
+                    доступное количество баркодов для генерации - `5000`
+                  type: integer
+                  example: 1
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    description: Массив сгенерированых баркодов
+                    type: array
+                    items:
+                      type: string
+                      example: '5032781145187'
+                  error:
+                    description: Флаг ошибки.
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки.
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки.
+                    type: string
+                    example: ''
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/cards/cursor/list:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    post:
+      security:
+      - HeaderApiKey: []
+      summary: Список НМ
+      description: "Метод позволяет получить список созданых НМ по фильтру (баркод,\
+        \ артикул продавца, артикул WB (nmId), тег) с пагинацией и сортировкой. <br>\
+        \ <br> `Важно!` Карточки, находящиеся в корзине, в ответе метода не выдаются.\
+        \ <br> Получить такие карточки можно только методом \"Список НМ, находящихся\
+        \ в корзине\".<br> <br>Порядок работы с `cursor/list`: <br> Чтобы получить\
+        \ полный список номенклатур, <b>если их > 1000</b>, необходимо воспользоваться\
+        \ пагинацией.\n  <ol>\n    <li>Cделать первый запрос (все указанные ниже параметры\
+        \ обязательны): <br>\n      <pre style=\"background-color: rgb(38 50 56 /\
+        \ 5%); color: #e53935\">\n        {\n          \"sort\": {\n             \
+        \ \"cursor\": {\n                  \"limit\": 1000\n              },\n   \
+        \           \"filter\": {\n                  \"withPhoto\": -1\n         \
+        \     }\n          }\n        }</pre>\n      По желанию можно добавить поиск\
+        \ по <code>\"textSearch\"</code> и сортировку.\n      <pre style=\"background-color:\
+        \ rgb(38 50 56 / 5%); color: #e53935\">\n        \"sort\": {\n          \"\
+        sortColumn\": \"\",\n          \"ascending\": false\n        }</pre>\n   \
+        \ </li>\n    <li>Пройти в конец полученного списка номенклатур, скопировать\
+        \ из <code>cursor</code> две строки:\n      <ul>\n        <li><code>\"updatedAt\"\
+        : \"***\"</code>,</li>\n        <li><code>\"nmID\": ***</code>,</li>\n   \
+        \   </ul>\n    <li>Вставить скопированные строки в <code>cursor</code> запроса,\
+        \ повторить вызов метода. </li>\n    <li>Повторять пункты <b>2</b> и <b>3</b>,\
+        \ пока <code>total</code> в ответе не станет меньше чем <code>limit</code>\
+        \ в запросе.\n      <br>Это будет означать, что Вы получили все карточки.\n\
+        \  </ol>\n"
+      tags:
+      - Просмотр
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sort:
+                  type: object
+                  properties:
+                    cursor:
+                      type: object
+                      properties:
+                        updatedAt:
+                          description: Время обновления последней КТ из предыдущего
+                            ответа на запрос списка КТ.
+                          type: string
+                          example: '2022-09-23T17:41:32Z'
+                        nmID:
+                          description: Артикул WB последней КТ из предыдущего ответа
+                            на запрос списка КТ.
+                          type: integer
+                          example: 66965444
+                        limit:
+                          description: Кол-во запрашиваемых КТ.
+                          type: integer
+                          example: 1000
+                    filter:
+                      type: object
+                      properties:
+                        textSearch:
+                          description: Поиск по артикулу WB, артикулу продавца, баркоду
+                          type: integer
+                          example: test
+                        tagIDs:
+                          description: Поиск по ID тега.
+                          type: array
+                          items:
+                            type: integer
+                            example:
+                            - 12345
+                            - 44444
+                        withPhoto:
+                          description: '`-1` - Показать все КТ. <br>`0` - Показать
+                            КТ без фото. <br>`1` - Показать КТ с фото.
+
+                            '
+                          type: integer
+                          example: -1
+                        allowedCategoriesOnly:
+                          description: '<code>true</code> - показать КТ только из
+                            разрешенных к реализации категорий<br> <code>false</code>
+                            - показать КТ из всех категорий
+
+                            '
+                          type: boolean
+                    sort:
+                      type: object
+                      properties:
+                        sortColumn:
+                          description: Поле, по которому будет сортироваться список
+                            КТ (пока поддерживается только updateAt).
+                          type: string
+                          example: updateAt
+                        ascending:
+                          description: Тип сортировки.
+                          type: boolean
+                          example: false
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      cards:
+                        description: Список запрашиваемых КТ
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            sizes:
+                              description: 'Массив размеров для номенклатуры (для
+                                безразмерного товара все равно нужно передавать данный
+                                массив с одним элементом и нулевым размером, но с
+                                ценой и баркодом)
+
+                                '
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  techSize:
+                                    description: Размер товара (пример S, M, L, XL,
+                                      42, 42-43)
+                                    type: string
+                                    example: '0'
+                                  skus:
+                                    description: Массив баркодов, строковых идентификаторов
+                                      размеров товара (их можно сгенерировать с помощью
+                                      API, см. Viewer)
+                                    type: array
+                                    items:
+                                      type: string
+                                      example: '5032781142964'
+                                  chrtID:
+                                    description: Числовой идентификатор размера для
+                                      данной номенклатуры Wildberries
+                                    type: integer
+                                    example: 116108635
+                            mediaFiles:
+                              description: 'Медиафайлы номенклатуры. <br>Фото, URL
+                                которого заканчивается на <b>1.jpg</b> является главным
+                                в карточке.
+
+                                '
+                              type: array
+                              items:
+                                type: string
+                                example: http://imglink.com/imgOne.jpg
+                            colors:
+                              description: Цвета номенклатуры
+                              type: array
+                              items:
+                                type: string
+                                example: белый
+                            updateAt:
+                              description: Дата обновления
+                              type: string
+                              example: '2022-08-10T10:16:52Z'
+                            vendorCode:
+                              description: Артикул продавца
+                              type: string
+                              example: '670000001'
+                            brand:
+                              description: Брэнд
+                              type: string
+                              example: Шанель
+                            object:
+                              description: Категория для который создавалось КТ с
+                                данной НМ
+                              type: string
+                              example: Туалетная вода
+                            nmID:
+                              description: Артикул WB
+                              type: integer
+                              example: 66964167
+                            imtID:
+                              description: Идентификатор карточки товара (нужен для
+                                группирования НМ в одну КТ)
+                              type: integer
+                              example: 12313123
+                            objectID:
+                              description: Идентификатор предмета
+                              type: integer
+                              example: 96
+                            isProhibited:
+                              description: '`true` - категория карточки запрещена
+                                к реализации<br> `false` - категория карточки разрешена
+                                к реализации
+
+                                '
+                              type: boolean
+                              example: false
+                            tags:
+                              type: array
+                              description: Массив тегов
+                              items:
+                                type: string
+                                example: []
+                      cursor:
+                        type: object
+                        properties:
+                          updatedAt:
+                            description: Дата с которой надо запрашивать следующий
+                              список КТ
+                            type: string
+                            example: '2022-08-10T10:16:52Z'
+                          nmID:
+                            description: Номер Артикула WB с которой надо запрашивтаь
+                              следующий список КТ
+                            type: integer
+                            example: 66964167
+                          total:
+                            description: Кол-во возвращенных КТ
+                            type: integer
+                            example: 1
+                  error:
+                    description: Флаг ошибки
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки
+                    type: string
+                    nullable: true
+                    example: null
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+  /content/v1/cards/error/list:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    get:
+      security:
+      - HeaderApiKey: []
+      summary: Список несозданных НМ с ошибками
+      description: 'Метод позволяет получить список НМ и список ошибок которые произошли
+        во время создания КТ. <br>`ВАЖНО`: Для того чтобы убрать НМ из ошибочных,
+        надо повторно сделать запрос с исправленными ошибками на создание КТ.
+
+        '
+      tags:
+      - Просмотр
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        object:
+                          description: Категория для который создавалось КТ с данной
+                            НМ
+                          type: string
+                          example: Блузки
+                        vendorCode:
+                          description: Артикул продавца
+                          type: string
+                          example: '6000000001'
+                        updateAt:
+                          description: Дата и время запроса на создание КТ с данным
+                            НМ
+                          type: string
+                          example: '2022-06-15T14:37:13Z'
+                        errors:
+                          description: Список ошибок из-за которых не обработался
+                            запрос на создание КТ с данным НМ
+                          type: array
+                          items:
+                            type: string
+                            example: Поля Рос. размер, Размер обязательны для заполнения
+                        objectID:
+                          description: Идентификатор предмета
+                          type: integer
+                          example: 41
+                  error:
+                    description: Флаг ошибки.
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки.
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки.
+                    type: string
+                    example: ''
+        400:
+          description: Неверная форма запроса.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError400'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/cards/filter:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    post:
+      security:
+      - HeaderApiKey: []
+      summary: Получение КТ по артикулам продавца
+      description: 'Метод позволяет получить полную информацию по КТ с помощью артикула(-ов)
+        продавца. <br> `Важно!` Карточки, находящиеся в корзине, в ответе метода не
+        выдаются. <br> Получить такие карточки можно только методом "Список НМ, находящихся
+        в корзине".<br>  Поиск работает только по полному совпадению значений. Получить
+        точные значения для поиска можно методом "Список НМ".
+
+        '
+      tags:
+      - Просмотр
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                vendorCodes:
+                  description: 'Массив  артикулов продавца. <br>Максимальное количество
+                    в запросе `100`.
+
+                    '
+                  type: array
+                  items:
+                    type: string
+                    example: '6000000001'
+                allowedCategoriesOnly:
+                  description: '<code>true</code> - показать КТ только из разрешенных
+                    к реализации категорий<br> <code>false</code> - показать КТ из
+                    всех категорий
+
+                    '
+                  type: boolean
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        imtID:
+                          description: Идентификатор карточки товара (нужен для группирования
+                            НМ в одно КТ)
+                          type: integer
+                        object:
+                          description: Предмет
+                          type: string
+                        objectID:
+                          description: Идентификатор предмета
+                          type: integer
+                        nmID:
+                          description: Артикул WB
+                          type: integer
+                        vendorCode:
+                          description: Артикул продавца
+                          type: string
+                        isProhibited:
+                          description: '`true` - категория карточки запрещена к реализации<br>
+                            `false` категория карточки разрешена к реализации
+
+                            '
+                          type: boolean
+                        tags:
+                          description: Массив с информацией о тегах. Поле будет в
+                            ответе при наличии тегов в КТ.
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                description: Идентификатор тега
+                              name:
+                                type: string
+                                description: Название тега
+                              color:
+                                type: string
+                                description: Цвет тега в формате HEX
+                        mediaFiles:
+                          description: 'Медиафайлы номенклатуры. <br>Фото, URL которого
+                            заканчивается на <b>1.jpg</b> является главным в карточке.
+
+                            '
+                          items:
+                            type: string
+                        dimensions:
+                          description: 'Габариты упаковки, в сантиметрах
+
+                            '
+                          type: object
+                          properties:
+                            width:
+                              description: Ширина
+                              type: integer
+                            length:
+                              description: Длина
+                              type: integer
+                            height:
+                              description: Высота
+                              type: integer
+                        sizes:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              techSize:
+                                description: Размер товара (пример S, M, L, XL, 42,
+                                  42-43)
+                                type: string
+                              wbSize:
+                                description: Российский размер товара
+                                type: string
+                              price:
+                                description: 'Цена, `неактивно`, для уточнения цены
+                                  используйте метод "Получение информации о ценах"
+                                  раздел документации Цены.
+
+                                  '
+                                type: integer
+                              chrtID:
+                                description: Числовой идентификатор размера для данной
+                                  номенклатуры Wildberries
+                                type: integer
+                              skus:
+                                description: Массив баркодов, строковых идентификаторов
+                                  размеров товара (их можно сгенерировать с помощью
+                                  API, см. Viewer)
+                                type: array
+                                items:
+                                  type: string
+                        characteristics:
+                          description: Массив характеристик, индивидуальный для каждой
+                            категории
+                          type: array
+                          items:
+                            type: object
+                  error:
+                    description: Флаг ошибки.
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки.
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки.
+                    type: string
+                    nullable: true
+              example:
+                data:
+                - imtID: 9876545135
+                  object: Рубашки рабочие
+                  objectID: 6165
+                  nmID: 7986515498
+                  vendorCode: vendorCode
+                  mediaFiles:
+                  - URLphoto
+                  - URLvideo
+                  dimensions:
+                    width: 15
+                    length: 10
+                    height: 20
+                  sizes:
+                  - techSize: 50-52
+                    skus:
+                    - '9845613215468'
+                    chrtID: 87654235466
+                    wbSize: 50-52
+                    price: 10500
+                  - techSize: 54-56
+                    skus:
+                    - '9876513216546'
+                    chrtID: 651898613
+                    wbSize: 54-56
+                    price: 10500
+                  - techSize: 46-48
+                    skus:
+                    - '984532321'
+                    chrtID: 5465646
+                    wbSize: 46-48
+                    price: 10500
+                  - techSize: 42-44
+                    skus:
+                    - '123123123'
+                    chrtID: 12313213
+                    wbSize: 42-44
+                    price: 10500
+                  characteristics:
+                  - Ширина упаковки: 25
+                  - Высота упаковки: 5
+                  - Длина упаковки: 30
+                  - Особенности модели:
+                    - дышащий материал
+                  - Тип ростовки:
+                    - для среднего роста
+                  - Дата регистрации сертификата/декларации:
+                    - 23.12.2019
+                  - Вид застежки:
+                    - без застежки
+                  - Покрой:
+                    - полуприлегающий
+                  - Рисунок:
+                    - апельсины
+                  - Уход за вещами:
+                    - стирка при t не более 30°C
+                  - Возрастная группа(лет):
+                    - Женщины девушки
+                  - Цвет:
+                    - оранжевый
+                  - ТНВЭД:
+                    - '6104620000'
+                  - Ставка НДС:
+                    - '20'
+                  - Тип рукава:
+                    - без рукавов
+                  - Утеплитель:
+                    - без утепления
+                  - Назначение:
+                    - домашняя одежда
+                    - повседневная
+                    - пляж
+                  - Модель брюк:
+                    - свободные
+                  - Модель комбинезона:
+                    - домашний
+                  - Фактура материала:
+                    - гладкий
+                  - Пол:
+                    - Женский
+                  - Размер на модели:
+                    - 42-44
+                  - Комплектация:
+                    - комбинезон-1шт.
+                  - Дата окончания действия сертификата/декларации:
+                    - 22.12.2029
+                  - Коллекция:
+                    - Весна-Лето 2023
+                  - Бренд: Бренд
+                  - Состав:
+                    - 92% хлопок,8% эластан
+                  - Номер декларации соответствия:
+                    - Номер декларации
+                  - Предмет: Комбинезоны
+                  - Наименование: Комбинезон пижамный домашний женский
+                  - Описание: Комбинезон на бретелях свободного объема с фигурным
+                      вырезом на спине.
+                  isProhibited: false
+                  tags:
+                  - id: 374407
+                    name: многоразовый
+                    color: FFECC7
+                error: false
+                errorText: ''
+                additionalErrors: null
+        400:
+          description: Неверная форма запроса.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError400'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/cards/limits:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    get:
+      security:
+      - HeaderApiKey: []
+      summary: Лимиты по КТ
+      description: 'Метод позволяет получить отдельно бесплатные и платные лимиты
+        продавца на создание карточек товаров. <br> Формула для получения количества
+        карточек, которые можно создать: (`freeLimits` + `paidLimits`) - Количество
+        созданных карточек.<br> Созданными считаются все карточки, которые можно получить
+        методами "Список НМ" и "Список НМ, находящихся в корзине".
+
+        '
+      tags:
+      - Просмотр
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      freeLimits:
+                        description: Количество бесплатных лимитов
+                        type: integer
+                      paidLimits:
+                        description: Количество оплаченных лимитов
+                        type: integer
+                  error:
+                    description: Флаг ошибки
+                    type: boolean
+                  errorText:
+                    description: Описание ошибки
+                    type: string
+                  additionalErrors:
+                    description: Дополнительные ошибки
+                    type: string
+                    nullable: true
+              example:
+                data:
+                  freeLimits: 1500
+                  paidLimits: 10
+                error: false
+                errorText: ''
+                additionalErrors: null
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/object/all:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    get:
+      security:
+      - HeaderApiKey: []
+      summary: Категория товаров
+      description: "С помощью данного метода можно получить список категорий товаров\
+        \ по текстовому фильтру (названию категории). <br> <br> Чтобы получить список\
+        \ всех категорий необходимо указать `top=8000`, к примеру. <br> <br> По состоянию\
+        \ на `27.03.2023` в списке `7440` категорий. Количество доступных категорий\
+        \ может меняться.      \n"
+      tags:
+      - Конфигуратор
+      parameters:
+      - name: name
+        in: query
+        schema:
+          type: string
+          example: 3D
+        description: Поиск по названию категории
+      - name: top
+        in: query
+        description: Количество запрашиваемых значений
+        schema:
+          type: integer
+          example: 50
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    items:
+                      type: object
+                      properties:
+                        objectID:
+                          description: Идентификатор предмета
+                          type: integer
+                          example: 2560
+                        parentID:
+                          description: Идентификатор родительской категории
+                          type: integer
+                          example: 479
+                        objectName:
+                          description: Название категории
+                          type: string
+                          example: 3D очки
+                        parentName:
+                          description: Название родительской категории
+                          type: string
+                          example: Электроника
+                        isVisible:
+                          description: Виден на сайте
+                          type: boolean
+                          example: true
+                  error:
+                    description: Флаг ошибки
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки
+                    type: string
+                    example: ''
+        400:
+          description: Неверная форма запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError400'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/object/parent/all:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    get:
+      security:
+      - HeaderApiKey: []
+      summary: Родительские категории товаров
+      description: С помощью данного метода можно получить список всех родительских
+        категорий товаров.
+      tags:
+      - Конфигуратор
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          description: Название категории
+                          type: string
+                          example: Электроника
+                        id:
+                          description: Идентификатор родительской категории
+                          type: integer
+                          example: 479
+                        isVisible:
+                          description: Виден на сайте
+                          type: boolean
+                          example: true
+                  error:
+                    description: Флаг ошибки
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки
+                    type: string
+                    example: ''
+        400:
+          description: Неверная форма запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError400'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/object/characteristics/list/filter:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    get:
+      security:
+      - HeaderApiKey: []
+      summary: Характеристики для создания КТ по всем подкатегориям
+      description: "С помощью данного метода можно получить список характеристик,\
+        \ которые можно или нужно заполнить при создании КТ в подкатегории определенной\
+        \ родительской категории.\n  <br>\n  <br>Характеристики с  `charcType=4`,\
+        \ имеющие единственное значение, <b>указывать строго без массива</b>, в противном\
+        \ случае карточка не будет создана:\n  <br><b>Правильно:</b>\n      <br>`{\"\
+        Высота упаковки\": 4}`\n  <br><b>Не правильно:</b>\n      <br>`{\"Высота упаковки\"\
+        : [4]}`\n"
+      tags:
+      - Конфигуратор
+      parameters:
+      - name: name
+        in: query
+        schema:
+          type: string
+          example: Косухи
+        description: Поиск по родительской категории.
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    items:
+                      type: object
+                      properties:
+                        objectName:
+                          description: Наименование подкатегории
+                          type: string
+                          example: Косухи
+                        name:
+                          description: Наименование характеристики
+                          type: string
+                          example: Особенности модели
+                        required:
+                          description: Характеристика обязательна к заполенению
+                          type: boolean
+                          example: false
+                        unitName:
+                          description: Единица имерения (см, гр и т.д.)
+                          type: string
+                          example: ''
+                        maxCount:
+                          description: Максимальное кол-во значений которое можно
+                            присвоить данной характеристике
+                          type: integer
+                          example: 1
+                        popular:
+                          description: Характеристика популярна у пользователей
+                          type: boolean
+                          example: false
+                        charcType:
+                          description: Тип характеристики (1 и 0 - строка или массив
+                            строк; 4 - число или массив чисел)
+                          type: integer
+                          example: 1
+                  error:
+                    description: Флаг ошибки
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки
+                    type: string
+                    example: ''
+        400:
+          description: Неверная форма запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError400'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/object/characteristics/{objectName}:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    get:
+      security:
+      - HeaderApiKey: []
+      summary: Характеристики для создания КТ для категории товара
+      description: "С помощью данного метода можно получить список характеристик,\
+        \ которые можно или нужно заполнить при создании КТ для определенной категории\
+        \ товаров. <br> <br> `Важно`: обязательная к заполнению характеристика при\
+        \ создании карточки любого товара - `Предмет`. <br>Значение характеристики\
+        \ `Предмет` соответствует значению параметра `objectName` в запросе. <br>\
+        \ <br>Характеристики с  `charcType=4`, имеющие единственное значение, <b>указывать\
+        \ строго без массива</b>, в противном случае карточка не будет создана: <br><b>Правильно:</b>\n\
+        \    <br>`{\"Высота упаковки\": 4}`\n<br><b>Не правильно:</b>\n    <br>`{\"\
+        Высота упаковки\": [4]}`\n"
+      tags:
+      - Конфигуратор
+      parameters:
+      - name: objectName
+        in: path
+        schema:
+          type: string
+          example: Носки
+        description: Поиск по наименованию категории
+        required: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    items:
+                      type: object
+                      properties:
+                        objectName:
+                          description: Наименование подкатегории
+                          type: string
+                          example: Носки
+                        name:
+                          description: Наименование характеристики
+                          type: string
+                          example: Глубина упаковки
+                        required:
+                          description: Характеристика обязательна к заполенению
+                          type: boolean
+                          example: false
+                        unitName:
+                          description: Единица имерения (см, гр и т.д.)
+                          type: string
+                          example: см
+                        maxCount:
+                          description: 'Максимальное кол-во значений, которое можно
+                            присвоить данной характеристике. <br>Если 0, то нет ограничения.
+
+                            '
+                          type: integer
+                          example: 0
+                        popular:
+                          description: Характеристика популярна у пользователей
+                          type: boolean
+                          example: false
+                        charcType:
+                          description: Тип характеристики (1 и 0 - строка или массив
+                            строк; 4 - число или массив чисел)
+                          type: integer
+                          example: 4
+                  error:
+                    description: Флаг ошибки
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки
+                    type: string
+                    example: ''
+        400:
+          description: Неверная форма запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError400'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/directory/colors:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    get:
+      security:
+      - HeaderApiKey: []
+      summary: Цвет
+      description: Получение значения характеристики цвет.
+      tags:
+      - Конфигуратор
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          description: Наименование цвета
+                          type: string
+                          example: персиковый крайола
+                        parentName:
+                          description: Наименование родительского цвета
+                          type: string
+                          example: оранжевый
+                  error:
+                    description: Флаг ошибки
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки
+                    type: string
+                    example: ''
+        400:
+          description: Неверная форма запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError400'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/directory/kinds:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    get:
+      security:
+      - HeaderApiKey: []
+      summary: Пол
+      description: Получение значения характеристики пол.
+      tags:
+      - Конфигуратор
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    description: Массив значений для хар-ки Пол
+                    type: array
+                    items:
+                      type: string
+                      example: Мужской
+                  error:
+                    description: Флаг ошибки
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки
+                    type: string
+                    example: ''
+        400:
+          description: Неверная форма запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError400'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/directory/countries:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    get:
+      security:
+      - HeaderApiKey: []
+      summary: Страна Производства
+      description: Получение значения характеристики Страна Производства.
+      tags:
+      - Конфигуратор
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          description: Значение характеристики Страны
+                          type: string
+                          example: Афганистан
+                        fullName:
+                          description: Полное название страны
+                          type: string
+                          example: Исламский Эмират Афганистан
+                  error:
+                    description: Флаг ошибки
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки
+                    type: string
+                    example: ''
+        400:
+          description: Неверная форма запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError400'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/directory/seasons:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    get:
+      security:
+      - HeaderApiKey: []
+      summary: Сезон
+      description: Получение значения характеристики Сезон.
+      tags:
+      - Конфигуратор
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    description: Массив значений для хар-ки Сезон
+                    type: array
+                    items:
+                      type: string
+                      example: демисезон
+                  error:
+                    description: Флаг ошибки
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки
+                    type: string
+                    example: ''
+        400:
+          description: Неверная форма запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError400'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/directory/tnved:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    get:
+      security:
+      - HeaderApiKey: []
+      summary: ТНВЭД код
+      description: С помощью данного метода можно получить список ТНВЭД кодов по имени
+        категории и фильтру по тнвэд коду.
+      tags:
+      - Конфигуратор
+      parameters:
+      - name: objectName
+        in: query
+        description: Поиск по наименованию категории
+        schema:
+          type: string
+          example: Блузки
+      - name: tnvedsLike
+        in: query
+        description: Поиск по коду ТНВЭД. <b>Параметр работает только в паре с параметром
+          objectName.</b>
+        schema:
+          type: string
+          example: '4203100001'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    items:
+                      type: object
+                      properties:
+                        subjectName:
+                          description: Наименование категории
+                          type: string
+                          example: Блузки
+                        tnvedName:
+                          description: Код ТНВЭД
+                          type: string
+                          example: '4203100001'
+                        description:
+                          description: Описание кода ТНВЭД
+                          type: string
+                          example: Предметы одежды из натуральной кожи
+                        isKiz:
+                          description: КИЗовый ТНВЭД
+                          type: boolean
+                          example: true
+                  error:
+                    description: Флаг ошибки
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки
+                    type: string
+                    example: ''
+        400:
+          description: Неверная форма запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError400'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/media/save:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    post:
+      security:
+      - HeaderApiKey: []
+      summary: Изменение медиа контента КТ
+      description: 'Метод позволяет изменить порядок изображений или удалить медиафайлы
+        с НМ в КТ, а также загрузить изображения в НМ со сторонних ресурсов по URL.
+        <br>Текущие изображения заменяются на переданные в массиве data. <br> <br>Требования
+        к медиафайлам: <br>`Фото`: минимальное разрешение – 700x900. <br>Максимально
+        допустимое количество фото в КТ 30.  <br>Допустимые форматы изображений -
+        jpg и png. <br>Минимальный уровень качества изображения - 65%.  <br> <br>Если
+        хотя бы одно изображение в запросе не соответствует требованиям к медиафайлам,
+        то даже при коде ответа 200 ни одно изображение не загрузится в КТ.<br>  <br>`ВАЖНО!`
+        Всё, что передаётся в массиве `data` полностью заменяет собой содержимое массива
+        `mediaFiles` в КТ. <br>Если Вы добавляете фото к уже имеющимся в КТ, то вместе
+        с новыми передайте в запросе все ссылки на фото и видео, которые уже содержатся
+        в КТ. В противном случае в карточке окажутся только передаваемые фото.
+
+        '
+      tags:
+      - Медиафайлы
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                vendorCode:
+                  description: Артикул продавца
+                  type: string
+                  example: '6000000001'
+                data:
+                  description: Ссылки на изображения в том порядке, в котором мы хотим
+                    их увидеть в карточке товара.
+                  type: array
+                  items:
+                    type: string
+                    example: https://basket-stage-02.wb.ru/vol669/part66964/66964260/images/big/2.jpg
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    nullable: true
+                    example: null
+                  error:
+                    description: Флаг ошибки
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки
+                    type: string
+                    example: ''
+        400:
+          description: Неверная форма запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError400'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+  /content/v1/media/file:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    post:
+      security:
+      - HeaderApiKey: []
+      summary: Добавление медиа контента в КТ
+      description: 'Метод позволяет загрузить и добавить один медиафайл за запрос,
+        к НМ в КТ.
+
+        <br>Требования к медиафайлам: <br>`Фото`: минимальное разрешение – 700x900.
+        <br>Максимально допустимое количество фото в КТ 30. <br>Допустимые форматы
+        изображений - jpg и png. <br>Минимальный уровень качества изображения - 65%.   <br>`Видео`:
+        максимальный размер 50 мб. Форматы MOV, MP4. <br>Максимально допустимое количество
+        видео в КТ 1.
+
+        '
+      tags:
+      - Медиафайлы
+      parameters:
+      - name: X-Vendor-Code
+        in: header
+        description: Артикул продавца
+        schema:
+          type: string
+          example: '6000000001'
+        required: true
+      - name: X-Photo-Number
+        in: header
+        description: 'Номер медиафайла на загрузку. <b>Начинать с 1</b>.<br>При загрузке
+          видео всегда указывать значение 1. <br>Чтобы добавить фото к уже загруженным
+          в НМ, номер медиафайла должен быть больше кол-ва загруженных в НМ медиафайлов.
+
+          '
+        schema:
+          type: integer
+          example: 2
+        required: true
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                uploadfile:
+                  type: string
+                  format: binary
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    nullable: true
+                    example: null
+                  error:
+                    description: Флаг ошибки
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки
+                    type: string
+                    example: ''
+        400:
+          description: Неверная форма запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError400'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+  /content/v1/tags:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    get:
+      security:
+      - HeaderApiKey: []
+      summary: Список тегов
+      description: Метод позволяет получить список существующих тегов продавца.
+      tags:
+      - Теги
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    properties:
+                      id:
+                        description: Числовой идентификатор тега
+                        type: integer
+                      color:
+                        description: Цвет тега
+                        type: string
+                      name:
+                        description: Имя тега
+                        type: string
+                  error:
+                    description: Флаг ошибки
+                    type: boolean
+                    example: false
+                  errorText:
+                    description: Описание ошибки
+                    type: string
+                    example: ''
+                  additionalErrors:
+                    description: Дополнительные ошибки
+                    type: string
+                    example: ''
+              example:
+                data:
+                - id: 1
+                  color: D1CFD7
+                  name: Sale
+                error: false
+                errorText: ''
+                additionalErrors: ''
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/tag:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    post:
+      security:
+      - HeaderApiKey: []
+      summary: Создание тега
+      description: 'Метод позволяет создать тег.<br> Завести можно 8 тегов.<br> Максимальная
+        длина тега 15 символов.
+
+        '
+      tags:
+      - Теги
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                color:
+                  description: 'Цвет тега. <dl> <dt>Доступные цвета:</dt> <dd><code>D1CFD7</code>
+                    - серый</dd> <dd><code>FEE0E0</code> - красный</dd> <dd><code>ECDAFF</code>
+                    - фиолетовый</dd> <dd><code>E4EAFF</code> - синий</dd> <dd><code>DEF1DD</code>
+                    - зеленный</dd> <dd><code>FFECC7</code> - желтый</dd> </dl>
+
+                    '
+                  type: string
+                  example: D1CFD7
+                name:
+                  description: Имя тега
+                  type: string
+                  example: Sale
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseContentError6'
+              examples:
+                responseOK200:
+                  $ref: '#/components/examples/responseOK200'
+        400:
+          description: Неверная форма запроса
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/responseBodyContentError400'
+                - $ref: '#/components/schemas/responseContentError4'
+                - $ref: '#/components/schemas/responseContentError6'
+              examples:
+                responseBodyContentError400:
+                  $ref: '#/components/examples/responseBodyContentError400'
+                responseBody400LenName:
+                  $ref: '#/components/examples/responseBody400LenName'
+                responseBodyLimitTag:
+                  $ref: '#/components/examples/responseBodyLimitTag'
+                responseBodyNameNotExist:
+                  $ref: '#/components/examples/responseBodyNameNotExist'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/tag/{id}:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    patch:
+      security:
+      - HeaderApiKey: []
+      summary: Изменение тега
+      description: Метод позволяет изменять информацию о теге (имя и цвет).
+      tags:
+      - Теги
+      parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+          example: 1
+        description: Числовой идентификатор тега
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                color:
+                  description: Цвет тега
+                  type: string
+                  example: D1CFD7
+                name:
+                  description: Имя тега
+                  type: string
+                  example: Sale
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/responseContentError6'
+                - $ref: '#/components/schemas/responseContentError4'
+              examples:
+                responseOK200:
+                  $ref: '#/components/examples/responseOK200'
+                responseNotFound200:
+                  $ref: '#/components/examples/responseNotFound200'
+        400:
+          description: Неверная форма запроса
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/responseBodyContentError400'
+                - $ref: '#/components/schemas/responseContentError4'
+              examples:
+                responseBodyContentError400:
+                  $ref: '#/components/examples/responseBodyContentError400'
+                responseBody400LenName:
+                  $ref: '#/components/examples/responseBody400LenName'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+    delete:
+      security:
+      - HeaderApiKey: []
+      summary: Удаление тега
+      description: Метод позволяет удалить тег.
+      tags:
+      - Теги
+      parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+          example: 1
+        description: Числовой идентификатор тега
+        required: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/responseContentError6'
+                - $ref: '#/components/schemas/responseContentError5'
+              examples:
+                responseOK200:
+                  $ref: '#/components/examples/responseOK200'
+                responseNotFound200Del:
+                  $ref: '#/components/examples/responseNotFound200Del'
+        400:
+          description: Неверная форма запроса
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/responseBodyContentError400'
+                - $ref: '#/components/schemas/responseContentError5'
+              examples:
+                responseBodyContentError400:
+                  $ref: '#/components/examples/responseBodyContentError400'
+                responseBodyTagNotExist:
+                  $ref: '#/components/examples/responseBodyTagNotExist'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+  /content/v1/tag/nomenclature/link:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    post:
+      security:
+      - HeaderApiKey: []
+      summary: Управление тегами в КТ
+      description: 'Метод позволяет добавить теги к КТ и снять их с КТ.<br> При снятии
+        тега с КТ сам тег не удаляется.<br> К карточке можно добавить 8 тегов.
+
+        '
+      tags:
+      - Теги
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nmID:
+                  description: Артикул WB
+                  type: integer
+                tagsIDs:
+                  description: 'Массив числовых идентификаторов тегов.<br>   Что бы
+                    снять теги с КТ, необходимо передать пустой массив.<br> Чтобы
+                    добавить теги к уже имеющимся в КТ, необходимо в запросе передать
+                    новые теги и теги, которые уже есть в КТ.
+
+                    '
+                  type: array
+                  items:
+                    type: integer
+                    description: Числовой идентификатор тега.
+            example:
+              nmID: 179891389
+              tagsIDs:
+              - 123456
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseContentError6'
+              examples:
+                responseOK200:
+                  $ref: '#/components/examples/responseOK200'
+        400:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseContentError4'
+              examples:
+                IncorrectRequest4:
+                  $ref: '#/components/examples/IncorrectRequest4'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseContentError6'
+              examples:
+                responseBodyError500:
+                  $ref: '#/components/examples/responseBodyError500'
+  /content/v1/cards/trash/list:
+    servers:
+    - url: https://suppliers-api.wildberries.ru
+    post:
+      security:
+      - HeaderApiKey: []
+      summary: Список НМ, находящихся в корзине
+      description: 'Метод позволяет получить список НМ, находящихся в корзине.<br>
+        Метод позволяет получить список НМ, которые находятся в корзине по фильтру
+        (баркод (<code>skus</code>), артикул продавца(<code>vendorCode</code>), артикул
+        WB(<code>nmID</code>)) с пагинацией и сортировкой.
+
+        '
+      tags:
+      - Корзина
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sort:
+                  type: object
+                  properties:
+                    sortColumn:
+                      description: 'Поле, по которому будет сортироваться список КТ
+                        (пока что поддерживается только `updateAt`)
+
+                        '
+                      type: string
+                    ascending:
+                      description: Тип сортировки
+                      type: boolean
+                    searchValue:
+                      description: 'Поле, по которому будет осуществляться поиск:
+                        по баркоду(`skus`), артикулу продавца (`vendorCode`), артикулу
+                        WB (`nmID`)
+
+                        '
+                      type: string
+                    offset:
+                      description: С какого элемента выдавать данные
+                      type: integer
+                    limit:
+                      description: Кол-во запрашиваемых КТ (max. 1000)
+                      type: integer
+            example:
+              sort:
+                sortColumn: updateAt
+                ascending: false
+                searchValue: vendorCodeOne
+                offset: 0
+                limit: 50
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      cards:
+                        description: Список запрашиваемых КТ
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            nmID:
+                              description: Артикул WB
+                              type: integer
+                            objectID:
+                              description: Идентификатор предмета
+                              type: integer
+                            vendorCode:
+                              description: Артикул продавца
+                              type: string
+                            object:
+                              description: Категория для который создавалось КТ с
+                                данной НМ
+                              type: string
+                            brand:
+                              description: Брэнд
+                              type: string
+                            updateAt:
+                              description: Дата обновления
+                              type: string
+                            colors:
+                              description: Цвета номенклатуры
+                              type: array
+                              items:
+                                type: string
+                            mediaFiles:
+                              description: 'Медиафайлы номенклатуры. <br>Фото, URL
+                                которого заканчивается на <b>1.jpg</b> является главным
+                                в карточке.
+
+                                '
+                              type: array
+                              items:
+                                type: string
+                            sizes:
+                              description: 'Массив размеров для номенклатуры (для
+                                безразмерного товара все равно нужно передавать данный
+                                массив с одним элементом и нулевым размером, но с
+                                ценой и баркодом)
+
+                                '
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  skus:
+                                    description: Массив баркодов, строковых идентификаторов
+                                      размеров товара (их можно сгенерировать с помощью
+                                      API, см. Viewer)
+                                    type: array
+                                    items:
+                                      type: string
+                                  techSize:
+                                    description: Размер товара (пример S, M, L, XL,
+                                      42, 42-43)
+                                    type: string
+                                  wbSize:
+                                    description: Российский размер товара
+                                    type: string
+                                  price:
+                                    description: Цена
+                                    type: integer
+                      cursor:
+                        type: object
+                        properties:
+                          offset:
+                            description: Смещение относительно первой РК
+                            type: integer
+                          limit:
+                            description: Кол-во запрашиваемых КТ
+                            type: integer
+                  error:
+                    description: Флаг ошибки
+                    type: boolean
+                  errorText:
+                    description: Описание ошибки
+                    type: string
+                  additionalErrors:
+                    type: string
+                    description: Дополнительные ошибки
+              example:
+                data:
+                  cards:
+                  - nmID: 12213123
+                    objectID: 280
+                    vendorCode: vendorCodeOne
+                    object: Шляпы
+                    brand: TestBrandOne
+                    updatedAt: '2022-04-19T15:21:10Z'
+                    colors:
+                    - красный
+                    mediaFiles:
+                    - mediaFileLink1
+                    - mediaFileLink2
+                    sizes:
+                    - skus:
+                      - barcode001
+                      techSize: '42'
+                      wbSize: '42'
+                      price: 2000
+                  cursor:
+                    offset: 0
+                    limit: 50
+                error: false
+                errorText: ''
+                additionalErrors: ''
+        400:
+          description: Неверная форма запроса.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError400'
+        401:
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                TokenMissing:
+                  $ref: '#/components/examples/TokenMissing'
+                TokenInvalid:
+                  $ref: '#/components/examples/TokenInvalid'
+                TokenNotFound:
+                  $ref: '#/components/examples/TokenNotFound'
+        403:
+          description: Доступ запрещен.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseBodyContentError403'

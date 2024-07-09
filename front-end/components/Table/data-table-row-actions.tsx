@@ -104,7 +104,11 @@ export function DataTableRowActions<TData>({
       {
         isEditDialogOpen === true ?
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+<<<<<<< Updated upstream
           {onUpdate(row)}
+=======
+          {onUpdate ? onUpdate(row): ""}
+>>>>>>> Stashed changes
         </Dialog>
         :
         <></>

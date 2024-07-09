@@ -3,6 +3,7 @@ interface IContractorRequest {
     name: string;
     type: string;
     description: string;
+<<<<<<< Updated upstream
     email: string;
     actualAddress: string;
     // phoneNumber: string;
@@ -10,6 +11,14 @@ interface IContractorRequest {
     isActive?: boolean;
     createdAt?: string;
 
+=======
+    phoneNum: string;
+    email: string;
+    actualAddress: string;
+    paymentNum: string;
+    isActive?: boolean;
+    createdAt?: string;
+>>>>>>> Stashed changes
 }
 
 export default IContractorRequest;

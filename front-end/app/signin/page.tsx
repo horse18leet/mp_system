@@ -8,9 +8,16 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { login } from "@/utils/utils";
 import Header from '@/components/Header/Header';
+<<<<<<< Updated upstream
 import { useEffect, useState } from 'react';
 import { CustomError } from '@/components/CustomError/CustomError';
 import loginUserScheme from '@/utils/schemas/user/login-user.scheme';
+=======
+import { useState } from 'react';
+import loginUserScheme from '@/utils/schemas/user/login-user.scheme';
+
+import { useToast } from "@/components/ui/use-toast";
+>>>>>>> Stashed changes
 
 export default function Signin() {
     const router = useRouter();
@@ -21,21 +28,16 @@ export default function Signin() {
 
     const [isError, setIsError] = useState(false);
     const [errorData, setErrorData] = useState({errName: ""});
-
-    useEffect(() => {
-        if (isError) {
-            setTimeout(() => {
-                setIsError(false);
-            }, 3000);
-        }
-    }, [isError]);
+    const { toast } = useToast();
 
     async function onSubmit(data: { signinEmail: string, signinPassword: string }) {
         const result = await login(data.signinEmail, data.signinPassword);
-        if (result.error) {
-            setIsError(true);
-            setErrorData({...errorData,
-                errName: result.error
+
+        if (result.res) {
+            toast({
+                variant: "destructive",
+                title: "Ошибка при авторизации",
+                description: result.res.message,
             });
         }
         else {
@@ -74,9 +76,6 @@ export default function Signin() {
                     error={errors.signinPassword?.message as any}
                 />
             </Form>
-            
-            {isError ? <CustomError errName={errorData["errName"]}/> : <></>}
-
         </section>
         </>
     )

@@ -50,7 +50,6 @@ import { getApiKeys } from "@/utils/api/services/api-keys.service";
 import { AxiosError } from "axios";
 import { IApiKeyResponse } from "@/utils/models/api-key/api-key";
 import ApiKeyType from "@/utils/models/api-key/api-key.enum";
-import { getUserInfo } from "@/utils/utils";
 
 export default function Settings(userData: any) {
   const { setTheme } = useTheme();
@@ -72,7 +71,7 @@ export default function Settings(userData: any) {
     console.log(userInfo);
   }, [userInfo])*/
 
-  
+  /*
   useEffect(() => {
     async function getUserData() {
       const result = await getUserInfo();
@@ -88,15 +87,15 @@ export default function Settings(userData: any) {
       }
     }
     getUserData();
-  }, []);
+  }, []);*/
 
   const form = useForm<TAccountChangeSchema>({
     resolver: joiResolver(schema),
     defaultValues: {
       // Когда Никита добавит, сюда будут выгружаться уже существующие значения
-      firstName: "",
-      lastName: "",
-      email: "",
+      firstName: localStorage.getItem("userFirstName")!,
+      lastName: localStorage.getItem("userSecondName")!,
+      email: localStorage.getItem("userEmail")!,
     },
   });
 

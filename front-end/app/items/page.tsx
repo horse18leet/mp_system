@@ -26,24 +26,47 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
 import { Button } from "@/components/ui/button";
 
 import { IAddItem } from "@/utils/schemas/item/add-item.scheme";
 import { FacetedFilterOption } from "@/components/Table/types/data-table-types";
 
 import ItemForm from "@/components/CustomForms/ItemForm/ItemForm";
+<<<<<<< Updated upstream
 
+=======
+import Purchase from "@/components/Purchase/Purchase";
+
+import { useToast } from "@/components/ui/use-toast";
+import IUserDashboardResponse from "@/utils/models/user/dashboard/user-dashboard-response";
+>>>>>>> Stashed changes
 
 export default function Items() {
   const [items, setItems] = useState<IItemResponse[]>([]); //староста, тут ошибка, я пока по-другому сделаю
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+<<<<<<< Updated upstream
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);  
+=======
+  const [isCheckBox, setIsCheckBox] = useState(false);
+  const [isPurchaseDialogOpen, setIsPurchaseDialogOpen] = useState(false);
+  const [purchaseItems, setPurchaseItems] = useState<IItemResponse[]>([]);
+  const { toast } = useToast();
+>>>>>>> Stashed changes
 
   useEffect(() => {
     getAllItems();
   }, []);
 
+<<<<<<< Updated upstream
   function returnUpdateForm(data: any): ReactNode {                          //возвращаем разметку, которую вставим в Dialog
     const item = data.original;
     console.log(item);
@@ -56,21 +79,76 @@ export default function Items() {
         </DialogContent>
     );
 }
+=======
+  function addItemToPurchase(data: any, isAdd: boolean) {                    //метод добавления товаров в окно закупа
+    if (isAdd) {
+      const tempArr = Object.assign([], purchaseItems);
+      tempArr.push(data);
+
+      setPurchaseItems(tempArr);
+      setIsCheckBox(true);
+    } else {
+      const tempArr = purchaseItems.filter(item => item.id !== data.id);
+      setPurchaseItems(tempArr);
+
+      if (purchaseItems.length == 1) {
+        setIsCheckBox(false);
+      }
+    }
+  }
+
+  function addAllItemsToPurchase(data: any, isChecked: boolean) {                                //обработчик нажатия на чекбокс выбора всех строк
+    if (isChecked) {
+      const rows = data["rows"];
+      const itemsArr = rows.map((rowItem: any) => rowItem["original"]);
+
+      setPurchaseItems(itemsArr);
+      setIsCheckBox(true);
+    } else {
+      setPurchaseItems([]);
+      setIsCheckBox(false);
+    }
+  }
+
+  function handlePurchaseButtonClick() {
+    setIsPurchaseDialogOpen(!isPurchaseDialogOpen);
+  }
+
+  function returnUpdateForm(data: any): ReactNode {                          //возвращаем разметку, которую вставим в Dialog
+    const item = data.original;
+    // console.log(item);
+    return (
+      <DialogContent>
+          <DialogHeader>
+              <DialogTitle>Изменить информацию о товаре</DialogTitle>
+          </DialogHeader>
+          <ItemForm handleFormSubmit={editItemInfo} isEdit={true} item={item}/>
+      </DialogContent>
+    );
+  }
+>>>>>>> Stashed changes
   
   async function getAllItems() {
     const items = await getItems();
-
     setItems(items);
   }
 
   async function removeItem(id: number) {
     const response = await deleteItem(id);
-
     if (response instanceof AxiosError) {
       // Если получили ошибку, выходим из функции
       console.log(response.message);
+      toast({
+        variant: "destructive",
+        title: "Ошибка при удалении товара",
+        description: response.message,
+      });
       return;
     } else {
+      toast({
+        title: `Товар успешно удалён`,
+      });
+
       getAllItems(); // В противном случае обновляем UI.
     }
   }
@@ -80,9 +158,22 @@ export default function Items() {
 
     if (response instanceof AxiosError) {
       console.log(response.message);
+<<<<<<< Updated upstream
       setIsAddDialogOpen(false);
       return;
     } else {
+=======
+      toast({
+        variant: "destructive",
+        title: "Ошибка при создании товара",
+        description: response.message,
+      });      
+      return;
+    } else {
+      toast({
+        title: `Товар '${response.title}' создан`,
+      });    
+>>>>>>> Stashed changes
       getAllItems().then(() => setIsAddDialogOpen(false));
     }
   }
@@ -93,9 +184,22 @@ export default function Items() {
 
     if (response instanceof AxiosError) {
       console.log(response.message);
+<<<<<<< Updated upstream
       setIsEditDialogOpen(false);
         return;
     } else {
+=======
+      toast({
+        variant: "destructive",
+        title: "Ошибка при изменении информации о товаре",
+        description: response.message,
+      });   
+      return;
+    } else {
+      toast({
+        title: `Товар '${response.title}' изменён`,
+      });   
+>>>>>>> Stashed changes
       getAllItems().then(() => setIsEditDialogOpen(false));
     }
 }
@@ -110,7 +214,12 @@ export default function Items() {
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() && "indeterminate")
           }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          onCheckedChange={
+            (value) => {
+              table.toggleAllPageRowsSelected(!!value);
+              addAllItemsToPurchase(table.getPreSelectedRowModel(), !!value);            
+            }
+          }
           aria-label="Select all"
           className="translate-y-[2px]"
         />
@@ -118,7 +227,13 @@ export default function Items() {
       cell: ({ row }) => (
         <Checkbox
           checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          onCheckedChange={
+            (value) => {
+              row.toggleSelected(!!value);
+              // setIsCheckBox(!!value);
+              addItemToPurchase(row.original, !!value); 
+            }
+          }
           aria-label="Select row"
           className="translate-y-[2px]"
         />
@@ -126,17 +241,17 @@ export default function Items() {
       enableSorting: false,
       enableHiding: false,
     },
-    {
-      accessorKey: "id",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Товар" />
-      ),
-      cell: ({ row }) => (
-        <div className="w-[80px]">{"ТОВАР-" + row.getValue("id")}</div>
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
+    // {
+    //   accessorKey: "id",
+    //   header: ({ column }) => (
+    //     <DataTableColumnHeader column={column} title="Товар" />
+    //   ),
+    //   cell: ({ row }) => (
+    //     <div className="w-[80px]">{"ТОВАР-" + row.getValue("id")}</div>
+    //   ),
+    //   enableSorting: false,
+    //   enableHiding: false,
+    // },
     {
       accessorKey: "title",
       header: ({ column }) => (
@@ -145,7 +260,7 @@ export default function Items() {
       cell: ({ row }) => {
         return (
           <div className="flex space-x-2">
-            <span className="max-w-[100px] truncate font-medium">
+            <span className="max-w-[300px] truncate font-medium">
               {row.getValue("title")}
             </span>
           </div>
@@ -163,7 +278,7 @@ export default function Items() {
       cell: ({ row }) => {
         return (
           <div className="flex space-x-2">
-            <span className="max-w-[100px] truncate font-medium">
+            <span className="max-w-[300px] truncate font-medium">
               {row.getValue("description")}
             </span>
           </div>
@@ -217,12 +332,25 @@ export default function Items() {
     {
       label: "Все",
       value: "Все",
+<<<<<<< Updated upstream
     } 
+=======
+    }
+    
+>>>>>>> Stashed changes
 ] as  FacetedFilterOption[];
 
   return (
     <ProtectedLayout>
-      <div className="container pt-8 h-full">
+      {
+        isPurchaseDialogOpen ?
+        <Purchase                       //закупы
+          isOpen={isPurchaseDialogOpen}   
+          setIsOpen={setIsPurchaseDialogOpen}  
+          itemsList={purchaseItems}
+        /> : <></>
+      }
+      <div className="container pt-8 h-full mb-[50px]">
         <div className="flex-col space-y-8 md:flex hidden">
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <div className="flex items-center justify-between">
@@ -234,11 +362,37 @@ export default function Items() {
                   Отслеживайте доступные товары или добавьте новый
                 </p>
               </div>
-              <DialogTrigger asChild>
-                <Button variant="default" className="px-4 py-2 h-9">
-                  Добавить товар
-                </Button>
-              </DialogTrigger>
+              <div className="flex"> 
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="w-min mr-[20px]">
+                        <Button 
+                          variant="default" 
+                          className="px-4 py-2 h-9" 
+                          disabled={isCheckBox ? false : true}
+                          onClick={handlePurchaseButtonClick}
+                        >
+                          Добавить в закуп
+                        </Button>
+                      </div>
+                    </TooltipTrigger>
+                    {
+                      isCheckBox ? 
+                      <></>
+                      :
+                      <TooltipContent side="bottom">
+                        <p>Сначала выберите товар</p>
+                      </TooltipContent>
+                    }
+                  </Tooltip>
+                </TooltipProvider>
+                <DialogTrigger asChild>
+                  <Button variant="default" className="px-4 py-2 h-9" >
+                    Добавить товар
+                  </Button>
+                </DialogTrigger>
+              </div>
             </div>
             <DialogContent>
               <DialogHeader>
@@ -250,7 +404,11 @@ export default function Items() {
               <ItemForm handleFormSubmit={addItem} isEdit={false}/>
             </DialogContent>
           </Dialog>
+<<<<<<< Updated upstream
           <DataTable title="title" data={items} columns={columns} additionalFilters={additionalFilters} />
+=======
+          <DataTable title="title" data={items} columns={columns} additionalFilters={additionalFilters} isToolbar={true} isTablePagination={true} />
+>>>>>>> Stashed changes
         </div>
       </div>
     </ProtectedLayout>

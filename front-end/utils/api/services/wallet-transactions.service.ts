@@ -58,7 +58,11 @@ export async function createContractorWalletTransaction(id: number, walletTransa
 
 export async function deleteWalletTransaction(id: number): Promise<AxiosResponse | AxiosError> {
   try {
+<<<<<<< Updated upstream
     const response = await api.delete(`/walletTransactions/drop/${id}`);
+=======
+    const response = await api.delete(`/walletTransactions/delete/${id}`);
+>>>>>>> Stashed changes
     
     return response;
 

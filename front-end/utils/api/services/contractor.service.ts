@@ -4,7 +4,11 @@ import api from "../api";
 import IContractorRequest from "@/utils/models/contractor/contractor-request";
 import IContractorResponse from "@/utils/models/contractor/contractor-response";
 
+<<<<<<< Updated upstream
 export async function createContractor(contractor: IContractorRequest): Promise<AxiosResponse | AxiosError> {
+=======
+export async function createContractor(contractor: IContractorRequest): Promise<AxiosResponse | AxiosError | any> {
+>>>>>>> Stashed changes
     try {
       const response = await api.post(`/contractor/create`, contractor);
       const data = response.data;
@@ -45,7 +49,11 @@ export async function getContractor(id: number): Promise<IContractorResponse | A
   }
 }
 
+<<<<<<< Updated upstream
 export async function deleteContractor(id: number): Promise<AxiosResponse | AxiosError> {
+=======
+export async function deleteContractor(id: number): Promise<AxiosResponse | AxiosError | any> {
+>>>>>>> Stashed changes
   try {
     const response = await api.delete(`/contractor/drop/${id}`);
     
@@ -58,7 +66,11 @@ export async function deleteContractor(id: number): Promise<AxiosResponse | Axio
   }
 }
 
+<<<<<<< Updated upstream
 export async function editContractor(contractor: IContractorRequest): Promise<AxiosResponse | AxiosError> {
+=======
+export async function editContractor(contractor: IContractorRequest): Promise<AxiosResponse | AxiosError | any> {
+>>>>>>> Stashed changes
   try {
     const response = await api.put(`/contractor/edit`, contractor);
     const data = response.data;

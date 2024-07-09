@@ -1,8 +1,12 @@
 package org.vyatsu.localApiModule.service.impl;
 
+<<<<<<< Updated upstream
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
+=======
+import lombok.AllArgsConstructor;
+>>>>>>> Stashed changes
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,10 +22,14 @@ import org.vyatsu.localApiModule.exception.AppException;
 import org.vyatsu.localApiModule.mapper.ContractorMapper;
 import org.vyatsu.localApiModule.mapper.ItemMapper;
 import org.vyatsu.localApiModule.mapper.WalletTransactionMapper;
+<<<<<<< Updated upstream
 import org.vyatsu.localApiModule.repository.ContractorRepository;
 import org.vyatsu.localApiModule.repository.ItemRepository;
 import org.vyatsu.localApiModule.repository.WalletRepository;
 import org.vyatsu.localApiModule.repository.WalletTransactionRepository;
+=======
+import org.vyatsu.localApiModule.repository.*;
+>>>>>>> Stashed changes
 import org.vyatsu.localApiModule.security.authentication.impl.AuthenticationFacade;
 import org.vyatsu.localApiModule.service.WalletService;
 import org.vyatsu.localApiModule.service.WalletTransactionService;
@@ -46,6 +54,10 @@ public class WalletTransactionServiceImpl implements WalletTransactionService {
     private final WalletTransactionMapper walletTransactionMapper;
     private final ItemMapper itemMapper;
     private final ContractorMapper contractorMapper;
+<<<<<<< Updated upstream
+=======
+    private final UserRepository userRepository;
+>>>>>>> Stashed changes
 
     @Override
     public List<WalletTransactionDto> getWalletTransactionsByItemId(Long id) {
@@ -132,6 +144,21 @@ public class WalletTransactionServiceImpl implements WalletTransactionService {
         return createWalletTransaction(walletTransactionDto, item, wallet);
     }
 
+<<<<<<< Updated upstream
+=======
+    @Override
+    public List<WalletTransactionDto> getWalletTransactionsByUserAndDateFrom(LocalDateTime dateFrom, LocalDateTime dateTo) {
+        User user = authenticationFacade.getAuthenticationUser();
+        List<WalletTransaction> walletTransactions = walletTransactionRepository.findByUserAndInterval(user.getId(), dateFrom, dateTo);
+        return walletTransactionMapper.toDtoList(walletTransactions);
+    }
+
+    @Override
+    public void createWalletTransactions(List<WalletTransaction> walletTransactions) {
+        walletTransactionRepository.saveAll(walletTransactions);
+    }
+
+>>>>>>> Stashed changes
     private Object createWalletTransaction(WalletTransactionDto walletTransactionDto, Item item, Wallet wallet){
         WalletTransaction walletTransaction = new WalletTransaction();
         walletTransaction.setAmount(walletTransactionDto.getAmount());

@@ -3,15 +3,21 @@
 import styles from '../page.module.css'
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
-import { CustomError } from '@/components/CustomError/CustomError';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { registration } from '@/utils/utils';
 import Header from '@/components/Header/Header';
+<<<<<<< Updated upstream
 import { useEffect, useState } from 'react';
 import { regUserScheme } from '@/utils/schemas/user/reg-user.scheme';
 import IRegUserRequest from '@/utils/models/user/reg-user-request';
+=======
+import { regUserScheme } from '@/utils/schemas/user/reg-user.scheme';
+import IRegUserRequest from '@/utils/models/user/reg-user-request';
+
+import { useToast } from "@/components/ui/use-toast";
+>>>>>>> Stashed changes
 
 export default function Signup() {
     const router = useRouter()
@@ -26,9 +32,9 @@ export default function Signup() {
             password: "",
         }
     });
-    const [isError, setIsError] = useState(false);
-    const [errorData, setErrorData] = useState({errName: ""});
+    const { toast } = useToast();
 
+<<<<<<< Updated upstream
     useEffect(() => {
         if (isError) {
             setTimeout(() => {
@@ -37,12 +43,16 @@ export default function Signup() {
         }
     }, [isError]);
 
+=======
+>>>>>>> Stashed changes
     async function onSubmit(data: IRegUserRequest) {  //функция сабмита
         const result = await registration(data);
         if (result.error) {
-            setIsError(true);
-            setErrorData({...errorData,
-                errName: result.error
+            console.log(result.error);
+            toast({
+                variant: "destructive",
+                title: "Ошибка при регистрации",
+                description: result.error,
             });
         }
         else {
@@ -104,8 +114,6 @@ export default function Signup() {
                     error={errors.password?.message as any}
                 />
             </Form>
-
-            {isError ? <CustomError errName={errorData["errName"]}/> : <></>}
         </section>
         </>
     )

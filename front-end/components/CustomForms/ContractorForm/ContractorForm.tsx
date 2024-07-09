@@ -153,6 +153,7 @@ export default function ContractorForm({
                             </FormItem>
                         )}
                     />
+<<<<<<< Updated upstream
                                         {/* <FormField
                                             control={addContractorForm.control}
                                             name="phoneNum"
@@ -165,6 +166,21 @@ export default function ContractorForm({
                                             </FormItem>
                                             )}
                                         /> */}
+=======
+                    <FormField
+                        control={contractorForm.control}
+                        name="phoneNum"
+                        defaultValue={!isEdit ? "+7" : contractor.phoneNum}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Номер телефона</FormLabel>
+                                <FormControl>
+                                    <Input {...field} />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+>>>>>>> Stashed changes
                 </div>
                 <FormField
                     control={contractorForm.control}

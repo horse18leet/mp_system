@@ -7,7 +7,11 @@ interface IContractorResponse {
     actualAddress: string;
     isActive: boolean;
     createdAt: string;
+<<<<<<< Updated upstream
     // phoneNumber: string;
+=======
+    phoneNum: string;
+>>>>>>> Stashed changes
     paymentNum: string;
 }
 

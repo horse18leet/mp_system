@@ -23,6 +23,7 @@ export async function authorize(user: ILoginUserRequest): Promise<ILoginUserResp
         const response = await api.post("/auth/signin", user);
         const data = response.data;
         
+<<<<<<< Updated upstream
         return data;
 
     } catch(e) {
@@ -37,8 +38,31 @@ export async function updateToken(): Promise<AxiosError | any> {
         const data = response.data;
         localStorage.setItem("token", data.access_token);
         localStorage.setItem("refresh_token", data.refresh_token);
+=======
+>>>>>>> Stashed changes
         return data;
 
+    } catch(e) {
+        const error = e as AxiosError;
+        return error;
+    }   
+}
+
+export async function updateToken(): Promise<AxiosError | any> { 
+    try {
+        console.log("updateToken");
+        const refreshToken = localStorage.getItem('refresh_token');
+
+        // localStorage.removeItem("token");
+        const response = await api.post("/auth/refresh-token",
+        {
+            "refresh-token": refreshToken
+        }); 
+        const data = response.data;
+        localStorage.setItem("token", data.access_token);
+        localStorage.setItem("refresh_token", data.refresh_token);
+
+        return data;
     } catch(e) {
         const error = e as AxiosError;
         return error;

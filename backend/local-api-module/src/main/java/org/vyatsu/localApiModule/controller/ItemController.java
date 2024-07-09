@@ -55,16 +55,26 @@ public class ItemController {
     }
 
     /** Получение пользовательских категорий товара */
+<<<<<<< Updated upstream
     @PostMapping("/category")
+=======
+    @GetMapping("/category")
+>>>>>>> Stashed changes
     private ResponseEntity<List<String>> getUserCategory(){
         List<String> userCategories = itemService.getCategoryByUser();
         return ResponseEntity.ok(userCategories);
     }
 
     /** Удаление товара */
+<<<<<<< Updated upstream
     @PostMapping("/drop")
     private ResponseEntity<Void> deleteUserItem(@RequestBody ItemReqDto itemReqDto){
         itemService.deleteUserItemById(itemReqDto);
+=======
+    @DeleteMapping("/drop/{id}")
+    private ResponseEntity<Void> deleteUserItem(@PathVariable Long id){
+        itemService.deleteUserItemById(id);
+>>>>>>> Stashed changes
         return ResponseEntity.ok().build();
     }
 }

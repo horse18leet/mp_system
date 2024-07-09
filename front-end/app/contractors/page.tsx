@@ -31,11 +31,20 @@ import IContractorResponse from "@/utils/models/contractor/contractor-response";
 
 import ContractorForm from "@/components/CustomForms/ContractorForm/ContractorForm";
 import { IEditContractor } from "@/utils/schemas/contractor/edit-contractor.sheme";
+<<<<<<< Updated upstream
+=======
+
+import { useToast } from "@/components/ui/use-toast";
+>>>>>>> Stashed changes
 
 export default function Contractors() {
     const [contractors, setContractors] = useState<IContractorResponse[]>([]);
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+<<<<<<< Updated upstream
+=======
+    const { toast } = useToast();
+>>>>>>> Stashed changes
 
     useEffect(() => {
         getAllContractors();
@@ -63,9 +72,22 @@ export default function Contractors() {
 
         if (response instanceof AxiosError) {
             console.log(response.message);
+<<<<<<< Updated upstream
             setIsEditDialogOpen(false);
             return;
         } else {
+=======
+            toast({
+                variant: "destructive",
+                title: "Ошибка при изменении данных подрядчика",
+                description: response.message,
+            });
+            return;
+        } else {
+            toast({
+                title: `Данные подрядчика '${response.name}' изменены`,
+            }); 
+>>>>>>> Stashed changes
             getAllContractors().then(() => setIsEditDialogOpen(false));
         }
     }
@@ -75,9 +97,22 @@ export default function Contractors() {
     
         if (response instanceof AxiosError) {
             console.log(response.message);
+<<<<<<< Updated upstream
             setIsAddDialogOpen(false);
             return;
         } else {
+=======
+            toast({
+                variant: "destructive",
+                title: "Ошибка при создании подрядчика",
+                description: response.message,
+            });
+            return;
+        } else {
+            toast({
+                title: `Подрядчик '${response.name}' создан`,
+            }); 
+>>>>>>> Stashed changes
             getAllContractors().then(() => setIsAddDialogOpen(false));
         }
     }
@@ -87,8 +122,21 @@ export default function Contractors() {
     
         if (response instanceof AxiosError) {
           console.log(response.message);
+<<<<<<< Updated upstream
           return;
         } else {
+=======
+          toast({
+            variant: "destructive",
+            title: "Ошибка при удалении подрядчика",
+            description: response.message,
+            });
+          return;
+        } else {
+            toast({
+                title: `Подрядчик '${response.name}' удалён`,
+            }); 
+>>>>>>> Stashed changes
             getAllContractors();
         }
     }
@@ -118,7 +166,19 @@ export default function Contractors() {
             enableSorting: false,
             enableHiding: false,
         },
+        // {
+        //     accessorKey: "id",
+        //     header: ({ column }) => (
+        //         <DataTableColumnHeader column={column} title="Подрядчик" />
+        //     ),
+        //     cell: ({ row }) => (
+        //         <div className="w-[50px]">{"Подрядчик-" + row.getValue("id")}</div>
+        //     ),
+        //     enableSorting: false,
+        //     enableHiding: false,
+        // },
         {
+<<<<<<< Updated upstream
             accessorKey: "id",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Подрядчик" />
@@ -130,6 +190,8 @@ export default function Contractors() {
             enableHiding: false,
         },
         {
+=======
+>>>>>>> Stashed changes
             accessorKey: "name",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Название" />
@@ -137,7 +199,11 @@ export default function Contractors() {
             cell: ({ row }) => {
                 return (
                     <div className="flex space-x-2">
+<<<<<<< Updated upstream
                         <span className="max-w-[100px] truncate font-medium">
+=======
+                        <span className="max-w-[150px] truncate font-medium">
+>>>>>>> Stashed changes
                             {row.getValue("name")}
                         </span>
                 </div>
@@ -155,7 +221,7 @@ export default function Contractors() {
             cell: ({ row }) => {
                 return (
                 <div className="flex space-x-2">
-                    <span className="max-w-[100px] truncate font-medium">
+                    <span className="max-w-[200px] truncate font-medium">
                     {row.getValue("description")}
                     </span>
                 </div>
@@ -184,15 +250,24 @@ export default function Contractors() {
             },
         },
         {
+<<<<<<< Updated upstream
             accessorKey: "phoneNumber",
+=======
+            accessorKey: "phoneNum",
+>>>>>>> Stashed changes
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Телефон" />
             ),
             cell: ({ row }) => {
             return (
                 <div className="flex space-x-2">
+<<<<<<< Updated upstream
                     <span className="max-w-[100px] truncate font-medium">
                     {row.getValue("phoneNumber") ? row.getValue("contractorPhoneNum") : "Не указано"}
+=======
+                    <span className="max-w-[120px] truncate font-medium">
+                    {row.getValue("phoneNum") ? row.getValue("phoneNum") : "Не указано"}
+>>>>>>> Stashed changes
                     </span>
                 </div>
             );
@@ -249,7 +324,11 @@ export default function Contractors() {
             cell: ({ row }) => {
             return (
                 <div className="flex space-x-2">
+<<<<<<< Updated upstream
                     <span className="max-w-[100px] truncate font-medium">
+=======
+                    <span className="max-w-[200px] truncate font-medium">
+>>>>>>> Stashed changes
                     {row.getValue("paymentNum")}
                     </span>
                 </div>
@@ -312,7 +391,11 @@ export default function Contractors() {
                         </DialogContent>
                     </Dialog>
 
+<<<<<<< Updated upstream
                     <DataTable title="name" data={contractors} columns={columns} additionalFilters={additionalFilters} /> 
+=======
+                    <DataTable title="name" data={contractors} columns={columns} additionalFilters={additionalFilters} isToolbar={true} isTablePagination={true} /> 
+>>>>>>> Stashed changes
                 </div>
             </div>
         </ProtectedLayout>

@@ -60,6 +60,7 @@ public class ContractorServiceImpl implements ContractorService {
     public ContractorDto createContractor(ContractorDto contractorDto) {
         User user = authenticationFacade.getAuthenticationUser();
 
+<<<<<<< Updated upstream
         Wallet wallet = Wallet
                 .builder()
                 .createdAt(LocalDateTime.now())
@@ -82,6 +83,35 @@ public class ContractorServiceImpl implements ContractorService {
                 .build();
 
         contractor = contractorRepository.save(contractor);
+=======
+        Contractor contractor = contractorRepository.findByName(contractorDto.getName());
+        if (contractor == null || contractor.getIsHidden()) {
+            Wallet wallet = Wallet
+                    .builder()
+                    .createdAt(LocalDateTime.now())
+                    .paymentNum(contractorDto.getPaymentNum())
+                    .build();
+
+            wallet = walletRepository.save(wallet);
+
+            contractor = Contractor
+                    .builder()
+                    .name(contractorDto.getName())
+                    .description(contractorDto.getDescription())
+                    .email(contractorDto.getEmail())
+                    .actualAddress(contractorDto.getActualAddress())
+                    .phoneNum(contractorDto.getPhoneNum())
+                    .type(contractorDto.getType())
+                    .createdAt(LocalDateTime.now())
+                    .isHidden(false)
+                    .isActive(true)
+                    .user(user)
+                    .wallet(wallet)
+                    .build();
+
+            contractor = contractorRepository.save(contractor);
+        }
+>>>>>>> Stashed changes
 
         return contractorMapper.toDto(contractor);
     }
@@ -93,8 +123,15 @@ public class ContractorServiceImpl implements ContractorService {
         Optional<Contractor> optionalContractor = contractorRepository.findById(id);
         Contractor contractor = optionalContractor.orElseThrow(() -> new AppException("Подрядчик id=" + id + " не существует", HttpStatus.NOT_FOUND));
 
+<<<<<<< Updated upstream
         if (!contractor.getIsActive()) throw new AppException("Подрядчик id=" + id + " был удален", HttpStatus.BAD_REQUEST);
         if (!user.equals(contractor.getUser()))  throw new AppException("Недостаточно прав для удаления id=" + id, HttpStatus.FORBIDDEN);
+=======
+        if (!contractor.getIsActive())
+            throw new AppException("Подрядчик id=" + id + " был удален", HttpStatus.BAD_REQUEST);
+        if (!user.equals(contractor.getUser()))
+            throw new AppException("Недостаточно прав для удаления id=" + id, HttpStatus.FORBIDDEN);
+>>>>>>> Stashed changes
 
         contractor.setIsActive(false);
         contractorRepository.save(contractor);

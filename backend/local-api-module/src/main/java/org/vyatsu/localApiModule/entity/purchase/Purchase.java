@@ -29,7 +29,7 @@ public class Purchase {
     private User user;
 
     @Column(name = "cost", nullable = false)
-    private double cost;
+    private Double cost;
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP NOT NULL")
     private LocalDateTime createdAt;

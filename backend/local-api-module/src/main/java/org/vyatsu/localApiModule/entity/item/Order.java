@@ -3,7 +3,6 @@ package org.vyatsu.localApiModule.entity.item;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -11,7 +10,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-@Data
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -28,7 +26,19 @@ public class Order {
     @Column(name = "price", nullable = false)
     private double price;
 
-    @Column(name = "taked_at", columnDefinition = "TIMESTAMP NOT NULL", nullable = false)
+    @Column(name = "srid", nullable = false)
+    private String srid;
+
+    @Column(name = "order_type")
+    private String orderType;
+
+    @Column(name = "is_cancel")
+    private Boolean isCancel;
+
+    @Column(name = "is_refund", nullable = false)
+    private Boolean isRefund;
+
+    @Column(name = "taked_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime takedAt;
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP NOT NULL")

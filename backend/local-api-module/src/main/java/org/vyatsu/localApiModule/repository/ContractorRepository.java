@@ -12,4 +12,9 @@ public interface ContractorRepository extends JpaRepository<Contractor, Long> {
 
 
     Contractor findByWalletId(Long id);
+<<<<<<< Updated upstream
+=======
+
+    Contractor findByName(String name);
+>>>>>>> Stashed changes
 }
