@@ -1,13 +1,13 @@
 "use client"
 import styles from './page.module.css';
-import ProtectedLayout from '@/components/ProtectedLayout/ProtectedLayout';
-import BarChart from '@/components/BarChart/BarChart';
-import LinearChart from '@/components/LinearChart/LinearChart';
+import ProtectedLayout from '@/common/components/ProtectedLayout/ProtectedLayout';
+import BarChart from '@/common/components/BarChart/BarChart';
+import LinearChart from '@/common/components/LinearChart/LinearChart';
 import { useEffect, useState } from 'react';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { barChartTitle, linearChartTitle, barChartSeriesNames } from '@/constants/chartConstants';
-import { updateToken } from '@/utils/api/auth/auth';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/common/components/ui/card';
+import { Button } from '@/common/components/ui/button';
+import { barChartTitle, linearChartTitle, barChartSeriesNames } from '@/utils/constants/chartConstants';
+import { updateToken } from '@/common/utils/api/auth/auth';
 
 export default function Home() {
   

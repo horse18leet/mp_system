@@ -1,17 +1,17 @@
 "use client";
 
-import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
+import ProtectedLayout from "@/common/components/ProtectedLayout/ProtectedLayout";
 
 import { ReactNode, useEffect, useState } from "react";
 
-import { IAddContractor } from "@/utils/schemas/contractor/add-contractor.scheme";
+import { IAddContractor } from "@/common/utils/schemas/contractor/add-contractor.scheme";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@/common/components/ui/checkbox";
 
-import { DataTable } from "@/components/Table/data-table";
-import { DataTableColumnHeader } from "../../components/Table/data-table-column-header";
-import { DataTableRowActions } from "../../components/Table/data-table-row-actions";
+import { DataTable } from "@/common/components/Table/data-table";
+import { DataTableColumnHeader } from "../../common/components/Table/data-table-column-header";
+import { DataTableRowActions } from "../../common/components/Table/data-table-row-actions";
 
 import {
     Dialog,
@@ -20,19 +20,19 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/common/components/ui/dialog";
 
-import { Button } from "@/components/ui/button";
-import { FacetedFilterOption } from "@/components/Table/types/data-table-types";
+import { Button } from "@/common/components/ui/button";
+import { FacetedFilterOption } from "@/common/components/Table/types/data-table-types";
 
 import { AxiosError } from "axios";
-import { createContractor, deleteContractor, editContractor, getContractors } from "@/utils/api/services/contractor.service";
-import IContractorResponse from "@/utils/models/contractor/contractor-response";
+import { createContractor, deleteContractor, editContractor, getContractors } from "@/common/utils/api/services/contractor.service";
+import IContractorResponse from "@/common/utils/models/contractor/contractor-response";
 
-import ContractorForm from "@/components/CustomForms/ContractorForm/ContractorForm";
-import { IEditContractor } from "@/utils/schemas/contractor/edit-contractor.sheme";
+import ContractorForm from "@/common/components/CustomForms/ContractorForm/ContractorForm";
+import { IEditContractor } from "@/common/utils/schemas/contractor/edit-contractor.sheme";
 
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/common/components/ui/use-toast";
 
 export default function Contractors() {
     const [contractors, setContractors] = useState<IContractorResponse[]>([]);

@@ -1,8 +1,8 @@
 "use client";
 
-import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
-import { SidebarNav } from "@/components/SidebarNav/sidebar-nav";
-import { accountSidebarNav } from "@/utils/other-data/account-settings.data";
+import ProtectedLayout from "@/common/components/ProtectedLayout/ProtectedLayout";
+import { SidebarNav } from "@/common/components/SidebarNav/sidebar-nav";
+import { accountSidebarNav } from "@/common/utils/other-data/account-settings.data";
 import SettingsLayout from "../settings-layout";
 import { useForm } from "react-hook-form";
 import {
@@ -10,7 +10,7 @@ import {
   OzonApiKeySchema,
   YandexMarketApiKeySchema,
   IApiKey,
-} from "@/utils/schemas/account/account-api-key.scheme";
+} from "@/common/utils/schemas/account/account-api-key.scheme";
 import { joiResolver } from "@hookform/resolvers/joi";
 import {
   Form,
@@ -19,24 +19,24 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import ApiKeyType from "@/utils/models/api-key/api-key.enum";
+} from "@/common/components/ui/form";
+import { Input } from "@/common/components/ui/input";
+import { Button } from "@/common/components/ui/button";
+import ApiKeyType from "@/common/utils/models/api-key/api-key.enum";
 import {
   createApiKey,
   getApiKeys,
-} from "@/utils/api/services/api-keys.service";
+} from "@/common/utils/api/services/api-keys.service";
 import { AxiosError } from "axios";
 import { useCallback, useEffect, useState } from "react";
-import { IApiKeyRequest } from "@/utils/models/api-key/api-key";
-import { Separator } from "@/components/ui/separator";
+import { IApiKeyRequest } from "@/common/utils/models/api-key/api-key";
+import { Separator } from "@/common/components/ui/separator";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from "@/common/components/ui/accordion";
 
 export default function Keys() {
   const WBApiKeyForm = useForm<IApiKey>({

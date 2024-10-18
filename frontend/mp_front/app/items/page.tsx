@@ -1,22 +1,22 @@
 "use client";
-import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
+import ProtectedLayout from "@/common/components/ProtectedLayout/ProtectedLayout";
 import { ReactNode, useEffect, useState } from "react";
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@/common/components/ui/checkbox";
 
-import IItemResponse from "@/utils/models/item/item-response";
+import IItemResponse from "@/common/utils/models/item/item-response";
 
-import { DataTableColumnHeader } from "../../components/Table/data-table-column-header";
-import { DataTableRowActions } from "../../components/Table/data-table-row-actions";
-import { DataTable } from "@/components/Table/data-table";
+import { DataTableColumnHeader } from "../../common/components/Table/data-table-column-header";
+import { DataTableRowActions } from "../../common/components/Table/data-table-row-actions";
+import { DataTable } from "@/common/components/Table/data-table";
 import {
   createItem,
   deleteItem,
   editItem,
   getItems,
-} from "@/utils/api/services/item.service";
+} from "@/common/utils/api/services/item.service";
 import { AxiosError } from "axios";
 import {
   Dialog,
@@ -25,24 +25,24 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/common/components/ui/dialog";
 
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/common/components/ui/tooltip"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/common/components/ui/button";
 
-import { IAddItem } from "@/utils/schemas/item/add-item.scheme";
-import { FacetedFilterOption } from "@/components/Table/types/data-table-types";
+import { IAddItem } from "@/common/utils/schemas/item/add-item.scheme";
+import { FacetedFilterOption } from "@/common/components/Table/types/data-table-types";
 
-import ItemForm from "@/components/CustomForms/ItemForm/ItemForm";
-import Purchase from "@/components/Purchase/Purchase";
+import ItemForm from "@/common/components/CustomForms/ItemForm/ItemForm";
+import Purchase from "@/common/components/Purchase/Purchase";
 
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/common/components/ui/use-toast";
 
 export default function Items() {
   const [items, setItems] = useState<IItemResponse[]>([]); //староста, тут ошибка, я пока по-другому сделаю

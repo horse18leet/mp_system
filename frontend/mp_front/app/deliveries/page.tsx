@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import styles from '../page.module.css'
-import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
+import ProtectedLayout from "@/common/components/ProtectedLayout/ProtectedLayout";
 import { useEffect, useState } from "react";
 
 import {
@@ -12,7 +12,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table"
+} from "@/common/components/ui/table"
 
 /*
 export default function Items() {

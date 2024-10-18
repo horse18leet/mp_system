@@ -1,17 +1,17 @@
 "use client";
 
 import styles from '../page.module.css'
-import Input from '@/components/Input/Input';
-import Form from '@/components/Form/Form';
+import Input from '@/common/components/Input/Input';
+import Form from '@/common/components/Form/Form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { registration } from '@/utils/utils';
-import Header from '@/components/Header/Header';
-import { regUserScheme } from '@/utils/schemas/user/reg-user.scheme';
-import IRegUserRequest from '@/utils/models/user/reg-user-request';
+import { registration } from '@/common/utils/utils';
+import Header from '@/common/components/Header/Header';
+import { regUserScheme } from '@/common/utils/schemas/user/reg-user.scheme';
+import IRegUserRequest from '@/common/utils/models/user/reg-user-request';
 
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/common/components/ui/use-toast";
 
 export default function Signup() {
     const router = useRouter()

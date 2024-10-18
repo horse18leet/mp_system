@@ -1,8 +1,8 @@
 "use client";
 
-import { SidebarNav } from "@/components/SidebarNav/sidebar-nav";
-import { Separator } from "@/components/ui/separator";
-import { accountSidebarNav } from "@/utils/other-data/account-settings.data";
+import { SidebarNav } from "@/common/components/SidebarNav/sidebar-nav";
+import { Separator } from "@/common/components/ui/separator";
+import { accountSidebarNav } from "@/common/utils/other-data/account-settings.data";
 
 interface SettingsLayoutProps {
   children: React.ReactNode;

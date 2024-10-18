@@ -1,6 +1,6 @@
 "use client";
 
-import ProtectedLayout from "@/components/ProtectedLayout/ProtectedLayout";
+import ProtectedLayout from "@/common/components/ProtectedLayout/ProtectedLayout";
 export default function AboutUs() {
     return (
         <>
