@@ -1,7 +1,5 @@
 "use client";
 
-import "./Header.css";
-
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -111,8 +109,8 @@ export default function Header({ loggedIn, setLoggedIn }: Props) {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center">
+    <header className="sticky top-0 z-50 w-full h-[60px] border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-full  items-center">
         <div className="mr-4 hidden md:flex">
           <Link
             className="mr-6 flex items-center space-x-2"

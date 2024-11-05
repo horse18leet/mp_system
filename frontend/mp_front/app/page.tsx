@@ -6,9 +6,13 @@ import LinearChart from '@/common/components/LinearChart/LinearChart';
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/common/components/ui/card';
 import { Button } from '@/common/components/ui/button';
-import { barChartTitle, linearChartTitle, barChartSeriesNames } from '@/utils/constants/chartConstants';
 import { updateToken } from '@/common/utils/api/auth/auth';
-
+import { 
+  chartListOptions,
+  barChartTitle,
+  linearChartTitle,
+  barChartSeriesNames,
+} from '@/common/utils/constants/chart-constants';
 export default function Home() {
   
   //нужно сделать запрос к серверу за товарами

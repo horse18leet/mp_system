@@ -322,7 +322,7 @@ export default function Items() {
                   Отслеживайте доступные товары или добавьте новый
                 </p>
               </div>
-              <div className="flex"> 
+              <div className="fle x"> 
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
