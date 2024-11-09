@@ -1,6 +1,8 @@
 import { Button } from "../ui/button";
 import { useState, useRef } from "react";
 
+
+
 interface FileUploaderProps {
     allowedFormat: string
 }
@@ -44,7 +46,7 @@ export default function FileUploader({ allowedFormat }: FileUploaderProps) {
   }
 
   return (
-    <div className="">
+    <div className="flex flex-col justify-between">
       <input
         ref={fileInputRef}
         type="file"
@@ -57,7 +59,7 @@ export default function FileUploader({ allowedFormat }: FileUploaderProps) {
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        className={`border-2 rounded-md flex items-center w-[205px] h-[300px] mb-[20px] ${
+        className={`border-2 rounded-md w-[205px] h-[300px] mb-[20px] ${
           isDragActive ? "border-blue-500 bg-blue-100" : "border-gray-300"
         }`}
       >
@@ -69,8 +71,10 @@ export default function FileUploader({ allowedFormat }: FileUploaderProps) {
             </Button>
         )}
       </div>
-      <Button variant="default" disabled={!selectedFile}>Сохранить</Button>
-      <Button variant="destructive" disabled={!selectedFile} onClick={removeCurrentFile}>Отменить</Button>
+      <div className="flex flex-col gap-[15px]">
+        <Button variant="default" disabled={!selectedFile}>Сохранить</Button>
+        <Button variant="destructive" disabled={!selectedFile} onClick={removeCurrentFile}>Отменить</Button>
+      </div>
     </div>
   );
 }

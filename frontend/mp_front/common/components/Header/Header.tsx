@@ -109,7 +109,7 @@ export default function Header({ loggedIn, setLoggedIn }: Props) {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full h-[60px] border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full h-[70px] border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-full  items-center">
         <div className="mr-4 hidden md:flex">
           <Link
