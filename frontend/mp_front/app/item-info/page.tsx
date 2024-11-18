@@ -13,6 +13,17 @@ import {
     CommandGroup,
     CommandEmpty
 } from "@/common/components/ui/command";
+
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+  } from "@/common/components/ui/select"
+
 import { Button } from "@/common/components/ui/button";
 import FileUploader from "@/common/components/FileUploader/FileUploader";
 import MediaWrapper from "@/common/components/MediaWrapper/MediaWrapper";
@@ -98,38 +109,30 @@ export default function ItemInfo() {
                             <li><Button variant="secondary">Добавить в анализ</Button></li>
                             <li className="ml-auto "><Button variant="default">Перенести в архив</Button></li>
                         </ul>
-                        <div className="flex mb-[40px]">
-                            <Input type="text" placeholder="Название товара" className="w-[40%] text-white" />
-                            {/* <Command className="rounded-lg border shadow-md md:min-w-[450px]">
-                                <CommandInput placeholder="Type a command or search..." />
-                                <CommandList>
-                                    <CommandEmpty>No results found.</CommandEmpty>
-                                    <CommandGroup heading="Suggestions">
-                                    <CommandItem>
-                                        <span>Calendar</span>
-                                    </CommandItem>
-                                    <CommandItem>
-                                        <span>Search Emoji</span>
-                                    </CommandItem>
-                                    <CommandItem disabled>
-                                        <span>Launch</span>
-                                    </CommandItem>
-                                    </CommandGroup>
-                                    <CommandSeparator />
-                                    <CommandGroup heading="Settings">
-                                    <CommandItem>
-                                        <span>Profile</span>
-                                    </CommandItem>
-                                    <CommandItem>
-                                        <span>Mail</span>
-                                    </CommandItem>
-                                    <CommandItem>
-                                        <span>Settings</span>
-                                    </CommandItem>
-                                    </CommandGroup>
-                                </CommandList>
-                            </Command> */}
-                        </div>
+                        <ul className="flex flex-col p-0 mb-[40px] w-[50%] gap-[20px]">
+                            <li>
+                                <Input type="text" placeholder="Название товара"  />
+                            </li>
+                            <li>
+                                <Select>
+                                    <SelectTrigger className="w-[100%]">
+                                        <SelectValue placeholder="Категория товара" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectLabel>Категории</SelectLabel>
+                                            <SelectItem value="wear">Одежда</SelectItem>
+                                            <SelectItem value="food">Еда</SelectItem>
+                                            <SelectItem value="sport">Спорт</SelectItem>
+                                            <SelectItem value="tech">Техника</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </li>
+                            <li>
+                                
+                            </li>
+                        </ul>
                         <div className="w-[100%]">
                             <h2 className="text-xl font-bold tracking-tight mb-[20px]">Медиа</h2>
                             <div className="flex justify-between">

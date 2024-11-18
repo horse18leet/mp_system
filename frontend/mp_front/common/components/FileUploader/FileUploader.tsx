@@ -45,6 +45,10 @@ export default function FileUploader({ allowedFormat }: FileUploaderProps) {
     setSelectedFile(null)
   }
 
+  const handleSaveMedia = () => {
+    
+  }
+
   return (
     <div className="flex flex-col justify-between">
       <input
