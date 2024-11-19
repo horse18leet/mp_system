@@ -1,13 +1,15 @@
 import { Button } from "../ui/button";
 import { useState, useRef } from "react";
 
-
-
 interface FileUploaderProps {
-    allowedFormat: string
+  allowedFormat: string;
+  handleUpload: () => any;
 }
 
-export default function FileUploader({ allowedFormat }: FileUploaderProps) {
+export default function FileUploader({ 
+  allowedFormat,
+  handleUpload, 
+}: FileUploaderProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragActive, setIsDragActive] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -46,7 +48,7 @@ export default function FileUploader({ allowedFormat }: FileUploaderProps) {
   }
 
   const handleSaveMedia = () => {
-    
+    handleUpload();
   }
 
   return (
