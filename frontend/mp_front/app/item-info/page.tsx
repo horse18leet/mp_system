@@ -1,19 +1,17 @@
 "use client";
 
-import ProtectedLayout from "@/common/components/ProtectedLayout/ProtectedLayout";
-import { Input } from "@/common/components/ui/input";
-import { StaticImageData } from "next/image";
-
 import { 
-    Command,
-    CommandInput,
-    CommandList,
-    CommandSeparator,
-    CommandItem,
-    CommandGroup,
-    CommandEmpty
-} from "@/common/components/ui/command";
+    useState, 
+    useCallback  
+} from "react";
 
+import ProtectedLayout from "@/common/components/ProtectedLayout/ProtectedLayout";
+import FileUploader from "@/common/components/FileUploader/FileUploader";
+import MediaWrapper from "@/common/components/MediaWrapper/MediaWrapper";
+import ItemVariant from "@/common/components/ItemVariant/ItemVariant";
+
+import { IAttributeItem } from "@/common/utils/schemas/item-info/attribute-item/attribute-item.scheme";
+import { IMediaItem } from "@/common/utils/schemas/item-info/media-item/media-item.scheme";
 import {
     Select,
     SelectContent,
@@ -22,28 +20,21 @@ import {
     SelectLabel,
     SelectTrigger,
     SelectValue,
-  } from "@/common/components/ui/select"
-
+} from "@/common/components/ui/select"
+import { Input } from "@/common/components/ui/input";
 import { Button } from "@/common/components/ui/button";
-import FileUploader from "@/common/components/FileUploader/FileUploader";
-import MediaWrapper from "@/common/components/MediaWrapper/MediaWrapper";
+import { Textarea } from "@/common/components/ui/textarea";
+import { Card, CardContent } from "@/common/components/ui/card";
 
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { 
-    useState, 
-    useCallback  
-} from "react";
 
-interface MediaItem {
-    id: number;
-    type: "photo" | "video";
-    src: string;
-}
-
+import DragAndDropGallery from "@/common/components/DragAndDropGallery/DragAndDropGallery";
+import DndWrapper from "@/common/components/DndWrapper/DndWrapper";
 
 export default function ItemInfo() {
-    const [mediaArr, setMediaArr] = useState<MediaItem[]>([
+    const [currencyArr, setCurrencyArr] = useState<string[]>(["Рубль (₽)", "Доллар ($)", "Евро (€)"]);
+    const [ndsArr, setNdsArr] = useState<string[]>(["228", "337", "322"]);
+    const [variants, setVariants] = useState<any>([]);
+    const [mediaArr, setMediaArr] = useState<IMediaItem[]>([
         {
             id: 1,
             type: "photo",
@@ -81,81 +72,125 @@ export default function ItemInfo() {
         },
     ]);
 
-    const moveMedia = useCallback(
-        (dragIndex: number, hoverIndex: number) => {
-            const dragMedia = mediaArr[dragIndex];
-            setMediaArr((prevMediaArr) => {
-                const newMediaArr = [...prevMediaArr];
-                newMediaArr.splice(dragIndex, 1);
-                newMediaArr.splice(hoverIndex, 0, dragMedia);
-                return newMediaArr;
-            });
+    const [attributesArr, setAttributesArr] = useState<IAttributeItem[]>([
+        {
+            id: 1,
+            name: "цвет",
         },
-        [mediaArr, setMediaArr]
-    );
+        {
+            id: 2,
+            name: "мощность",
+        },
+        {
+            id: 3,
+            name: "масса",
+        },
+        {
+            id: 4,
+            name: "скорость",
+        },
+    ])
 
-    
+    function addVariant() {
+        const newVariant = { id: Date.now(), attributesArr: attributesArr };
+        setVariants([...variants, newVariant]);
+    };
+
 
     return (
-        <>
-            <ProtectedLayout>
-                <DndProvider backend={HTML5Backend}>
-                    <div className="container pt-8 h-full mb-[50px]">
-                        <h1 className="text-2xl font-bold tracking-tight mb-[20px]">Учет товаров (создание карточки товара)</h1>
-                        <p className="mb-[40px]">Ошибка синхронизации с маркетплейсами (заполните следующие поля: название, цена)</p>
-                        <ul className="list-none w-[100%] flex flex-row items-center ml-[auto] mr-[auto] gap-[20px] mb-[20px]">
-                            <li><Button variant="default">Начать синхронизацию</Button></li>
-                            <li><Button variant="default">Сохранить</Button></li>
-                            <li><Button variant="secondary">Добавить в анализ</Button></li>
-                            <li className="ml-auto "><Button variant="default">Перенести в архив</Button></li>
-                        </ul>
-                        <ul className="flex flex-col p-0 mb-[40px] w-[50%] gap-[20px]">
-                            <li>
-                                <Input type="text" placeholder="Название товара"  />
-                            </li>
-                            <li>
+        <ProtectedLayout>
+                <div className="container pt-8 h-full mb-[50px]">
+                    <h1 className="text-2xl font-bold tracking-tight mb-[20px]">Учет товаров (создание карточки товара)</h1>
+                    <p className="mb-[40px]">Ошибка синхронизации с маркетплейсами (заполните следующие поля: название, цена)</p>
+                    <ul className="list-none w-[100%] flex flex-row items-center ml-[auto] mr-[auto] gap-[20px] mb-[20px]">
+                        <li><Button variant="default">Сохранить</Button></li>
+                        <li><Button variant="secondary">Добавить в анализ</Button></li>
+                        <li><Button variant="default">Перенести в архив</Button></li>
+                        <li className="ml-auto"><Button variant="default">Синхронизация</Button></li>
+                    </ul>
+                    <ul className="flex flex-col p-0 mb-[40px] w-[50%] gap-[20px]">
+                        <li>
+                            <Input type="text" placeholder="Название товара"  />
+                        </li>
+                        <li>
+                            <Select>
+                                <SelectTrigger className="w-[100%]">
+                                    <SelectValue placeholder="Категория товара" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>Категории</SelectLabel>
+                                        <SelectItem value="wear">Одежда</SelectItem>
+                                        <SelectItem value="food">Еда</SelectItem>
+                                        <SelectItem value="sport">Спорт</SelectItem>
+                                        <SelectItem value="tech">Техника</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </li>
+                        <li>
+                            
+                        </li>
+                    </ul>
+                    <div className="w-[100%]">
+                        <h2 className="text-xl font-bold tracking-tight mb-[20px]">Медиа</h2>
+                        <div className="flex justify-between mb-[40px]" id={"itemInfoGallery"}>
+                            <DndWrapper id={"itemInfoGallery"}>
+                                <DragAndDropGallery itemsArr={mediaArr} containerClassName="w-[82%] list-none m-0 p-0 grid grid-cols-6 gap-[34px]" />
+                            </DndWrapper>
+                            <FileUploader allowedFormat="image/*, video/*" handleUpload={()=>{}} />
+
+                        </div>
+                        <div className="w-[60%] mb-[40px] flex flex-col gap-[20px]">
+                            <div  className="flex justify-between">
+                                <h2 className="text-xl font-bold tracking-tight mb-[20px]">Варианты товара</h2>
+                                <Button onClick={addVariant}>Добавить вариант товара</Button>
+                            </div>
+                            <ItemVariant attributesArr={attributesArr} dndId={0}/>
+                            {
+                                variants.map((variant: any) => (
+                                    <ItemVariant key={variant.id} attributesArr={variant.attributesArr} dndId={variant.id} />
+                                ))
+                            } 
+                        </div>
+                        <div className="flex justify-between">
+                            <div className="mr-[30px] flex flex-col gap-[15px]">
+                                <Input placeholder="Цена" />
                                 <Select>
-                                    <SelectTrigger className="w-[100%]">
-                                        <SelectValue placeholder="Категория товара" />
+                                    <SelectTrigger className="">
+                                        <SelectValue placeholder="Валюта" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectGroup>
-                                            <SelectLabel>Категории</SelectLabel>
-                                            <SelectItem value="wear">Одежда</SelectItem>
-                                            <SelectItem value="food">Еда</SelectItem>
-                                            <SelectItem value="sport">Спорт</SelectItem>
-                                            <SelectItem value="tech">Техника</SelectItem>
+                                            <SelectLabel>Валюта</SelectLabel>
+                                            {
+                                                currencyArr.map((currency, index) => (
+                                                    <SelectItem value={currency} key={index}>{currency}</SelectItem>
+                                                ))
+                                            }
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
-                            </li>
-                            <li>
-                                
-                            </li>
-                        </ul>
-                        <div className="w-[100%]">
-                            <h2 className="text-xl font-bold tracking-tight mb-[20px]">Медиа</h2>
-                            <div className="flex justify-between">
-                                <ul className="w-[82%] list-none m-0 p-0 grid grid-cols-6 gap-[34px] ">
-                                    {
-                                        mediaArr.map((media, index) => (    
-                                            
-                                            <li className="m-0 p-0 border border-white w-[153px] h-[195px]" key={media.id}>
-                                                <MediaWrapper media={media} index={index} moveMedia={moveMedia} />
-                                            </li>
-                                        ))
-                                    }
-                                </ul> 
-                                <FileUploader allowedFormat="image/*, video/*" />
+                                <Select>
+                                    <SelectTrigger className="">
+                                        <SelectValue placeholder="Ставка НДС" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectLabel>Ставка НДС</SelectLabel>
+                                            {
+                                                ndsArr.map((nds, index) => (
+                                                    <SelectItem value={nds} key={index}>{nds}</SelectItem>
+                                                ))
+                                            }
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
                             </div>
-                            <div className="mt-[40px]">
-                                <h2 className="text-xl font-bold tracking-tight mb-[20px]">Варианты товара</h2>
-                            </div>
+                            <Textarea placeholder="Описание товара" className="resize-none text-l" />
                         </div>
                     </div>
-                </DndProvider>
-            </ProtectedLayout>
-        </>
-        
+                </div>
+        </ProtectedLayout>
     );
 }

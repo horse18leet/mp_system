@@ -7,16 +7,11 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 
 import { useDrag, useDrop } from 'react-dnd';
-
-interface MediaItem {
-    id: number;
-    type: "photo" | "video";
-    src: string;
-}
+import { IMediaItem } from "@/common/utils/schemas/item-info/media-item/media-item.scheme";
 
 
 interface MediaWrapperProps {
-    media: MediaItem;
+    media: IMediaItem;
     moveMedia: any;
     index: number;
 }
@@ -26,11 +21,6 @@ export default function MediaWrapper({media, moveMedia, index} : MediaWrapperPro
 
     const [, drop] = useDrop<{ id: number, index: number }>({
         accept: 'media',
-        collect(monitor) {
-            return {
-                // handlerId: monitor.getHandlerId(),
-            };
-        },
         hover(item, monitor) {
             if (item.index === index) return;
             moveMedia(item.index, index);
@@ -66,7 +56,7 @@ export default function MediaWrapper({media, moveMedia, index} : MediaWrapperPro
                     <Grip/>
                 </Button>
             </div>
-            <div className="w-full h-full border border-white" ref={preview}> 
+            <div ref={preview} className="w-full h-full border border-white"> 
             {
                 media.type === "photo" ?
                 <img src={media.src} className="object-cover h-full" />
