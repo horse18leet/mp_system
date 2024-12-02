@@ -1,23 +1,21 @@
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
   } from "@/common/components/ui/card";
 
 import { IAttributeItem } from "@/common/utils/schemas/item-info/attribute-item/attribute-item.scheme";
-import { Input } from "../ui/input";
-import FileUploader from "../FileUploader/FileUploader";
+import { Input } from "../../ui/input";
+import FileUploader from "../../FileUploader/FileUploader";
 import { useCallback, useState } from "react";
 import { IMediaItem } from "@/common/utils/schemas/item-info/media-item/media-item.scheme";
-import MediaWrapper from "../MediaWrapper/MediaWrapper";
+import MediaWrapper from "../../MediaWrapper/MediaWrapper";
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import DragAndDropGallery from "../DragAndDropGallery/DragAndDropGallery";
-import DndWrapper from "../DndWrapper/DndWrapper";
+import DragAndDropGallery from "../../DragAndDropGallery/DragAndDropGallery";
+import DndWrapper from "../../DndWrapper/DndWrapper";
 
 interface ItemVariantProps {
     attributesArr: IAttributeItem[];

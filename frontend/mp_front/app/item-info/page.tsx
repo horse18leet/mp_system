@@ -8,7 +8,8 @@ import {
 import ProtectedLayout from "@/common/components/ProtectedLayout/ProtectedLayout";
 import FileUploader from "@/common/components/FileUploader/FileUploader";
 import MediaWrapper from "@/common/components/MediaWrapper/MediaWrapper";
-import ItemVariant from "@/common/components/ItemVariant/ItemVariant";
+import ItemVariant from "@/common/components/ItemInfoComponents/ItemVariant/ItemVariant";
+import Marking from "@/common/components/ItemInfoComponents/Marking/Marking";
 
 import { IAttributeItem } from "@/common/utils/schemas/item-info/attribute-item/attribute-item.scheme";
 import { IMediaItem } from "@/common/utils/schemas/item-info/media-item/media-item.scheme";
@@ -24,7 +25,6 @@ import {
 import { Input } from "@/common/components/ui/input";
 import { Button } from "@/common/components/ui/button";
 import { Textarea } from "@/common/components/ui/textarea";
-import { Card, CardContent } from "@/common/components/ui/card";
 
 
 import DragAndDropGallery from "@/common/components/DragAndDropGallery/DragAndDropGallery";
@@ -153,7 +153,7 @@ export default function ItemInfo() {
                                 ))
                             } 
                         </div>
-                        <div className="flex justify-between">
+                        <div className="flex justify-between mb-[40px]">
                             <div className="mr-[30px] flex flex-col gap-[15px]">
                                 <Input placeholder="Цена" />
                                 <Select>
@@ -189,6 +189,9 @@ export default function ItemInfo() {
                             </div>
                             <Textarea placeholder="Описание товара" className="resize-none text-l" />
                         </div>
+                    </div>
+                    <div className="w-[100%]">
+                        <Marking />
                     </div>
                 </div>
         </ProtectedLayout>
